@@ -1,6 +1,9 @@
 <?php
 function carregar($classe){
-    require_once(__DIR__ . "/src/Models/" . $classe . ".php");
+    $arquivo = __DIR__ . "/../Models/" . $classe . ".php";
+    if (file_exists($arquivo)) {
+        require_once $arquivo;
+    }
 }
 
 spl_autoload_register('carregar');
