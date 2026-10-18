@@ -5,7 +5,7 @@
     "originX": 0,
     "originY": 0,
     "zoomLevel": 1,
-    "show": 447,
+    "show": 511,
     "database": 4,
     "databaseName": "",
     "canvasType": "ERD",
@@ -479,7 +479,7 @@
         "comment": "",
         "dataType": "INT",
         "default": "",
-        "options": 8
+        "options": 0
       },
       "Wqbf-VLvkBIyESwa72Gy3": {
         "id": "Wqbf-VLvkBIyESwa72Gy3",
@@ -542,7 +542,7 @@
         "comment": "",
         "dataType": "VARCHAR(50)",
         "default": "",
-        "options": 8
+        "options": 12
       },
       "ss6fD0vLdKC6eVTzIQohg": {
         "id": "ss6fD0vLdKC6eVTzIQohg",

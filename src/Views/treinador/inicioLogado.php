@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<>
+<body>
     <h1>Parabéns, você conseguiu logar!</h1>
     <?php
+        echo '<img src="assets/img/fotoPerfil/' . $_SESSION['usuario_logado']['foto'] . '" alt="Foto Perfil" id="foto">';
         echo $_SESSION['usuario_logado']['nome'];
         echo '<br>';
         echo $_SESSION['usuario_logado']['email'];
