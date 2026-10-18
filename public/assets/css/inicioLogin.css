@@ -182,24 +182,23 @@
     border-radius: 50%;
     height: 10vw;
     width: 10vw;
+    min-width: 100px;
+    min-height: 100px;
     object-fit: cover;
     border: 5px solid yellow;
-    background-image: url('../img/inicioLogin/fotoPerfilDefault.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: transparent;
-    font-size: 0;
     cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
-/*tirar o botão de selecionar ficheiro do input file*/
-#foto::-webkit-file-upload-button{
-    display: none;
-    visibility: hidden;
+
+#foto:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 15px yellow;
 }
-#foto::file-selector-button{
+
+/* Esconde o input file para remover o texto nenhum ficheiro selecionado */
+#campoArquivoFoto{
     display: none;
-    visibility: hidden;
 }
 
 .botaoEscolherFoto{
@@ -293,4 +292,26 @@
     border-color: rgb(0, 81, 255);
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 81, 255, 0.6);
+}
+
+/*css das telas de erro de login e cadastro*/
+.textoErro{ 
+    font-family: 'Pokemon Solid', sans-serif;
+    font-size: 1.8em;
+    color: rgb(255, 255, 255);
+    text-shadow: 0 0 20px rgb(0, 0, 0);
+}
+
+.descricaoErro{
+    font-family: 'Pokemon Solid', sans-serif;
+    font-size: 1.3em;
+    color: white;
+}
+
+.containerErro{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
