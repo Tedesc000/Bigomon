@@ -1,0 +1,121 @@
+/*fonte pixelada*/
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    box-sizing: border-box;
+    image-rendering: pixelated;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: #ffffff;
+    font-family: 'Press Start 2P', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.pagina-roleta {
+    width: min(100%, 620px);
+    text-align: center;
+    padding: 30px 20px;
+    background: #3b3b43;
+    border: 5px solid #111111;
+    outline: 3px solid #85858d;
+    box-shadow: 8px 8px 0 #111111;
+}
+
+h1 {
+    color: #f32e3e;
+    font-size: clamp(22px, 5vw, 38px);
+    line-height: 1.6;
+    margin: 0 0 20px;
+    text-shadow:
+        3px 3px 0 #111111,
+        -2px -2px 0 #ffffff;
+}
+
+p {
+    font-size: 10px;
+    line-height: 2;
+}
+
+/*área da roleta*/
+#roleta {
+    width:  min(380px, 85vw);
+    height: min(380px, 85vw);
+    margin: 25px auto;
+    padding: 0;
+    background: #c9c9c9;
+    border: 5px solid #111111;
+    box-shadow:
+        inset 0 0 0 4px #777777,
+        5px 5px 0 #111111;
+    position: relative;
+    overflow: hidden;
+}
+
+/*botão de girar*/
+#girar {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #ffffff;
+
+    background: #e52b3c;
+    border: 4px solid #111111;
+    border-radius: 0;
+    padding: 16px 20px;
+
+    box-shadow: 5px 5px 0 #111111;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s;
+}
+
+/*muda a cor quando o mouse passa em cima*/
+#girar:hover {
+    background: #ff4654;
+}
+
+/*efeito quando clica no botão*/
+#girar:active {
+    transform: translate(4px, 4px);
+    box-shadow: 1px 1px 0 #111111;
+}
+
+/*deixa o botão com efeito transparente depois de sortear*/
+#girar:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+#resultado {
+    margin: 30px auto 0;
+    padding: 18px 12px;
+    max-width: 100%;
+    color: #ff4654;
+    background: #202027;
+    border: 3px solid #111111;
+    font-size: 11px;
+    line-height: 2.2;
+    overflow-wrap: anywhere;
+}
+
+/*seta da roleta*/
+#roleta::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 28px solid #f32e3e;
+    filter: drop-shadow(2px 2px 0 #111111);
+    pointer-events: none;
+}
