@@ -145,11 +145,15 @@
 
 #inputSexo{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
     justify-content: center;
-    align-items: center;
+    align-items: left;
     padding: 2px 0;
+}
+
+.labelSexo{
+    display: flex;
 }
 
 #inputSexo label{
