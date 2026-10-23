@@ -23,11 +23,15 @@
                 <div id="inputCadastro">
                     <input type="text" name="nome" id="nome" placeholder="Nome" required>
                     <div id="inputSexo">
-                        <label for="sexo">Sexo:</label>
-                        <input type="radio" name="sexo" id="masculino" value="masculino" required>
-                        <label for="masculino">Masculino</label>
-                        <input type="radio" name="sexo" id="feminino" value="feminino" required>
-                        <label for="feminino">Feminino</label>
+                        
+                        <div class="labelSexo">
+                            <label for="masculino">Masculino:</label>
+                            <input type="radio" name="sexo" id="masculino" value="masculino" required checked>
+                        </div>
+                        <div class="labelSexo">
+                            <label for="feminino">Feminino:</label>
+                            <input type="radio" name="sexo" id="feminino" value="feminino" required>
+                        </div>
                     </div>
                     <input type="email" name="email" id="email" placeholder="Email" required>
                     <input type="password" name="senha" id="senha" placeholder="Senha" required>
