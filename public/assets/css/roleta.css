@@ -1,4 +1,4 @@
-/*fonte pixelada*/
+/* Fonte do título no estilo Pokémon */
 @import url('https://fonts.cdnfonts.com/css/pokemon-solid');
 
 * {
@@ -17,11 +17,22 @@ body {
     padding: 24px;
 }
 
+#corpoRoleta {
+    min-height: 100vh;
+    width: 100%;
+    background-image: url('../img/inicioLogin/inicio.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/*painel da roleta*/
 .pagina-roleta {
     width: min(100%, 620px);
     text-align: center;
     padding: 30px 20px;
-    background: #3b3b43;
+    background: rgba(59, 59, 67, 0.75);
     border: 5px solid #111111;
     outline: 3px solid #85858d;
     box-shadow: 8px 8px 0 #111111;
@@ -44,17 +55,17 @@ p {
 
 /*área da roleta*/
 #roleta {
-    width:  min(380px, 85vw);
+    width: min(380px, 85vw);
     height: min(380px, 85vw);
     margin: 25px auto;
     padding: 0;
-    background: #c9c9c9;
-    border: 5px solid #111111;
-    box-shadow:
-        inset 0 0 0 4px #777777,
-        5px 5px 0 #111111;
+
+    background: transparent;
+    border: 3px solid #111111;
+    box-shadow: 5px 5px 0 #111111;
+
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /*botão de girar*/
@@ -74,7 +85,7 @@ p {
     transition: transform 0.08s, box-shadow 0.08s;
 }
 
-/*muda a cor quando o mouse passa em cima*/
+/*efeito quando passa o mouse em cima do botão*/
 #girar:hover {
     background: #ff4654;
 }
@@ -85,7 +96,7 @@ p {
     box-shadow: 1px 1px 0 #111111;
 }
 
-/*deixa o botão com efeito transparente depois de sortear*/
+/*opacidade diminuida após clicar no botão*/
 #girar:disabled {
     opacity: 0.65;
     cursor: not-allowed;
@@ -95,15 +106,17 @@ p {
     margin: 30px auto 0;
     padding: 18px 12px;
     max-width: 100%;
+
     color: #ff4654;
-    background: #202027;
+    background: rgba(20, 20, 27, 0.85);
     border: 3px solid #111111;
+
     font-size: 11px;
     line-height: 2.2;
     overflow-wrap: anywhere;
 }
 
-/*seta da roleta*/
+/*seta roleta*/
 #roleta::before {
     content: "";
     position: absolute;
@@ -111,11 +124,13 @@ p {
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
+
     width: 0;
     height: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-top: 28px solid #f32e3e;
+
     filter: drop-shadow(2px 2px 0 #111111);
     pointer-events: none;
 }

@@ -6,7 +6,7 @@ class TreinadorControlador {
         $this->pdo = $pdo;
     }
 
-    public function inicio(){
+    public function home(){
         $stmt = $this->pdo->query("SELECT COUNT(*) FROM treinador");
         $total = $stmt->fetchColumn();
         // Se estiver vazia, chama as seeds automaticamente
@@ -16,7 +16,7 @@ class TreinadorControlador {
             $seedCtrl->rodar();
             return;
         }
-        require_once __DIR__ . "/../Views/treinador/inicio.php";
+        require_once __DIR__ . "/../Views/treinador/home.php";
     }
 
     public function cadastroLogin(){
@@ -36,7 +36,7 @@ class TreinadorControlador {
             $sucesso = $novoTreinador->logar($email, $senha);
 
             if ($sucesso) {
-                header("Location: ?modulo=treinador&acao=roleta");
+                header("Location: ?modulo=treinador&acao=home");
                 exit;
             } else {
                 require_once __DIR__ . "/../Views/treinador/erroLogin.php";
@@ -47,7 +47,7 @@ class TreinadorControlador {
     public function logout(){
         $treinador = new Treinador($this->pdo);
         $treinador->logout();
-        header("Location: ?modulo=treinador&acao=inicio");
+        header("Location: ?modulo=treinador&acao=home");
         exit;
     }
     

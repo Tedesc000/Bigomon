@@ -27,7 +27,7 @@ class SeedControlador {
 
             try {
                 $this->pdo->exec($sql);
-                require_once __DIR__ . "/../Views/treinador/inicio.php";
+                require_once __DIR__ . "/../Views/treinador/home.php";
             } catch (PDOException $e) {
                 echo "<p style='color: red;'> Erro ao executar <strong>{$nomeArquivo}</strong>: " . $e->getMessage() . "</p>";
             }
