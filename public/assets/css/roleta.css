@@ -1,5 +1,5 @@
 /*fonte pixelada*/
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.cdnfonts.com/css/pokemon-solid');
 
 * {
     box-sizing: border-box;
@@ -10,7 +10,7 @@ body {
     margin: 0;
     min-height: 100vh;
     color: #ffffff;
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'Pokemon Solid', monospace;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,7 +59,7 @@ p {
 
 /*botão de girar*/
 #girar {
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'Pokemon Solid', monospace;
     font-size: 12px;
     line-height: 1.8;
     color: #ffffff;
