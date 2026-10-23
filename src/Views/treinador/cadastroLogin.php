@@ -17,10 +17,12 @@
             <span class="popText">Lorem Ipsum Dolor</span>
 
             <div id="popImgDiv">
-                <img src="assets/img/fotoPerfil/fotoPerfilDefault.webp" alt="Foto do Bigomon" id="popImg">
+                <img src="assets/img/inicioLogin/groundon.webp" alt="Foto do Bigomon" id="popImg">
             </div>
             
             <span class="popText">Lorem Ipsum Dolor</span>
+
+            <hr class="popHr">
             
             <a href="inicio.php" id="popButton">Continuar</a>
         </div>
