@@ -7,6 +7,25 @@
     <title>Bigomon - Início</title>
 </head>
 <body id="inicio">
+    <div id="popBack">
+        <div id="pop">
+            <button id="popX" onclick="fecharPop()">X</button>
+            <header id="popHeader">
+                <h1 id="popTitulo">Bigomon</h1>
+            </header>
+            
+            <span class="popText">Lorem Ipsum Dolor</span>
+
+            <div id="popImgDiv">
+                <img src="assets/img/fotoPerfil/fotoPerfilDefault.webp" alt="Foto do Bigomon" id="popImg">
+            </div>
+            
+            <span class="popText">Lorem Ipsum Dolor</span>
+            
+            <a href="inicio.php" id="popButton">Continuar</a>
+        </div>
+        
+    </div>
     <div id="container">
         <div id="tituloContainer">
             <img src="assets/img/inicioLogin/groundon.webp" alt="groundon" id="groundonInicio">
