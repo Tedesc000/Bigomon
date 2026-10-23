@@ -14,7 +14,7 @@
             <img src="assets/img/inicioLogin/kyogre.webp" alt="kyogre" id="kyogreInicio">
         </div>
         <div id="botoes">
-            <a href="?modulo=treinador&acao=cadastroLogin" class="botaoInicio">Iniciar</a>
+            <a href="?modulo=treinador&acao=roleta" class="botaoInicio">Iniciar</a>
             <a href="?modulo=treinador&acao=sobre" class="botaoInicio">Sobre</a>
         </div>
     </div>

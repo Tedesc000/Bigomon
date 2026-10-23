@@ -13,7 +13,7 @@
 
     <script src="../public/assets/js/roleta.js" defer></script>
 </head>
-<body>
+<body id="corpoRoleta">
     <main class="pagina-roleta">
         <h1>Poke Rolation</h1>
         <p>Gire a roleta e descubra seu Bigomon!</p>
