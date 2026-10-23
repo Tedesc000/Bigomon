@@ -6,12 +6,12 @@
     <title>Poke Rolation</title>
 
     <!-- importa o arquivo CSS da página -->
-    <link rel="stylesheet" href="../../../public/assets/css/roleta.css">
+    <link rel="stylesheet" href="../public/assets/css/roleta.css">
 
     <!-- biblioteca da roleta -->
     <script src="https://cdn.jsdelivr.net/npm/spin-wheel@5.0.2/dist/spin-wheel-iife.js"></script>
 
-    <script src="../../../public/assets/js/roleta.js" defer></script>
+    <script src="../public/assets/js/roleta.js" defer></script>
 </head>
 <body>
     <main class="pagina-roleta">
