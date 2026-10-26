@@ -26,7 +26,15 @@ class TreinadorControlador {
     public function login(){
         require_once __DIR__ . "/../Views/treinador/login.php";
     }
-    
+
+    public function pokedexAPI(){
+        require_once __DIR__ . "/../Views/treinador/api.php";
+    }
+
+    public function executarAPI(){
+        require_once __DIR__ . "/../../database/seeds/pokedexAPI.php";
+    }
+
     public function logar(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
