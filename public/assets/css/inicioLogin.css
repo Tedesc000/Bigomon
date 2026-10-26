@@ -440,16 +440,12 @@
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: 'PokemonEmerald', monospace;
-    font-size: 32px; 
-    image-rendering: pixelated;
-    -webkit-font-smoothing: none;
+    font-size: 48px; 
 }
 
 #popTitulo{
     font-family: 'PokemonEmerald', monospace;
     font-size: 64px; 
-    image-rendering: pixelated;
-    -webkit-font-smoothing: none;
     margin-bottom: 5px;
     margin-top: 0px;
 }
@@ -457,8 +453,6 @@
 #popButton{
     font-family: 'PokemonEmerald', monospace;
     font-size: 48px; 
-    image-rendering: pixelated;
-    -webkit-font-smoothing: none;
     border: 1px solid black;
     border-radius: 6px;
     padding: 10px;

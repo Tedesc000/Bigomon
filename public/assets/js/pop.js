@@ -1,9 +1,9 @@
 function pop(x=true,
-            title="titulo",
-            textTop="texto",
-            textBottom="texto",
+            title="TITULO",
+            textTop="TEXTO",
+            textBottom="TEXTO",
             img="/fotoPerfil/fotoPerfilDefault.webp",
-            btnText="Continuar",)
+            btnText="CONTINUAR",)
 {
     if(!document.getElementById("popBack")){
         document.body.innerHTML +=
