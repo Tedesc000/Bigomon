@@ -8,7 +8,7 @@
     font-display: swap;
 }
 /*inicio*/
-#inicio{
+#home{
     background-image: url('../img/inicioLogin/emeraldTitle.gif');
     background-size: cover;
     background-position: center;
@@ -16,7 +16,7 @@
     background-attachment: fixed;
     height: 100vh;
     width: 100vw;
-    overflow: hidden;
+    overflow: auto;
 }
 
 #tituloContainer{
@@ -33,7 +33,7 @@
     align-items: center;
 }
 
-#tituloInicio{
+#titulo{
     font-family: 'Pokemon Solid', sans-serif;
     font-size: 10em;
     font-weight: bold;
@@ -54,18 +54,18 @@
 }
 
 .botaoInicio{
+    box-sizing: border-box;
+    display: inline-block;
     background-color: white;
-    padding: 10px;
-    padding-left: 5px;
+    padding: 5px;
+    padding-left: -5px;
     border: 5px solid #766f8a;
     border-radius: 4px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
     color: #595556;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     text-decoration: none;
     text-align: center;
     font-family: 'PokemonEmerald', monospace;
-    font-size: 48px;
+    font-size: 2.5em;
     font-weight: bold;
     transition: 0.3s;
     min-width: 15vw;
@@ -92,63 +92,11 @@
 
 
 /*cadastro*/
-#cadastro{
-    background-image: url('../img/inicioLogin/inicio.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    height: 100vh;
-    width: 100vw;
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-
-#tituloContainerCadastro{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#tituloCadastro{
-    font-family: 'Pokemon Solid', sans-serif;
-    font-size: 7em;
-    color: yellow;
-    text-shadow: 0 0 25px rgb(0, 106, 255);
-}
-
-.botaoCadastrar{
-    background-color: yellow;
-    padding: 10px;
-    border-radius: 20px;
-    color: rgb(0, 81, 255);
-    text-align: center;
-    text-decoration: none;
-    min-width: 10vw;
-    font-family: 'Pokemon Solid', sans-serif;
-    font-size: 2em;
-    transition: 0.3s;
-}
-
-.botaoCadastrar:hover{
-    color: rgb(38, 0, 255);
-    text-shadow: 0 0 10px rgb(255, 238, 0);
-    background-color: rgb(255, 211, 12);
-}
-
 #formCadastro{
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-top: 20px;
-    align-items: center;
-    justify-content: center;
-}
-
-#camposCadastro{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
     align-items: center;
     justify-content: center;
 }
@@ -159,26 +107,9 @@
     gap: 12px;
 }
 
-#inputCadastro input[type="text"],
-#inputCadastro input[type="email"],
-#inputCadastro input[type="password"]{
-    padding: 10px 15px;
-    border-radius: 15px;
-    border: 3px solid yellow;
-    background-color: rgba(255, 255, 255, 0.9);
-    font-size: 1rem;
-    outline: none;
-    transition: 0.3s;
-    min-width: 260px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-#inputCadastro input[type="text"]:focus,
-#inputCadastro input[type="email"]:focus,
-#inputCadastro input[type="password"]:focus{
-    border-color: rgb(0, 81, 255);
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 81, 255, 0.6);
+.row{
+    display: flex !important;
+    flex-direction: row !important;
 }
 
 #inputSexo{
@@ -192,14 +123,17 @@
 
 .labelSexo{
     display: flex;
+    border: 3px solid #766f8a;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2px 10px;
 }
 
 #inputSexo label{
-    font-family: Arial, sans-serif;
+    font-family: "PokemonEmerald", monospace;
     font-weight: bold;
-    font-size: 1rem;
-    color: yellow;
-    text-shadow: 0 0 6px rgb(0, 81, 255), 1px 1px 3px #000;
+    font-size: 2rem;
+    color: #565556;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -211,6 +145,7 @@
     cursor: pointer;
     width: 16px;
     height: 16px;
+    margin-top: 8px;
 }
 
 #inputFoto{
@@ -227,7 +162,7 @@
     min-width: 100px;
     min-height: 100px;
     object-fit: cover;
-    border: 5px solid yellow;
+    border: 5px solid #766f8a;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -235,7 +170,7 @@
 
 #foto:hover{
     transform: scale(1.05);
-    box-shadow: 0 0 15px yellow;
+    box-shadow: 0 0 15px rgb(0, 81, 255);
 }
 
 /* Esconde o input file para remover o texto nenhum ficheiro selecionado */
@@ -264,17 +199,6 @@
 }
 
 /*login*/
-#login{
-    background-image: url('../img/inicioLogin/inicio.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    height: 100vh;
-    width: 100vw;
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
 #tituloLogin{
     font-family: 'Pokemon Solid', sans-serif;
     font-size: 7em;
@@ -317,12 +241,15 @@
 }
 
 #camposLogin input[type="email"],
-#camposLogin input[type="password"]{
+#camposLogin input[type="password"],
+#camposLogin input[type="text"]{
+    font-family: "PokemonEmerald", monospace;
+    color: #565556;
     padding: 10px 15px;
-    border-radius: 15px;
-    border: 3px solid yellow;
+    border-radius: 4px;
+    border: 3px solid #766f8a;
     background-color: rgba(255, 255, 255, 0.9);
-    font-size: 1rem;
+    font-size: 2em;
     outline: none;
     transition: 0.3s;
     min-width: 260px;
@@ -330,7 +257,8 @@
 }
 
 #camposLogin input[type="email"]:focus,
-#camposLogin input[type="password"]:focus{
+#camposLogin input[type="password"]:focus,
+#camposLogin input[type="text"]:focus{
     border-color: rgb(0, 81, 255);
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 81, 255, 0.6);
@@ -441,6 +369,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: 'PokemonEmerald', monospace;
+    text-align: center;
     font-size: 48px; 
 }
 

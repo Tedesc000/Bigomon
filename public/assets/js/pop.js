@@ -3,7 +3,8 @@ function pop(x=true,
             textTop="TEXTO",
             img="/fotoPerfil/fotoPerfilDefault.webp",
             textBottom="TEXTO",
-            btnText="CONTINUAR",)
+            btnText="CONTINUAR",
+            btnHref="?modulo=treinador&acao=home")
 {
     if(!document.getElementById("popBack")){
         document.body.innerHTML +=
@@ -22,7 +23,7 @@ function pop(x=true,
                 
                 <span id="popTextBottom" class="popText"></span>
                 
-                <a href="?modulo=treinador&acao=home" id="popButton"></a>
+                <a href="" id="popButton"></a>
             </div>
         </div>`;
     }
@@ -32,9 +33,10 @@ function pop(x=true,
     document.getElementById("popBack").style.display = "flex";
     document.getElementById("popTitulo").textContent = title;
     document.getElementById("popTextTop").textContent = textTop;
-    document.getElementById("popTextBottom").textContent = textBottom;
+    document.getElementById("popTextBottom").innerHTML = textBottom;
     document.getElementById("popImg").src = "assets/img" + img;
     document.getElementById("popButton").textContent = btnText;
+    document.getElementById("popButton").href = btnHref;
 }
 
 function fecharPop(){

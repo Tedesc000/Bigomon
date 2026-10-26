@@ -7,15 +7,13 @@
     <script src="../public/assets/js/pop.js"></script>
     <title>Bigomon - Início</title>
 </head>
-<body id="inicio">
+<body id="home">
     <div id="container">
         <div id="tituloContainer">
-            <!--<img src="assets/img/inicioLogin/groundon.webp" alt="groundon" id="groundonInicio"> -->
             <div id="titulos">
-                <span id="tituloInicio">BIGOMON</span> <br>
+                <span id="titulo">BIGOMON</span>
                 <img src="assets/img/inicioLogin/emeraldVersion.png" alt="Emerald Version" id="subtituloInicio">
             </div>
-            <!-- <img src="assets/img/inicioLogin/kyogre.webp" alt="kyogre" id="kyogreInicio"> -->
         </div>
         <div id="botoes">
             <a href="?modulo=treinador&acao=login" class="botaoInicio">
