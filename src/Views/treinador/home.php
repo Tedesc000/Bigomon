@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/inicioLogin.css">
+    <script src="../public/assets/js/pop.js"></script>
     <title>Bigomon - Início</title>
 </head>
 <body id="inicio">
@@ -15,7 +16,16 @@
         </div>
         <div id="botoes">
             <a href="?modulo=treinador&acao=roleta" class="botaoInicio">Iniciar</a>
-            <a href="?modulo=treinador&acao=sobre" class="botaoInicio">Sobre</a>
+            <button class="botaoInicio" onclick="pop(
+                true,
+                'SOBRE',
+                'Bem-vindo ao mundo de Bigomon!',
+                'Aqui você irá encontrar criaturas modificadas e enfrentar desafios em batalhas. Prepare-se para sua aventura!',
+                '/inicioLogin/groundon.webp',
+                'Voltar ao início'
+                )">
+                Sobre
+            </button>
         </div>
     </div>
 </body>
