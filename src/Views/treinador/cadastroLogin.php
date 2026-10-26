@@ -4,30 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/inicioLogin.css">
+    <script src="../public/assets/js/pop.js"></script>
     <title>Bigomon - Início</title>
 </head>
 <body id="inicio">
-    <div id="popBack">
-        <div id="pop">
-            <button id="popX" onclick="fecharPop()">X</button>
-            <header id="popHeader">
-                <h1 id="popTitulo">Bigomon</h1>
-            </header>
-            
-            <span class="popText">Lorem Ipsum Dolor</span>
-
-            <div id="popImgDiv">
-                <img src="assets/img/inicioLogin/groundon.webp" alt="Foto do Bigomon" id="popImg">
-            </div>
-            
-            <span class="popText">Lorem Ipsum Dolor</span>
-
-            <hr class="popHr">
-            
-            <a href="inicio.php" id="popButton">Continuar</a>
-        </div>
-        
-    </div>
     <div id="container">
         <div id="tituloContainer">
             <img src="assets/img/inicioLogin/groundon.webp" alt="groundon" id="groundonInicio">
@@ -37,6 +17,7 @@
         <div id="botoes">
             <a href="?modulo=treinador&acao=login" class="botaoInicio">Login</a>
             <a href="?modulo=treinador&acao=cadastrar" class="botaoInicio">Cadastrar</a>
+            <button class="botaoInicio" type="button" onclick="pop()">Pop-up Exemplo</button>
         </div>
     </div>
 </body>
