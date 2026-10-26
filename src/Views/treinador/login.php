@@ -6,16 +6,27 @@
     <link rel="stylesheet" href="assets/css/inicioLogin.css">
     <title>Login</title>
 </head>
-<body id="login">
+<body id="home">
     <div id="tituloContainer">
-        <span id="tituloLogin">Bigomon</span>
+        <div id="titulos">
+            <span id="titulo">BIGOMON</span>
+            <img src="assets/img/inicioLogin/emeraldVersion.png" alt="Emerald Version" id="subtituloInicio">  
+        </div>
+          
     </div>
     <form action="?modulo=treinador&acao=logar" method="POST" id="formLogin">
         <div id="camposLogin">
-            <input type="email" name="email" id="email" placeholder="Email">
-            <input type="password" name="senha" id="senha" placeholder="Senha">
+            <input type="email" name="email" id="email" placeholder="EMAIL">
+            <input type="password" name="senha" id="senha" placeholder="SENHA">
         </div>
-        <button type="submit" class="botaoLogin">Login</button>
+        <button type="submit" class="botaoInicio">
+            <span class="hoverText">▸</span>
+            <span class="defaultText">LOGIN</span>
+        </button>
+        <a href="?modulo=treinador&acao=cadastroLogin" class="botaoInicio">
+            <span class="hoverText">▸</span>
+            <span class="defaultText">VOLTAR</span>
+        </a>
     </form>
 </body>
 </html>
