@@ -28,6 +28,10 @@
                 <span class="hoverText">▸</span>
                 <span class="defaultText">POP-UP EXEMPLO</span>
             </button>
+            <a href="?modulo=treinador&acao=pokedexAPI" class="botaoInicio">
+                <span class="hoverText">▸</span>
+                <span class="defaultText">TESTE API</span>
+            </a>
         </div>
     </div>
 </body>
