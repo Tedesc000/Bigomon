@@ -91,7 +91,7 @@ class TreinadorControlador {
 
             if ($novoTreinador->salvar()){
                 $novoTreinador->logar($email, $_POST['senha'] ?? '');
-                header("Location: ?modulo=treinador&acao=roleta");
+                header("Location: ?modulo=treinador&acao=home");
                 exit;
             } else {
                 require_once __DIR__ . "/../Views/treinador/erroCadastro.php";

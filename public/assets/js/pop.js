@@ -22,7 +22,7 @@ function pop(x=true,
                 
                 <span id="popTextBottom" class="popText"></span>
                 
-                <a href="inicio.php" id="popButton"></a>
+                <a href="?modulo=treinador&acao=home" id="popButton"></a>
             </div>
         </div>`;
     }
