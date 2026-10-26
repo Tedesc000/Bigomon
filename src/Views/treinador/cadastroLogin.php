@@ -26,7 +26,7 @@
                 <span class="hoverText">▸</span>
                 <span class="defaultText">CADASTRAR</span>
             </a>
-            <button type="button" onclick="pop()" class="botaoInicio">
+            <button type="button" onclick="pop(true, 'POKEROLATION', 'PARABÉNS! SEU POKEMON ESCOLHIDO FOI:', '/inicioLogin/groudon.webp', 'GROUDON')" class="botaoInicio">
                 <span class="hoverText">▸</span>
                 <span class="defaultText">POP-UP EXEMPLO</span>
             </button>

@@ -376,6 +376,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 90vw;
+    max-height: 80vh;
     background-color: #fff;
     padding: 20px;
     padding-top: 0px;
@@ -414,7 +416,6 @@
 }
 
 #popImg{
-    width: 100%;
     height: auto;
     border: 2px solid black;
     border-radius: 6px;
