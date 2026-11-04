@@ -23,9 +23,9 @@
             <button class="botaoInicio" onclick="pop(
                 true,
                 'SOBRE',
-                'Bem-vindo ao mundo de Bigomon!',
-                '/inicioLogin/groudon.webp',
-                'Aqui você irá encontrar criaturas modificadas e enfrentar <br> desafios em batalhas. Prepare-se para sua aventura!',
+                'Bem-vindo ao Bigomon!',
+                '/inicioLogin/foto_sobre.png',
+                'Nós somos: Hiago (esquerda), Pedro (meio), Tedesco (direita). <br> Desenvolvemos este projeto como parte do nosso aprendizado em programação web. <br> Esperamos que você aproveite a experiência de jogar Bigomon!',
                 'Voltar ao início'
                 )">
                 <span class="hoverText">▸</span>
