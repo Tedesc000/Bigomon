@@ -1,1 +1,1 @@
-insert into treinador(nome, email, senha, sexo, dinheiro, foto, slot1) values ('joao', 'joao@joao.com', 'joao', 'm', 10, 'fotoPerfilDefault.webp', '3');
+insert into treinador(nome, email, senha, sexo, dinheiro, foto, slot1) values ('joao', 'joao@joao.com', 'joao', 'masculino', 10, 'fotoPerfilDefault.webp', '3');
