@@ -1,0 +1,5 @@
+
+# --- FOTOS DE PERFIL ---
+# Ignora fotos enviadas por usuarios exceto a imagem padrao
+public/assets/img/fotoPerfil/*
+!public/assets/img/fotoPerfil/fotoPerfilDefault.webp
