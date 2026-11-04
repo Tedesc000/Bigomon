@@ -7,10 +7,11 @@
 
     <!-- importa o arquivo CSS da página -->
     <link rel="stylesheet" href="../public/assets/css/roleta.css">
+    <link rel="stylesheet" href="../public/assets/css/inicioLogin.css">
 
     <!-- biblioteca da roleta -->
     <script src="https://cdn.jsdelivr.net/npm/spin-wheel@5.0.2/dist/spin-wheel-iife.js"></script>
-
+    <script src="../public/assets/js/pop.js" defer></script>
     <script src="../public/assets/js/roleta.js" defer></script>
 </head>
 <body id="corpoRoleta">
@@ -20,7 +21,10 @@
 
         <div id="roleta"></div>
 
-        <button id="girar" type="button">GIRAR</button>
+        <button type="button" id="girar" class="botaoInicio" aria-label="Girar a roleta">
+            <span class="hoverText">▸</span>
+            <span class="defaultText">GIRAR</span>
+        </button>
 
         <p id="resultado">Qual será seu Bigomon?</p>
     </main>
