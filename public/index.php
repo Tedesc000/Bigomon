@@ -6,7 +6,7 @@ $pdo = getConexao();
 
 //captura o modulo e ação
 $modulo = $_GET['modulo'] ?? 'treinador';
-$acao = $_GET['acao'] ?? 'cadastroLogin';
+$acao = $_GET['acao'] ?? 'home';
 
 //define o nome da classe controlador e o seu caminho
 $nomeControlador = ucfirst($modulo) . "Controlador"; //ex: PokemonControlador

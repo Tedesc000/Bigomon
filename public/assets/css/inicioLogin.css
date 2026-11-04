@@ -16,7 +16,7 @@
     background-attachment: fixed;
     height: 100vh;
     width: 100vw;
-    overflow: auto;
+    overflow: hidden;
 }
 
 #tituloContainer{
@@ -35,10 +35,12 @@
 
 #titulo{
     font-family: 'Pokemon Solid', sans-serif;
-    font-size: 10em;
+    font-size: 8em;
     font-weight: bold;
     color: yellow;
-    -webkit-text-stroke: 15px #2e4496;
+    -webkit-text-stroke: 0.1em #2e4496;
+    margin-bottom: -10vh;
+    margin-top: -10vh;
 }
 
 #subtituloInicio{
