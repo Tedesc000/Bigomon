@@ -49,11 +49,19 @@ if (!container || !botao || !resultado) {
         //gira a roleta até a opção sorteada
         roleta.spinToItem(indice, 4000, true, 3, 1);
 
-        //exibe o resultado e deixa bloqueado o botão após o giro
         setTimeout(function () {
-            resultado.textContent =
-                "Seu Bigomon é: " + bigomons[indice].label + "!";
-            botao.disabled = true;
+            const nomePokemon = bigomons[indice].label;
+            resultado.textContent = "Seu Bigomon é: " + nomePokemon + "!";
+
+            pop(
+                true,
+                "Seu Bigomon é...",
+                nomePokemon,
+                "/inicioLogin/kyogre.webp",
+                "Parabéns! Você ganhou o " + nomePokemon + ".",
+                "Continuar",
+                "?modulo=treinador&acao=mapaInicio"
+            );
         }, 4200);
     });
 }
