@@ -1,1 +1,1 @@
-O objetivo deste readme é inicialmente organizar o projeto.
+Problema de pokemons com evoluções duplas.
