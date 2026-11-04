@@ -28,7 +28,7 @@ function pop(x=true,
         </div>`;
     }
     if(x==false){
-        document.getElementById("popButton").style.display = "none";
+        document.getElementById("popX").style.display = "none";
     }
     document.getElementById("popBack").style.display = "flex";
     document.getElementById("popTitulo").textContent = title;
