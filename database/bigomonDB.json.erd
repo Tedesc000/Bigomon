@@ -62,58 +62,49 @@
       "ZA0UALbPjfXySTT11Kbku",
       "JwPTUYkKfc6Ld70EhxyKA",
       "KLB7ZFKByUHXAEMv4c1GP"
-    ],
-    "indexIds": [],
-    "memoIds": []
+    ]
   },
   "collections": {
     "tableEntities": {
       "7L1tbWkqocPWai_3r4jcJ": {
         "id": "7L1tbWkqocPWai_3r4jcJ",
         "name": "pokedex_tipo",
-        "comment": "",
         "columnIds": [
           "zjcSQlDZxo13AnrEwmvXu",
           "O0Gg0evwFx7tYQQbnP_iB"
         ],
         "ui": {
           "x": -331.8755,
-          "y": 1023.9242,
-          "color": ""
+          "y": 1023.9242
         }
       },
       "8o5bMFbkNdTMRe--m7ttP": {
         "id": "8o5bMFbkNdTMRe--m7ttP",
         "name": "matinho",
-        "comment": "",
         "columnIds": [
           "yFoaGBMMIEn0mIVyTd9z3",
           "fGtAuS25nqKG93mS4W4Po"
         ],
         "ui": {
           "x": -342.0191,
-          "y": 465.8011,
-          "color": ""
+          "y": 465.8011
         }
       },
       "9MExxyspRrXsAWdlytI5y": {
         "id": "9MExxyspRrXsAWdlytI5y",
         "name": "loja",
-        "comment": "",
         "columnIds": [
           "1yvTfjDI0a_RIPeetsIlw",
           "eRGwd3epyUjPf_QDmEYJZ"
         ],
         "ui": {
           "x": 1183.671,
-          "y": 481.776,
-          "color": ""
+          "y": 481.776
         }
       },
       "C0UpxpVcL0p8q2VyM9Iow": {
         "id": "C0UpxpVcL0p8q2VyM9Iow",
         "name": "item",
-        "comment": "",
         "columnIds": [
           "Ii8QIN00iuBtgUDEHOco-",
           "i_DZorMJ8w0nFeIl5zjec",
@@ -123,14 +114,12 @@
         ],
         "ui": {
           "x": 1229.1972,
-          "y": 954.5076,
-          "color": ""
+          "y": 954.5076
         }
       },
       "F5xjFNFIw2jMDUvomECLW": {
         "id": "F5xjFNFIw2jMDUvomECLW",
         "name": "treinador",
-        "comment": "",
         "columnIds": [
           "Fmg4ePv1bLRHcWqJZS04l",
           "dBG6-Wjmu3NBQ8sLiGaZd",
@@ -148,42 +137,36 @@
         ],
         "ui": {
           "x": 682.5912,
-          "y": 513.3176,
-          "color": ""
+          "y": 513.3176
         }
       },
       "ICnfD3x5Kjccda0h2ahBh": {
         "id": "ICnfD3x5Kjccda0h2ahBh",
         "name": "pokemon_movimento",
-        "comment": "",
         "columnIds": [
           "mmcvHoIm0DMknVFZHWLeO",
           "gmLvnDM_H_CRTnphKB1yJ"
         ],
         "ui": {
           "x": 237.8528,
-          "y": 790.8211,
-          "color": ""
+          "y": 790.8211
         }
       },
       "LIvD3_zUoB_GNcUnmvD2q": {
         "id": "LIvD3_zUoB_GNcUnmvD2q",
         "name": "loja_item",
-        "comment": "",
         "columnIds": [
           "uUBFq3EOpHFNRDZqquECd",
           "H_h6bjEmzkGViNpc_9y13"
         ],
         "ui": {
           "x": 1183.8206,
-          "y": 708.975,
-          "color": ""
+          "y": 708.975
         }
       },
       "SDNKhD7L0bFtc2nARr2-A": {
         "id": "SDNKhD7L0bFtc2nARr2-A",
         "name": "tipo",
-        "comment": "",
         "columnIds": [
           "_Rxsee7i8ngrkpCMtLCrH",
           "6gKUDms6sJ7Vuit-_Vl3s",
@@ -195,14 +178,12 @@
         ],
         "ui": {
           "x": -330.9734,
-          "y": 1197.3817,
-          "color": ""
+          "y": 1197.3817
         }
       },
       "UxmWuS-qGCXYeZpT8sbOb": {
         "id": "UxmWuS-qGCXYeZpT8sbOb",
         "name": "efeito",
-        "comment": "",
         "columnIds": [
           "39T5y3NY-GtwUAI4tcNKL",
           "LtNg5SSef8M-NaKn_Y9Ww",
@@ -210,14 +191,12 @@
         ],
         "ui": {
           "x": 198.9553,
-          "y": 1266.1194,
-          "color": ""
+          "y": 1266.1194
         }
       },
       "VezmRBHb6tvx_m50cOlhM": {
         "id": "VezmRBHb6tvx_m50cOlhM",
         "name": "pokedex",
-        "comment": "",
         "columnIds": [
           "80gGhphC_RZqIbrzWkOPr",
           "P3qPweCio8tg7_A5iTNb_",
@@ -232,14 +211,12 @@
         ],
         "ui": {
           "x": -278.3037,
-          "y": 664.7746,
-          "color": ""
+          "y": 664.7746
         }
       },
       "XJ1r0xeD3A79XYc2tejGQ": {
         "id": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "movimento",
-        "comment": "",
         "columnIds": [
           "LNDbvtFNb847sqie1kLMf",
           "8zsxAqYxx8qPDfTcamsAg",
@@ -252,14 +229,12 @@
         ],
         "ui": {
           "x": 237.9355,
-          "y": 972.9888,
-          "color": ""
+          "y": 972.9888
         }
       },
       "fX2nnk_H1f-x49mztmokJ": {
         "id": "fX2nnk_H1f-x49mztmokJ",
         "name": "log",
-        "comment": "",
         "columnIds": [
           "kgr7UXvJLHtfAJg4g_wIS",
           "7NbhtyOsRo5p1FCmOInRB",
@@ -268,28 +243,24 @@
         ],
         "ui": {
           "x": 626.5291,
-          "y": 189.0226,
-          "color": ""
+          "y": 189.0226
         }
       },
       "hiCXNBXnXXad_xP9LfqrS": {
         "id": "hiCXNBXnXXad_xP9LfqrS",
         "name": "matinho_pokedex",
-        "comment": "",
         "columnIds": [
           "63TaRymabQHpu327UXVcl",
           "a8TXfbdK6xyKPLV0WD8p3"
         ],
         "ui": {
           "x": -807.0156,
-          "y": 591.5446,
-          "color": ""
+          "y": 591.5446
         }
       },
       "jatt5bma7ocFi6INLiK8o": {
         "id": "jatt5bma7ocFi6INLiK8o",
         "name": "treinador_item",
-        "comment": "",
         "columnIds": [
           "LlzQRoyR-m8Y_FlMVC3ra",
           "tddc5KsrMhmygb3k3czi3",
@@ -297,14 +268,12 @@
         ],
         "ui": {
           "x": 708.4471,
-          "y": 984.5513,
-          "color": ""
+          "y": 984.5513
         }
       },
       "m4DSU95BZFbDkVGPUmwpR": {
         "id": "m4DSU95BZFbDkVGPUmwpR",
         "name": "pokemon",
-        "comment": "",
         "columnIds": [
           "0ymPXeCYkPWXspMfIvuOO",
           "IcuMrCM6Kg4c3R-3DeWpj",
@@ -316,14 +285,12 @@
         ],
         "ui": {
           "x": 157.1505,
-          "y": 438.9203,
-          "color": ""
+          "y": 438.9203
         }
       },
       "nc7h11sbBmrlaw_a8t5LV": {
         "id": "nc7h11sbBmrlaw_a8t5LV",
         "name": "categoria",
-        "comment": "",
         "columnIds": [
           "tdL9yD1mEv9MNDWF6YSvH",
           "ykXrqQgeAPMTQ_E2dvE09",
@@ -331,8 +298,7 @@
         ],
         "ui": {
           "x": 1235.8589,
-          "y": 1201.3948,
-          "color": ""
+          "y": 1201.3948
         }
       }
     },
@@ -341,88 +307,69 @@
         "id": "O0Gg0evwFx7tYQQbnP_iB",
         "tableId": "7L1tbWkqocPWai_3r4jcJ",
         "name": "id_pokedex",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "zjcSQlDZxo13AnrEwmvXu": {
         "id": "zjcSQlDZxo13AnrEwmvXu",
         "tableId": "7L1tbWkqocPWai_3r4jcJ",
         "name": "id_tipo",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "fGtAuS25nqKG93mS4W4Po": {
         "id": "fGtAuS25nqKG93mS4W4Po",
         "tableId": "8o5bMFbkNdTMRe--m7ttP",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "yFoaGBMMIEn0mIVyTd9z3": {
         "id": "yFoaGBMMIEn0mIVyTd9z3",
         "tableId": "8o5bMFbkNdTMRe--m7ttP",
         "name": "id_matinho",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "1yvTfjDI0a_RIPeetsIlw": {
         "id": "1yvTfjDI0a_RIPeetsIlw",
         "tableId": "9MExxyspRrXsAWdlytI5y",
         "name": "id_loja",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "eRGwd3epyUjPf_QDmEYJZ": {
         "id": "eRGwd3epyUjPf_QDmEYJZ",
         "tableId": "9MExxyspRrXsAWdlytI5y",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "Ii8QIN00iuBtgUDEHOco-": {
         "id": "Ii8QIN00iuBtgUDEHOco-",
         "tableId": "C0UpxpVcL0p8q2VyM9Iow",
         "name": "id_item",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "ag0VNfMa_UeJ6DS_dZiCK": {
         "id": "ag0VNfMa_UeJ6DS_dZiCK",
         "tableId": "C0UpxpVcL0p8q2VyM9Iow",
         "name": "descricao",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 8
       },
       "i_DZorMJ8w0nFeIl5zjec": {
         "id": "i_DZorMJ8w0nFeIl5zjec",
         "tableId": "C0UpxpVcL0p8q2VyM9Iow",
         "name": "id_categoria",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "ueGSoNZ-ufjWzxGQL5wfo": {
         "id": "ueGSoNZ-ufjWzxGQL5wfo",
         "tableId": "C0UpxpVcL0p8q2VyM9Iow",
         "name": "preco",
-        "comment": "",
         "dataType": "INT",
         "default": "100",
         "options": 8
@@ -431,25 +378,20 @@
         "id": "z7yzUU4L-IMdMoQaOf9kN",
         "tableId": "C0UpxpVcL0p8q2VyM9Iow",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "9YW2LNiPhhFc4DvaNGMdd": {
         "id": "9YW2LNiPhhFc4DvaNGMdd",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "slot2",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 0
       },
       "FEFSdC8SzZ40R6UeAj8eg": {
         "id": "FEFSdC8SzZ40R6UeAj8eg",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "dinheiro",
-        "comment": "",
         "dataType": "INT",
         "default": "0",
         "options": 8
@@ -458,367 +400,286 @@
         "id": "Fmg4ePv1bLRHcWqJZS04l",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "id_treinador",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "Kwc5QM59tcwj04wUVq4Zu": {
         "id": "Kwc5QM59tcwj04wUVq4Zu",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "senha",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 8
       },
       "WYdGk7W9uFTrZ2coecuy-": {
         "id": "WYdGk7W9uFTrZ2coecuy-",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "slot1",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 0
       },
       "Wqbf-VLvkBIyESwa72Gy3": {
         "id": "Wqbf-VLvkBIyESwa72Gy3",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "sexo",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 8
       },
       "YXlg-ma3gPZ_fyyF2imJG": {
         "id": "YXlg-ma3gPZ_fyyF2imJG",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "slot3",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 0
       },
       "_bRbBT0RspxGjyEaUZGMI": {
         "id": "_bRbBT0RspxGjyEaUZGMI",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "slot6",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 0
       },
       "dBG6-Wjmu3NBQ8sLiGaZd": {
         "id": "dBG6-Wjmu3NBQ8sLiGaZd",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(100)",
-        "default": "",
         "options": 8
       },
       "eCQUzPXCBGYSfPV6mNiHD": {
         "id": "eCQUzPXCBGYSfPV6mNiHD",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "foto",
-        "comment": "",
         "dataType": "VARCHAR(100)",
-        "default": "",
         "options": 0
       },
       "f5P0siOOz9BPq1yux2PPA": {
         "id": "f5P0siOOz9BPq1yux2PPA",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "slot4",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 0
       },
       "hMjvu-WPtKNwe42-NsCGc": {
         "id": "hMjvu-WPtKNwe42-NsCGc",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "email",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 12
       },
       "ss6fD0vLdKC6eVTzIQohg": {
         "id": "ss6fD0vLdKC6eVTzIQohg",
         "tableId": "F5xjFNFIw2jMDUvomECLW",
         "name": "slot5",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 0
       },
       "gmLvnDM_H_CRTnphKB1yJ": {
         "id": "gmLvnDM_H_CRTnphKB1yJ",
         "tableId": "ICnfD3x5Kjccda0h2ahBh",
         "name": "id_movimento",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "mmcvHoIm0DMknVFZHWLeO": {
         "id": "mmcvHoIm0DMknVFZHWLeO",
         "tableId": "ICnfD3x5Kjccda0h2ahBh",
         "name": "id_pokemon",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "H_h6bjEmzkGViNpc_9y13": {
         "id": "H_h6bjEmzkGViNpc_9y13",
         "tableId": "LIvD3_zUoB_GNcUnmvD2q",
         "name": "id_item",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "uUBFq3EOpHFNRDZqquECd": {
         "id": "uUBFq3EOpHFNRDZqquECd",
         "tableId": "LIvD3_zUoB_GNcUnmvD2q",
         "name": "id_loja",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "6gKUDms6sJ7Vuit-_Vl3s": {
         "id": "6gKUDms6sJ7Vuit-_Vl3s",
         "tableId": "SDNKhD7L0bFtc2nARr2-A",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 8
       },
       "L-NN7rF4iwuo8wDyeJN9t": {
         "id": "L-NN7rF4iwuo8wDyeJN9t",
         "tableId": "SDNKhD7L0bFtc2nARr2-A",
         "name": "res_q",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "YP3fTM5_OUa9rgMOcgPU_": {
         "id": "YP3fTM5_OUa9rgMOcgPU_",
         "tableId": "SDNKhD7L0bFtc2nARr2-A",
         "name": "frq_q",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "_Rxsee7i8ngrkpCMtLCrH": {
         "id": "_Rxsee7i8ngrkpCMtLCrH",
         "tableId": "SDNKhD7L0bFtc2nARr2-A",
         "name": "id_tipo",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "mkHlET-W-bZ32oR2qRJah": {
         "id": "mkHlET-W-bZ32oR2qRJah",
         "tableId": "SDNKhD7L0bFtc2nARr2-A",
         "name": "res_d",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "onaGJQOEA6eKy7RHfJr_A": {
         "id": "onaGJQOEA6eKy7RHfJr_A",
         "tableId": "SDNKhD7L0bFtc2nARr2-A",
         "name": "frq_d",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "tr3EznrvX7MbVYnEi_8Bq": {
         "id": "tr3EznrvX7MbVYnEi_8Bq",
         "tableId": "SDNKhD7L0bFtc2nARr2-A",
         "name": "imunidade",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "39T5y3NY-GtwUAI4tcNKL": {
         "id": "39T5y3NY-GtwUAI4tcNKL",
         "tableId": "UxmWuS-qGCXYeZpT8sbOb",
         "name": "id_efeito",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 10
       },
       "LtNg5SSef8M-NaKn_Y9Ww": {
         "id": "LtNg5SSef8M-NaKn_Y9Ww",
         "tableId": "UxmWuS-qGCXYeZpT8sbOb",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 8
       },
       "u83fkxmiHnaKQ9swRFhqa": {
         "id": "u83fkxmiHnaKQ9swRFhqa",
         "tableId": "UxmWuS-qGCXYeZpT8sbOb",
         "name": "chance",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "80gGhphC_RZqIbrzWkOPr": {
         "id": "80gGhphC_RZqIbrzWkOPr",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "id_pokedex",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 10
       },
       "BOab35QQyNrHgJzpe8HHp": {
         "id": "BOab35QQyNrHgJzpe8HHp",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "atk",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "P3qPweCio8tg7_A5iTNb_": {
         "id": "P3qPweCio8tg7_A5iTNb_",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 8
       },
       "RIJ1aKIJkkAH4oX6hHGh_": {
         "id": "RIJ1aKIJkkAH4oX6hHGh_",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "def",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "TQzZNYiyW_fPToS1MR28t": {
         "id": "TQzZNYiyW_fPToS1MR28t",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
-        "name": "hp_max",
-        "comment": "",
+        "name": "hp",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "Z321j_1yCeiBNv97rYsea": {
         "id": "Z321j_1yCeiBNv97rYsea",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "spa",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "Zz6JX3TCpAFfg8lZ1QyvE": {
         "id": "Zz6JX3TCpAFfg8lZ1QyvE",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "spd",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "x3A4aPfqAm18XiCYbo0aK": {
         "id": "x3A4aPfqAm18XiCYbo0aK",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "spe",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "yzqyGGas1Mv-JXJ8CTOoi": {
         "id": "yzqyGGas1Mv-JXJ8CTOoi",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "id_evolucao",
-        "comment": "",
-        "dataType": "VARCHAR(6)",
-        "default": "",
+        "dataType": "INT",
         "options": 0
       },
       "zK0doAEqg1EET_7GuM4dg": {
         "id": "zK0doAEqg1EET_7GuM4dg",
         "tableId": "VezmRBHb6tvx_m50cOlhM",
         "name": "fase",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "8zsxAqYxx8qPDfTcamsAg": {
         "id": "8zsxAqYxx8qPDfTcamsAg",
         "tableId": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "id_efeito",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 0
       },
       "LNDbvtFNb847sqie1kLMf": {
         "id": "LNDbvtFNb847sqie1kLMf",
         "tableId": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "id_movimento",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "Qy10UyelyZsiAhYW0XeXw": {
         "id": "Qy10UyelyZsiAhYW0XeXw",
         "tableId": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "poder",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "UhDL1bvhqkODmaITokTAQ": {
         "id": "UhDL1bvhqkODmaITokTAQ",
         "tableId": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "tipo",
-        "comment": "",
         "dataType": "VARCHAR(3)",
-        "default": "",
         "options": 8
       },
       "buJ93nEe-vEN_p-meWP4N": {
         "id": "buJ93nEe-vEN_p-meWP4N",
         "tableId": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "id_tipo",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "gX-KqsjXO9YJ2qEwzSdOf": {
         "id": "gX-KqsjXO9YJ2qEwzSdOf",
         "tableId": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "prioridade",
-        "comment": "",
         "dataType": "INT",
         "default": "0",
         "options": 8
@@ -827,79 +688,62 @@
         "id": "s08Ay9ezqQgr-8-8Dp0dM",
         "tableId": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "precisao",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "tLtbU4-HEuApq0Z7g72S3": {
         "id": "tLtbU4-HEuApq0Z7g72S3",
         "tableId": "XJ1r0xeD3A79XYc2tejGQ",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 8
       },
       "7NbhtyOsRo5p1FCmOInRB": {
         "id": "7NbhtyOsRo5p1FCmOInRB",
         "tableId": "fX2nnk_H1f-x49mztmokJ",
         "name": "id_treinador",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "ebDsD5aCcBGGEhP3_uFuX": {
         "id": "ebDsD5aCcBGGEhP3_uFuX",
         "tableId": "fX2nnk_H1f-x49mztmokJ",
         "name": "texto",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 8
       },
       "kgr7UXvJLHtfAJg4g_wIS": {
         "id": "kgr7UXvJLHtfAJg4g_wIS",
         "tableId": "fX2nnk_H1f-x49mztmokJ",
         "name": "id_log",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "mAslJqP5DdBSpxu3j9biZ": {
         "id": "mAslJqP5DdBSpxu3j9biZ",
         "tableId": "fX2nnk_H1f-x49mztmokJ",
         "name": "data",
-        "comment": "",
         "dataType": "TIMESTAMP",
-        "default": "",
         "options": 8
       },
       "63TaRymabQHpu327UXVcl": {
         "id": "63TaRymabQHpu327UXVcl",
         "tableId": "hiCXNBXnXXad_xP9LfqrS",
         "name": "id_matinho",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "a8TXfbdK6xyKPLV0WD8p3": {
         "id": "a8TXfbdK6xyKPLV0WD8p3",
         "tableId": "hiCXNBXnXXad_xP9LfqrS",
         "name": "id_pokedex",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "0Cap91wGRuJ9ssofUvyqM": {
         "id": "0Cap91wGRuJ9ssofUvyqM",
         "tableId": "jatt5bma7ocFi6INLiK8o",
         "name": "quantidade",
-        "comment": "",
         "dataType": "INT",
         "default": "0",
         "options": 0
@@ -908,108 +752,84 @@
         "id": "LlzQRoyR-m8Y_FlMVC3ra",
         "tableId": "jatt5bma7ocFi6INLiK8o",
         "name": "id_treinador",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "tddc5KsrMhmygb3k3czi3": {
         "id": "tddc5KsrMhmygb3k3czi3",
         "tableId": "jatt5bma7ocFi6INLiK8o",
         "name": "id_item",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "0ymPXeCYkPWXspMfIvuOO": {
         "id": "0ymPXeCYkPWXspMfIvuOO",
         "tableId": "m4DSU95BZFbDkVGPUmwpR",
         "name": "id_pokemon",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "IcuMrCM6Kg4c3R-3DeWpj": {
         "id": "IcuMrCM6Kg4c3R-3DeWpj",
         "tableId": "m4DSU95BZFbDkVGPUmwpR",
         "name": "id_treinador",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "Nqw4FDk3zhBmo95_YptJC": {
         "id": "Nqw4FDk3zhBmo95_YptJC",
         "tableId": "m4DSU95BZFbDkVGPUmwpR",
         "name": "sexo",
-        "comment": "",
         "dataType": "VARCHAR(15)",
-        "default": "",
         "options": 8
       },
       "UvaWBtpGKu0J71rOyuPrG": {
         "id": "UvaWBtpGKu0J71rOyuPrG",
         "tableId": "m4DSU95BZFbDkVGPUmwpR",
         "name": "status",
-        "comment": "",
         "dataType": "VARCHAR(30)",
-        "default": "",
         "options": 0
       },
       "WaHryf15mwrug9AZgArqc": {
         "id": "WaHryf15mwrug9AZgArqc",
         "tableId": "m4DSU95BZFbDkVGPUmwpR",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(20)",
-        "default": "",
         "options": 8
       },
       "dctwrVZfjWYgFtvap59Bt": {
         "id": "dctwrVZfjWYgFtvap59Bt",
         "tableId": "m4DSU95BZFbDkVGPUmwpR",
         "name": "id_pokedex",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 8
       },
       "xINBbUIXtJYWBX1DK8st5": {
         "id": "xINBbUIXtJYWBX1DK8st5",
         "tableId": "m4DSU95BZFbDkVGPUmwpR",
         "name": "hp_atual",
-        "comment": "",
         "dataType": "INT",
-        "default": "",
         "options": 8
       },
       "fyvEWOWUiHGYvlNd7BbnZ": {
         "id": "fyvEWOWUiHGYvlNd7BbnZ",
         "tableId": "nc7h11sbBmrlaw_a8t5LV",
         "name": "descricao",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       },
       "tdL9yD1mEv9MNDWF6YSvH": {
         "id": "tdL9yD1mEv9MNDWF6YSvH",
         "tableId": "nc7h11sbBmrlaw_a8t5LV",
         "name": "id_categoria",
-        "comment": "",
         "dataType": "BIGINT",
-        "default": "",
         "options": 11
       },
       "ykXrqQgeAPMTQ_E2dvE09": {
         "id": "ykXrqQgeAPMTQ_E2dvE09",
         "tableId": "nc7h11sbBmrlaw_a8t5LV",
         "name": "nome",
-        "comment": "",
         "dataType": "VARCHAR(50)",
-        "default": "",
         "options": 0
       }
     },
@@ -1302,9 +1122,6 @@
           ]
         }
       }
-    },
-    "indexEntities": {},
-    "indexColumnEntities": {},
-    "memoEntities": {}
+    }
   }
 }
