@@ -1,5 +1,8 @@
 <?php
 
+set_time_limit(0); 
+ini_set('max_execution_time', '0');
+
 require_once __DIR__ . '/../../src/Utils/conexao.php';
 
 $sql = "";
@@ -13,32 +16,57 @@ for($i=$inicio; $i<=$fim; $i++){
     $url = "https://pokeapi.co/api/v2/pokemon/{$i}";
     $urlSpecie = "https://pokeapi.co/api/v2/pokemon-species/{$i}/";
 
-    $resposta = file_get_contents($url);
-    $respostaSpecie = file_get_contents($urlSpecie);
+    usleep(250000);
+    $resposta = @file_get_contents($url);
+    usleep(250000);
+    $respostaSpecie = @file_get_contents($urlSpecie);
+
+    if ($resposta === false || $respostaSpecie === false) {
+        continue;
+    }
 
     $dados = json_decode($resposta);
     $dadosSpecie = json_decode($respostaSpecie);
 
-    $urlChain = $dadosSpecie->evolution_chain->url;
-    if (!isset($cadeias[$urlChain])) {
-        $respostaChain = file_get_contents($urlChain);
-        $cadeias[$urlChain] = json_decode($respostaChain);
+    if (!isset($dados->id, $dados->name)) {
+        continue;
     }
-    $dadosChain = $cadeias[$urlChain];
 
     $id = $dados->id;
-    $nome = $dados->name;
+    $nome = str_replace("'", "''", $dados->name);
 
     $fase = 1;
-    $evolucao = $dadosChain->chain;
-    while ((int) basename(rtrim($evolucao->species->url, '/')) !== $id) {
-        $fase++;
-        $evolucao = $evolucao->evolves_to[0];
-    }
-    if(isset($evolucao->evolves_to[0])){
-        $id_evolucao = (int) basename(rtrim($evolucao->evolves_to[0]->species->url, '/'));
-    } else {
-        $id_evolucao = 'NULL';
+    $id_evolucao = 'NULL';
+
+    if (isset($dadosSpecie->evolution_chain->url)) {
+        $urlChain = $dadosSpecie->evolution_chain->url;
+        if (!isset($cadeias[$urlChain])) {
+            usleep(250000);
+            $respostaChain = @file_get_contents($urlChain);
+            if ($respostaChain !== false) {
+                $cadeias[$urlChain] = json_decode($respostaChain);
+            }
+        }
+
+        $dadosChain = $cadeias[$urlChain] ?? null;
+
+        if ($dadosChain && isset($dadosChain->chain)) {
+            $evolucao = $dadosChain->chain;
+
+            while ($evolucao && isset($evolucao->species->url)) {
+                $idAtual = (int) basename(rtrim($evolucao->species->url, '/'));
+                if ($idAtual === (int) $id) {
+                    break;
+                }
+
+                $fase++;
+                $evolucao = $evolucao->evolves_to[0] ?? null;
+            }
+
+            if ($evolucao && isset($evolucao->evolves_to[0]->species->url)) {
+                $id_evolucao = (int) basename(rtrim($evolucao->evolves_to[0]->species->url, '/'));
+            }
+        }
     }
 
     $hp = $dados->stats[0]->base_stat;
