@@ -8,9 +8,18 @@ class LogControlador{
     }
 
     public function criarLog($mensagem){
-        $dataHora = date('Y-m-d H:i:s');
-        $registro = "[$dataHora] $mensagem" . PHP_EOL;
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $data = date('Y-m-d H:i:s');
 
         $log = new Log($this->pdo);
+        $log->setIdTreinador($_SESSION['usuario_logado']['id_treinador']);
+        $log->setTexto($mensagem);
+        $log->setData($data);
+
+        $log->salvar();
     }
+
+    
 }
