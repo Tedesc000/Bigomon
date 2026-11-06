@@ -60,7 +60,7 @@ if (!container || !botao || !resultado) {
                 "/inicioLogin/kyogre.webp",
                 "Parabéns! Você ganhou o " + nomePokemon + ".",
                 "Continuar",
-                "?modulo=treinador&acao=mapaInicio"
+                "?modulo=mapa&acao=mapaInicio"
             );
         }, 4200);
     });
