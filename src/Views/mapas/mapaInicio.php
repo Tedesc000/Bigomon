@@ -13,6 +13,7 @@
              alt="Mapa inicial"
              class="imagem-mapa">
         
-        <a href="#" class="botao-mapa"><img src="../public/assets/img/icons/imagem" alt="Matinho"></a>
+        <a href="#" class="botao-mapa"><img src="../public/assets/img/icons/matinho.gif" alt="Matinho"></a>
+        <a href="#" class="botao-mapa"><img src="../public/assets/img/icons/ambulancia.gif" alt="Ambulância"></a>
 </body>
 </html>
