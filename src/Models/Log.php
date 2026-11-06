@@ -35,4 +35,22 @@ class Log {
     public function setData($data){
         $this->data = $data;
     }
+
+    public function salvar(){
+            try {
+                $sql = "INSERT INTO log (id_treinador, texto, data) VALUES (:id_treinador, :texto, :data)";
+                $stmt = $this->pdo->prepare($sql);
+                $ok = $stmt->execute([
+                    'id_treinador' => $this->id_treinador,
+                    'texto' => $this->texto,
+                    'data' => $this->data
+                ]);
+                if ($ok){
+                    $this->id_log = $this->pdo->lastInsertId();
+                }
+                return $ok;
+            } catch (PDOException $e) {
+                return false;
+            }
+        }
 }
