@@ -709,7 +709,7 @@
         "id": "ebDsD5aCcBGGEhP3_uFuX",
         "tableId": "fX2nnk_H1f-x49mztmokJ",
         "name": "texto",
-        "dataType": "VARCHAR(50)",
+        "dataType": "VARCHAR(250)",
         "options": 8
       },
       "kgr7UXvJLHtfAJg4g_wIS": {

@@ -11,6 +11,10 @@ class LogControlador{
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        if (empty($_SESSION['usuario_logado']['id_treinador'])) {
+            return false;
+        }
+
         $data = date('Y-m-d H:i:s');
 
         $log = new Log($this->pdo);
@@ -18,8 +22,6 @@ class LogControlador{
         $log->setTexto($mensagem);
         $log->setData($data);
 
-        $log->salvar();
+        return $log->salvar();
     }
-
-    
 }
