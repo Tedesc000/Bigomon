@@ -7,19 +7,25 @@ class TreinadorControlador {
     }
 
     public function home(){
-        $stmt = $this->pdo->query("SELECT COUNT(*) FROM treinador");
-        $total = $stmt->fetchColumn();
-        // Se estiver vazia, chama as seeds automaticamente
-        if ($total == 0) {
-            require_once __DIR__ . "/SeedControlador.php";
-            $seedCtrl = new SeedControlador($this->pdo);
-            $seedCtrl->rodar();
-            return;
-        }
         require_once __DIR__ . "/../Views/treinador/home.php";
     }
 
     public function cadastroLogin(){
+        require_once __DIR__ . "/SeedControlador.php";
+        $seedCtrl = new SeedControlador($this->pdo);
+
+        // Se as triggers ainda não existirem, executa o arquivo database/triggers.sql
+        if (!$seedCtrl->verificarTriggers()) {
+            $seedCtrl->rodarTriggers();
+        }
+
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM treinador");
+        $total = $stmt->fetchColumn();
+        // Se estiver vazia, chama as seeds automaticamente
+        if ($total == 0) {
+            $seedCtrl->rodar();
+            return;
+        }
         require_once __DIR__ . "/../Views/treinador/cadastroLogin.php";
     }
 
