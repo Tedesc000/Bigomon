@@ -61,7 +61,7 @@ class TreinadorControlador {
     public function logout(){
         $treinador = new Treinador($this->pdo);
         $treinador->logout();
-        header("Location: ?modulo=treinador&acao=home");
+        header("Location: ?modulo=treinador&acao=cadastroLogin");
         exit;
     }
     
@@ -120,23 +120,36 @@ class TreinadorControlador {
             $treinador->setFoto($nomeFoto);
 
             if ($isLogado) {
+                // Busca os dados do banco para garantir que dinheiro e slots estejam sempre atualizados
+                $dadosBanco = $treinador->buscarPorId($usuarioLogado['id_treinador']);
+
                 // Na edição mantém id, dinheiro e slots atuais
                 $treinador->setIdTreinador($usuarioLogado['id_treinador']);
-                $treinador->setDinheiro($usuarioLogado['dinheiro'] ?? 0);
-                $treinador->setSlot1($usuarioLogado['slot1'] ?? null);
-                $treinador->setSlot2($usuarioLogado['slot2'] ?? null);
-                $treinador->setSlot3($usuarioLogado['slot3'] ?? null);
-                $treinador->setSlot4($usuarioLogado['slot4'] ?? null);
-                $treinador->setSlot5($usuarioLogado['slot5'] ?? null);
-                $treinador->setSlot6($usuarioLogado['slot6'] ?? null);
+                $treinador->setDinheiro($dadosBanco['dinheiro'] ?? $usuarioLogado['dinheiro'] ?? 0);
+                $treinador->setSlot1($dadosBanco['slot1'] ?? $usuarioLogado['slot1'] ?? null);
+                $treinador->setSlot2($dadosBanco['slot2'] ?? $usuarioLogado['slot2'] ?? null);
+                $treinador->setSlot3($dadosBanco['slot3'] ?? $usuarioLogado['slot3'] ?? null);
+                $treinador->setSlot4($dadosBanco['slot4'] ?? $usuarioLogado['slot4'] ?? null);
+                $treinador->setSlot5($dadosBanco['slot5'] ?? $usuarioLogado['slot5'] ?? null);
+                $treinador->setSlot6($dadosBanco['slot6'] ?? $usuarioLogado['slot6'] ?? null);
 
                 if ($treinador->salvar()) {
-                    // Atualiza a sessão com os dados novos
+                    // Atualiza a sessão com todos os dados novos (incluindo dinheiro e slots)
+                    $_SESSION['usuario_logado']['id_treinador'] = $treinador->getIdTreinador();
                     $_SESSION['usuario_logado']['nome'] = $treinador->getNome();
                     $_SESSION['usuario_logado']['email'] = $treinador->getEmail();
                     $_SESSION['usuario_logado']['senha'] = $treinador->getSenha();
                     $_SESSION['usuario_logado']['sexo'] = $treinador->getSexo();
                     $_SESSION['usuario_logado']['foto'] = $treinador->getFoto();
+                    $_SESSION['usuario_logado']['dinheiro'] = $treinador->getDinheiro();
+                    $_SESSION['usuario_logado']['slot1'] = $treinador->getSlot1();
+                    $_SESSION['usuario_logado']['slot2'] = $treinador->getSlot2();
+                    $_SESSION['usuario_logado']['slot3'] = $treinador->getSlot3();
+                    $_SESSION['usuario_logado']['slot4'] = $treinador->getSlot4();
+                    $_SESSION['usuario_logado']['slot5'] = $treinador->getSlot5();
+                    $_SESSION['usuario_logado']['slot6'] = $treinador->getSlot6();
+
+                    $treinador->recarregarSessao($treinador->getIdTreinador());
 
                     header("Location: ?modulo=treinador&acao=home");
                     exit;
@@ -195,8 +208,9 @@ class TreinadorControlador {
                 $treinador = new Treinador($this->pdo);
                 $treinador->atualizarSlot1($idTreinador, $slot1);
 
-                // Atualiza também na sessão ativa para refletir no jogo
+                // Atualiza também na sessão ativa com todos os dados para refletir no jogo
                 $_SESSION['usuario_logado']['slot1'] = $slot1;
+                $treinador->recarregarSessao($idTreinador);
             }
 
             header("Location: ?modulo=treinador&acao=inicioLogado");
@@ -217,6 +231,11 @@ class TreinadorControlador {
             exit;
         }
 
+        if (!empty($_SESSION['usuario_logado']['id_treinador'])) {
+            $treinador = new Treinador($this->pdo);
+            $treinador->recarregarSessao($_SESSION['usuario_logado']['id_treinador']);
+        }
+
         require_once __DIR__ . "/../Views/treinador/inicioLogado.php";
     }
 
@@ -230,5 +249,18 @@ class TreinadorControlador {
     
     public function deletar(){
         
+    }
+
+    public function verPerfil(){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!empty($_SESSION['usuario_logado']['id_treinador'])) {
+            $treinador = new Treinador($this->pdo);
+            $treinador->recarregarSessao($_SESSION['usuario_logado']['id_treinador']);
+        }
+
+        require_once __DIR__ . "/../Views/treinador/verPerfil.php";
     }
 }

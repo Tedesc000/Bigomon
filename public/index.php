@@ -8,6 +8,10 @@ $pdo = getConexao();
 $modulo = $_GET['modulo'] ?? 'treinador';
 $acao = $_GET['acao'] ?? 'cadastroLogin';
 
+if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
 //define o nome da classe controlador e o seu caminho
 $nomeControlador = ucfirst($modulo) . "Controlador"; //ex: PokemonControlador
 $arquivoControlador = "../src/Controllers/{$nomeControlador}.php";
@@ -19,7 +23,12 @@ if (file_exists($arquivoControlador)){
 
     //verifica se o método existe
     if (method_exists($controlador, $acao)){
-        $controlador->$acao();
+
+        if(!isset($_SESSION['usuario_logado']) && $acao !== 'cadastro' && $acao !== 'cadastrar' && $acao !== 'logar' && $acao !== 'cadastroLogin' && $acao !== 'home' && $acao !== 'login') {
+            header("Location: ?modulo=treinador&acao=cadastroLogin");
+        } else{
+            $controlador->$acao();
+        }
     } else{
         echo "Ação não encontrada!";
     }
