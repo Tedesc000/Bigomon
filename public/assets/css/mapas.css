@@ -4,25 +4,26 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
 
-/*background*/
-#corpoMapaInicio {
+body[id^="corpoMapa"],
+body[id^="corpoGinasio"] {
     width: 100%;
     height: 100vh;
     height: 100dvh;
-
     background-image: url('../img/mapas/background-mapas.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-#paginaMapaInicio {
+main[id^="paginaMapa"],
+main[id^="paginaGinasio"] {
     width: 100%;
     height: 100%;
     display: flex;
@@ -32,9 +33,9 @@ html, body {
     padding: 15px;
 }
 
-#mapaContainer {
+#mapaContainer,
+#ginasioContainer {
     position: relative;
-
     height: 94dvh;
     width: auto;
     max-width: 85vw;
@@ -43,12 +44,26 @@ html, body {
     flex-shrink: 1;
 }
 
-#imagemMapaInicio {
+[id^="imagemMapa"],
+[id^="imagemGinasio"] {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: fill;
     border: 5px solid black;
+}
+
+#botaoGinasio {
+    display: block;
+    width: clamp(45px, 6vw, 80px);
+    height: clamp(45px, 6vw, 80px);
+    flex-shrink: 0;
+}
+
+#ginasio {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 #botaoPocao {
@@ -94,6 +109,6 @@ html, body {
     transition: transform 0.2s;
 }
 
-#botaoSeta:hover #iconeSeta {
+#botaoSeta:hover #seta {
     transform: translateX(8px);
 }
