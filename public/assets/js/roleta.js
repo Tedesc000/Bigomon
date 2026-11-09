@@ -79,11 +79,11 @@ if (!container || !botao || !resultado) {
 
             pop(
                 false,
-                "Seu Bigomon é...",
-                nomePokemon,
+                "SEU BIGOMON É...",
+                nomePokemon.toUpperCase(),
                 imgUrl,
-                "Parabéns! Você ganhou o " + nomePokemon + ".",
-                "Continuar",
+                "PARABÉNS! VOCÊ GANHOU O " + nomePokemon.toUpperCase() + ".",
+                "CONTINUAR",
                 "?modulo=mapa&acao=mapaInicio"
             );
         }, 4200);
