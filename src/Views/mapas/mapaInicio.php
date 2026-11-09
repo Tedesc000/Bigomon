@@ -3,23 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Início</title>
+    <title>Oldale Town</title>
     <link rel="stylesheet" href="assets/css/mapas.css">
 </head>
 
-<body id="mapaInicio">
-    <main class="pagina-mapaInicio">
-        <div class="mapa-container">
-
-            <img src="../public/assets/img/mapas/mapaInicio.png"
+<body id="corpoMapaInicio">
+    <main id="paginaMapaInicio">
+        <div id="mapaContainer">
+            <img
+                id="imagemMapaInicio"
+                src="../public/assets/img/mapas/mapaInicio.png"
                 alt="Mapa inicial"
-                class="imagem-mapa">
-
-            <a href="#" class="botao-mapa">
-                <img src="../public/assets/img/icons/ambulancia.gif" alt="Ambulância">
+            >
+            <a href="loja" id="botaoPocao" aria-label="Entrar na loja">
+                <img
+                    id="pocao"
+                    src="../public/assets/img/icons/pocao.jpg"
+                    alt="Loja"
+                >
             </a>
-
+            <a href="sus" id="botaoAmbulancia" aria-label="Entrar no hospital">
+                <img
+                    id="ambulancia"
+                    src="../public/assets/img/icons/ambulancia.gif"
+                    alt="Hospital"
+                >
+            </a>
         </div>
+        <a href="?modulo=mapa&acao=mapa1" id="botaoSeta" aria-label="Avançar pelo mapa">
+            <img
+                id="seta"
+                src="../public/assets/img/icons/seta.png"
+                alt="Avançar"
+            >
+        </a>
     </main>
 </body>
 </html>
