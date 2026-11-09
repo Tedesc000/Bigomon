@@ -9,7 +9,7 @@
 <body id="home">
     <div id="tituloContainer">
         <div id="titulos">
-            <span id="titulo">BIGOMON</span>
+            <img src="assets/img/inicioLogin/LogoBigomon.png" alt="Bigomon" id="titulo" class="logoBigomon">
             <img src="assets/img/inicioLogin/emeraldVersion.png" alt="Emerald Version" id="subtituloInicio">  
         </div>
           

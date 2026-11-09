@@ -34,14 +34,16 @@
     letter-spacing: 25px;
 }
 
-#titulo{
-    font-family: 'Pokemon Solid', sans-serif;
-    font-size: 8em;
-    font-weight: bold;
-    color: yellow;
-    -webkit-text-stroke: 0.1em #2e4496;
+#titulo,
+#tituloCadastro,
+.logoBigomon{
+    display: block;
+    width: min(42vw, 650px);
+    height: auto;
+    object-fit: contain;
     margin-bottom: -10vh;
     margin-top: -10vh;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
 }
 
 #subtituloInicio{
@@ -268,25 +270,27 @@
 }
 
 /*css das telas de erro de login e cadastro*/
-.textoErro{ 
-    font-family: 'Pokemon Solid', sans-serif;
-    font-size: 1.8em;
-    color: rgb(255, 255, 255);
-    text-shadow: 0 0 20px rgb(0, 0, 0);
-}
-
-.descricaoErro{
-    font-family: 'Pokemon Solid', sans-serif;
-    font-size: 1.3em;
-    color: white;
-}
 
 .containerErro{
     display: flex;
     flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    font-size: 2.5em;
+    font-weight: bold;
     gap: 10px;
     align-items: center;
     justify-content: center;
+    border: 1px solid black;
+    max-width: 80%;
+    background-color: white;
+    padding: 5px;
+    border: 5px solid #766f8a;
+    border-radius: 4px;
+    color: #595556;
+    text-decoration: none;
+    text-align: center;
+    font-family: 'PokemonEmerald', monospace;
 }
 
 #popBack{
@@ -308,7 +312,7 @@
     flex-direction: column;
     align-items: center;
     max-width: 90vw;
-    max-height: 80vh;
+    max-height: 95vh;
     background-color: #fff;
     padding: 20px;
     padding-top: 0px;
@@ -373,7 +377,8 @@
     margin-bottom: 10px;
     font-family: 'PokemonEmerald', monospace;
     text-align: center;
-    font-size: 48px; 
+    font-size: 48px;
+    color: black !important;
 }
 
 #popTitulo{

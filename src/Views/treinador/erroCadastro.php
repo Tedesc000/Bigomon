@@ -9,7 +9,7 @@
 <body id="cadastro">
     <div id="container">
         <div id="tituloContainerCadastro">
-            <span id="tituloCadastro">Bigomon</span>
+            <img src="assets/img/inicioLogin/LogoBigomon.png" alt="Bigomon" id="tituloCadastro" class="logoBigomon">
         </div>
         <div class="containerErro">
             <span class="textoErro">Não foi possível realizar o cadastro!</span>
