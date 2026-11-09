@@ -41,8 +41,7 @@
     width: min(42vw, 650px);
     height: auto;
     object-fit: contain;
-    margin-bottom: -10vh;
-    margin-top: -10vh;
+    margin-bottom: -5vh;
     filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
 }
 
