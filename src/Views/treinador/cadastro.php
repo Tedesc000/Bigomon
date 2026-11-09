@@ -16,6 +16,13 @@
     $email = $usuario['email'] ?? '';
     $sexo = $usuario['sexo'] ?? 'masculino';
     $foto = (!empty($usuario['foto'])) ? $usuario['foto'] : 'fotoPerfilDefault.webp';
+    $dinheiro = $usuario['dinheiro'] ?? 0;
+    $slot1 = $usuario['slot1'] ?? null;
+    $slot2 = $usuario['slot2'] ?? null;
+    $slot3 = $usuario['slot3'] ?? null;
+    $slot4 = $usuario['slot4'] ?? null;
+    $slot5 = $usuario['slot5'] ?? null;
+    $slot6 = $usuario['slot6'] ?? null;
     ?>
     <title><?= $isLogado ? 'Editar Perfil' : 'Cadastro' ?></title>
 </head>

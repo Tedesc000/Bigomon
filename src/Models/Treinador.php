@@ -182,6 +182,39 @@ class Treinador {
         ]);
     }
 
+    public function buscarPorId($id_treinador){
+        $stmt = $this->pdo->prepare("SELECT * FROM treinador WHERE id_treinador = :id_treinador");
+        $stmt->execute(['id_treinador' => $id_treinador]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function recarregarSessao($id_treinador){
+        $usuario = $this->buscarPorId($id_treinador);
+        if ($usuario){
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['logado'] = true;
+            $_SESSION['usuario_logado'] = [
+                'id_treinador' => $usuario['id_treinador'] ?? null,
+                'nome'         => $usuario['nome'] ?? '',
+                'email'        => $usuario['email'] ?? '',
+                'senha'        => $usuario['senha'] ?? '',
+                'sexo'         => $usuario['sexo'] ?? '',
+                'foto'         => $usuario['foto'] ?? 'fotoPerfilDefault.webp',
+                'dinheiro'     => $usuario['dinheiro'] ?? 0,
+                'slot1'        => $usuario['slot1'] ?? null,
+                'slot2'        => $usuario['slot2'] ?? null,
+                'slot3'        => $usuario['slot3'] ?? null,
+                'slot4'        => $usuario['slot4'] ?? null,
+                'slot5'        => $usuario['slot5'] ?? null,
+                'slot6'        => $usuario['slot6'] ?? null,
+            ];
+            return true;
+        }
+        return false;
+    }
+
     public function logar($email, $senha){
         $stmt = $this->pdo->prepare("SELECT * FROM treinador WHERE email = :email AND senha = :senha");
         $stmt->execute([
@@ -194,7 +227,21 @@ class Treinador {
                 session_start();
             }
             $_SESSION['logado'] = true;
-            $_SESSION['usuario_logado'] = $usuario;
+            $_SESSION['usuario_logado'] = [
+                'id_treinador' => $usuario['id_treinador'] ?? null,
+                'nome'         => $usuario['nome'] ?? '',
+                'email'        => $usuario['email'] ?? '',
+                'senha'        => $usuario['senha'] ?? '',
+                'sexo'         => $usuario['sexo'] ?? '',
+                'foto'         => $usuario['foto'] ?? 'fotoPerfilDefault.webp',
+                'dinheiro'     => $usuario['dinheiro'] ?? 0,
+                'slot1'        => $usuario['slot1'] ?? null,
+                'slot2'        => $usuario['slot2'] ?? null,
+                'slot3'        => $usuario['slot3'] ?? null,
+                'slot4'        => $usuario['slot4'] ?? null,
+                'slot5'        => $usuario['slot5'] ?? null,
+                'slot6'        => $usuario['slot6'] ?? null,
+            ];
             return true;
         }
         return false;
