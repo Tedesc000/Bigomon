@@ -1,10 +1,6 @@
 
 -- Triggers do jogo
 
--- Ajuste para garantir que mensagens de log detalhadas caibam na coluna
-ALTER TABLE log MODIFY texto VARCHAR(255) NOT NULL;
-$$
-
 -- Trigger para quando uma nova conta de treinador for cadastrada
 DROP TRIGGER IF EXISTS trg_treinador_novo_insert;
 DELIMITER $$
