@@ -36,6 +36,7 @@
 
 #titulo,
 #tituloCadastro,
+#subtituloInicio,
 .logoBigomon{
     display: block;
     width: min(42vw, 650px);
