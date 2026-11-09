@@ -4,7 +4,7 @@ function pop(x=true,
             imagem="/fotoPerfil/fotoPerfilDefault.webp",
             textBottom="TEXTO",
             btnText="CONTINUAR",
-            btnHref="?modulo=treinador&acao=home")
+            btnHref="?modulo=treinador&acao=cadastroLogin")
 {
     if(!document.getElementById("popBack")){
         document.body.innerHTML +=
