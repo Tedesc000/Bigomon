@@ -1,25 +1,22 @@
-/* Fonte do título no estilo Pokémon */
+
+/*fonte pokemon*/
 @import url('https://fonts.cdnfonts.com/css/pokemon-solid');
 
-* {
-    box-sizing: border-box;
-    image-rendering: pixelated;
-}
 
-body {
+#corpoRoleta {
     margin: 0;
+    width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
+    padding: 24px;
+
     color: #ffffff;
     font-family: 'Pokemon Solid', monospace;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 24px;
-}
 
-#corpoRoleta {
-    min-height: 100vh;
-    width: 100%;
     background-image: url('../img/inicioLogin/inicio.png');
     background-size: cover;
     background-position: center;
@@ -27,36 +24,39 @@ body {
     background-attachment: fixed;
 }
 
-/*painel da roleta*/
-.pagina-roleta {
+/*painel principal*/
+#paginaRoleta {
     width: min(100%, 620px);
     text-align: center;
     padding: 30px 20px;
+
     background: rgba(59, 59, 67, 0.75);
     border: 5px solid #111111;
     outline: 3px solid #85858d;
     box-shadow: 8px 8px 0 #111111;
 }
 
-h1 {
+#tituloRoleta {
     color: #f32e3e;
     font-size: clamp(22px, 5vw, 38px);
     line-height: 1.6;
     margin: 0 0 20px;
+
     text-shadow:
         3px 3px 0 #111111,
         -2px -2px 0 #ffffff;
 }
 
-p {
+#descricaoRoleta {
     font-size: 10px;
     line-height: 2;
+    margin: 0;
 }
 
-/*área da roleta*/
+/*área roleta*/
 #roleta {
-    width: min(380px, 85vw);
-    height: min(380px, 85vw);
+    width: min(380px, 85vw, 55vh);
+    height: min(380px, 85vw, 55vh);
     margin: 25px auto;
     padding: 0;
 
@@ -68,7 +68,6 @@ p {
     overflow: visible;
 }
 
-/*botão de girar*/
 #girar {
     font-family: 'Pokemon Solid', monospace;
     font-size: 12px;
@@ -85,18 +84,15 @@ p {
     transition: transform 0.08s, box-shadow 0.08s;
 }
 
-/*efeito quando passa o mouse em cima do botão*/
 #girar:hover {
     background: #ff4654;
 }
 
-/*efeito quando clica no botão*/
 #girar:active {
     transform: translate(4px, 4px);
     box-shadow: 1px 1px 0 #111111;
 }
 
-/*opacidade diminuida após clicar no botão*/
 #girar:disabled {
     opacity: 0.65;
     cursor: not-allowed;
@@ -116,7 +112,6 @@ p {
     overflow-wrap: anywhere;
 }
 
-/*seta roleta*/
 #roleta::before {
     content: "";
     position: absolute;
