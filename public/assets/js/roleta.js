@@ -1,12 +1,34 @@
 
 /*adiciona os elementos da roleta*/
 const bigomons = [
-    { label: "Pikachu" },
-    { label: "Charizard" },
-    { label: "Bulbasaur" },
-    { label: "Squirtle" },
-    { label: "Gengar" },
-    { label: "Mewtwo" }
+    { label: "Torchic", value: 255 },
+    { label: "Mudkip", value: 258 },
+    { label: "Treecko", value: 252 },
+    { label: "Poochyena", value: 261 },
+    { label: "Zigzagoon", value: 263 },
+    { label: "Lotad", value: 270 },
+    { label: "Seedot", value: 273 },
+    { label: "Tailow", value: 276 },
+    { label: "Wingull", value: 278 },
+    { label: "Ralts", value: 280 },
+    { label: "Surskit", value: 283 },
+    { label: "Shroomish", value: 285 },
+    { label: "Slakoth", value: 287 },
+    { label: "Makuhita", value: 296 },
+    { label: "Aron", value: 304 },
+    { label: "Meditite", value: 307 },
+    { label: "Electrike", value: 309 },
+    { label: "Carvanha", value: 318 },
+    { label: "Numel", value: 322 },
+    { label: "Trapinch", value: 328 },
+    { label: "Cacnea", value: 331 },
+    { label: "Swablu", value: 333 },
+    { label: "Corphish", value: 341 },
+    { label: "Shuppet", value: 353 },
+    { label: "Duskull", value: 355 },
+    { label: "Snorunt", value: 361 },
+    { label: "Bagon", value: 371 },
+    { label: "Beldum", value: 374 }
 ];
 
 /*puxa os elementos do HTML pelos seus IDs */
@@ -54,7 +76,7 @@ if (!container || !botao || !resultado) {
             resultado.textContent = "Seu Bigomon é: " + nomePokemon + "!";
 
             pop(
-                true,
+                false,
                 "Seu Bigomon é...",
                 nomePokemon,
                 "/inicioLogin/kyogre.webp",
