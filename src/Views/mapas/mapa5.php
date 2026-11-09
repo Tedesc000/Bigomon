@@ -16,13 +16,6 @@
                 alt="Mapa 5"
             >
         </div>
-        <a href="?modulo=mapa&acao=mapa6" id="botaoSeta" aria-label="Avançar pelo mapa">
-            <img
-                id="seta"
-                src="../public/assets/img/icons/seta.png"
-                alt="Avançar"
-            >
-        </a>
     </main>
 </body>
 </html>

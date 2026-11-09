@@ -16,11 +16,11 @@
                 alt="Mapa 1"
             >
         </div>
-        <a href="?modulo=mapa&acao=mapa2" id="botaoSeta" aria-label="Avançar pelo mapa">
+        <a href="?modulo=mapa&acao=ginasio1" id="botaoGinasio" aria-label="Ginásio">
             <img
-                id="seta"
-                src="../public/assets/img/icons/seta.png"
-                alt="Avançar"
+                id="ginasio"
+                src="../public/assets/img/icons/luta.png"
+                alt="Entrar no ginásio de batalha."
             >
         </a>
     </main>
