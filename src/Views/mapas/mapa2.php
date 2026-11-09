@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mauville</title>
+    <title>Dewford</title>
     <link rel="stylesheet" href="assets/css/mapas.css">
 </head>
 
