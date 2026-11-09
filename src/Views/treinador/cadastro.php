@@ -22,7 +22,7 @@
 <body id="home">
     <div id="container">
         <div id="tituloContainer">
-            <span id="titulo">BIGOMON</span>
+            <img src="assets/img/inicioLogin/LogoBigomon.png" alt="Bigomon" id="titulo" class="logoBigomon">
         </div>
         <form id="formCadastro" action="?modulo=treinador&acao=salvar" method="POST" enctype="multipart/form-data">
             <div id="camposLogin" class="row">
