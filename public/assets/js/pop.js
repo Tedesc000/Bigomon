@@ -1,7 +1,7 @@
 function pop(x=true,
             title="TITULO",
             textTop="TEXTO",
-            img="/fotoPerfil/fotoPerfilDefault.webp",
+            imagem="/fotoPerfil/fotoPerfilDefault.webp",
             textBottom="TEXTO",
             btnText="CONTINUAR",
             btnHref="?modulo=treinador&acao=home")
@@ -27,6 +27,10 @@ function pop(x=true,
             </div>
         </div>`;
     }
+    let url = "assets/img" + imagem;
+    if(imagem.includes("http")){
+        url = imagem;
+    }
     if(x==false){
         document.getElementById("popX").style.display = "none";
     }
@@ -34,7 +38,7 @@ function pop(x=true,
     document.getElementById("popTitulo").textContent = title;
     document.getElementById("popTextTop").textContent = textTop;
     document.getElementById("popTextBottom").innerHTML = textBottom;
-    document.getElementById("popImg").src = "assets/img" + img;
+    document.getElementById("popImg").src = url;
     document.getElementById("popButton").textContent = btnText;
     document.getElementById("popButton").href = btnHref;
 }

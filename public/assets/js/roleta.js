@@ -67,6 +67,8 @@ if (!container || !botao || !resultado) {
 
         //escolhe um índice aleatório do array de pokemons
         const indice = Math.floor(Math.random() * bigomons.length);
+        
+        const imgUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/sword-shield/${bigomons[indice].value}.webp`;
 
         //gira a roleta até a opção sorteada
         roleta.spinToItem(indice, 4000, true, 3, 1);
@@ -79,7 +81,7 @@ if (!container || !botao || !resultado) {
                 false,
                 "Seu Bigomon é...",
                 nomePokemon,
-                "/inicioLogin/kyogre.webp",
+                imgUrl,
                 "Parabéns! Você ganhou o " + nomePokemon + ".",
                 "Continuar",
                 "?modulo=mapa&acao=mapaInicio"
