@@ -15,18 +15,18 @@
                 src="../public/assets/img/mapas/mapaInicio.png"
                 alt="Mapa inicial"
             >
-            <a href="loja" id="botaoPocao" aria-label="Entrar na loja">
+            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja">
                 <img
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"
                     alt="Loja"
                 >
             </a>
-            <a href="sus" id="botaoAmbulancia" aria-label="Entrar no hospital">
+            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Entrar no hospital">
                 <img
-                    id="ambulancia"
-                    src="../public/assets/img/icons/ambulancia.gif"
-                    alt="Hospital"
+                    id="enfermeira"
+                    src="../public/assets/img/icons/joy_enfermeira.png"
+                    alt="Ir para o hospital"
                 >
             </a>
         </div>

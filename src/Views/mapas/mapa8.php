@@ -13,16 +13,30 @@
             <img
                 id="imagemMapa8"
                 src="../public/assets/img/mapas/mapa8.png"
-                alt="Mapa 8"
+                alt="Mapa de Sootopolis"
             >
+            <a href="?modulo=mapa&acao=ginasio8" id="botaoGinasio" class="pontoMapa" aria-label="Entrar no ginásio de Sootopolis">
+                <img
+                    id="ginasio"
+                    src="../public/assets/img/icons/insignia_agua.png"
+                    alt="Insígnia de água"
+                >
+            </a>
+            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Sootopolis">
+                <img
+                    id="enfermeira"
+                    src="../public/assets/img/icons/joy_enfermeira.png"
+                    alt="Enfermeira"
+                >
+            </a>
+            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Sootopolis">
+                <img
+                    id="pocao"
+                    src="../public/assets/img/icons/pocao.jpg"
+                    alt="Poção"
+                >
+            </a>
         </div>
-        <a href="?modulo=mapa&acao=ginasio8" id="botaoGinasio" aria-label="Ginásio">
-            <img
-                id="ginasio"
-                src="../public/assets/img/icons/luta.png"
-                alt="Entrar no ginásio de batalha."
-            >
-        </a>
     </main>
 </body>
 </html>
