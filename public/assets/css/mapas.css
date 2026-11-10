@@ -112,3 +112,11 @@ main[id^="paginaGinasio"] {
 #botaoSeta:hover #seta {
     transform: translateX(8px);
 }
+
+#botaoSeta.setaVoltar #seta {
+    transform: rotate(180deg);
+}
+
+#botaoSeta.setaVoltar:hover #seta {
+    transform: translateX(-8px) rotate(180deg);
+}

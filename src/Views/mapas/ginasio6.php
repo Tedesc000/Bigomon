@@ -16,11 +16,11 @@
                 alt="Ginásio 6"
             >
         </div>
-        <a href="?modulo=mapa&acao=mapa7" id="botaoSeta" aria-label="Avançar">
+        <a href="?modulo=mapa&acao=mapa6" id="botaoSeta" class="setaVoltar" aria-label="Voltar para Fortree">
             <img
                 id="seta"
                 src="../public/assets/img/icons/seta.png"
-                alt="Avançar"
+                alt="Voltar"
             >
         </a>
     </main>

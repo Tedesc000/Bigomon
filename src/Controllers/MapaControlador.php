@@ -19,6 +19,7 @@ class MapaControlador {
         $_SESSION['mapa'] = 'mapa1';
     }
     public function ginasio1() {
+        $_SESSION['ginasio1_visitado'] = true;
         require_once __DIR__ . "/../Views/mapas/ginasio1.php";
         $_SESSION['mapa'] = 'ginasio1';
     }
@@ -29,6 +30,7 @@ class MapaControlador {
     }
 
     public function ginasio2() {
+        $_SESSION['ginasio2_visitado'] = true;
         require_once __DIR__ . "/../Views/mapas/ginasio2.php";
         $_SESSION['mapa'] = 'ginasio2';
     }
@@ -39,6 +41,7 @@ class MapaControlador {
     }
 
     public function ginasio3() {
+        $_SESSION['ginasio3_visitado'] = true;
         require_once __DIR__ . "/../Views/mapas/ginasio3.php";
         $_SESSION['mapa'] = 'ginasio3';
     }
@@ -49,6 +52,7 @@ class MapaControlador {
     }
 
     public function ginasio4() {
+        $_SESSION['ginasio4_visitado'] = true;
         require_once __DIR__ . "/../Views/mapas/ginasio4.php";
         $_SESSION['mapa'] = 'ginasio4';
     }
@@ -59,6 +63,7 @@ class MapaControlador {
     }
 
     public function ginasio5() {
+        $_SESSION['ginasio5_visitado'] = true;
         require_once __DIR__ . "/../Views/mapas/ginasio5.php";
         $_SESSION['mapa'] = 'ginasio5';
     }
@@ -69,6 +74,7 @@ class MapaControlador {
     }
 
     public function ginasio6() {
+        $_SESSION['ginasio6_visitado'] = true;
         require_once __DIR__ . "/../Views/mapas/ginasio6.php";
         $_SESSION['mapa'] = 'ginasio6';
     }
@@ -79,6 +85,7 @@ class MapaControlador {
     }
 
     public function ginasio7() {
+        $_SESSION['ginasio7_visitado'] = true;
         require_once __DIR__ . "/../Views/mapas/ginasio7.php";
         $_SESSION['mapa'] = 'ginasio7';
     }
@@ -89,6 +96,7 @@ class MapaControlador {
     }
 
     public function ginasio8() {
+        $_SESSION['ginasio8_visitado'] = true;
         require_once __DIR__ . "/../Views/mapas/ginasio8.php";
         $_SESSION['mapa'] = 'ginasio8';
     }

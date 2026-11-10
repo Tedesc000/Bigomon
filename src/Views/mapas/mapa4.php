@@ -16,6 +16,22 @@
                 alt="Mapa 4"
             >
         </div>
+        <a href="?modulo=mapa&acao=ginasio4" id="botaoGinasio" aria-label="Ginásio">
+            <img
+                id="ginasio"
+                src="../public/assets/img/icons/luta.png"
+                alt="Entrar no ginásio de batalha."
+            >
+        </a>
+        <?php if (!empty($_SESSION['ginasio4_visitado'])): ?>
+            <a href="?modulo=mapa&acao=mapa5" id="botaoSeta" aria-label="Ir para a próxima cidade">
+                <img
+                    id="seta"
+                    src="../public/assets/img/icons/seta.png"
+                    alt="Próxima cidade"
+                >
+            </a>
+        <?php endif; ?>
     </main>
 </body>
 </html>
