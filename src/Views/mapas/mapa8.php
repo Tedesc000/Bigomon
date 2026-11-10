@@ -16,6 +16,13 @@
                 alt="Mapa 8"
             >
         </div>
+        <a href="?modulo=mapa&acao=ginasio8" id="botaoGinasio" aria-label="Ginásio">
+            <img
+                id="ginasio"
+                src="../public/assets/img/icons/luta.png"
+                alt="Entrar no ginásio de batalha."
+            >
+        </a>
     </main>
 </body>
 </html>
