@@ -15,14 +15,28 @@
                 src="../public/assets/img/mapas/mapa4.png"
                 alt="Mapa 4"
             >
+            <a href="?modulo=mapa&acao=ginasio4" id="botaoGinasio" class="pontoMapa" aria-label="Entrar no ginásio de Lavaridge">
+                <img
+                    id="ginasio"
+                    src="../public/assets/img/icons/insignia_fogo.png"
+                    alt="Insígnia de fogo"
+                >
+            </a>
+            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Lavaridge">
+                <img
+                    id="enfermeira"
+                    src="../public/assets/img/icons/joy_enfermeira.png"
+                    alt="Enfermeira"
+                >
+            </a>
+            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Lavaridge">
+                <img
+                    id="pocao"
+                    src="../public/assets/img/icons/pocao.jpg"
+                    alt="Poção"
+                >
+            </a>
         </div>
-        <a href="?modulo=mapa&acao=ginasio4" id="botaoGinasio" aria-label="Ginásio">
-            <img
-                id="ginasio"
-                src="../public/assets/img/icons/luta.png"
-                alt="Entrar no ginásio de batalha."
-            >
-        </a>
         <?php if (!empty($_SESSION['ginasio4_visitado'])): ?>
             <a href="?modulo=mapa&acao=mapa5" id="botaoSeta" aria-label="Ir para a próxima cidade">
                 <img

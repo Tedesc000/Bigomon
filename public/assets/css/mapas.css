@@ -54,44 +54,124 @@ main[id^="paginaGinasio"] {
 }
 
 #botaoGinasio {
-    display: block;
-    width: clamp(45px, 6vw, 80px);
-    height: clamp(45px, 6vw, 80px);
-    flex-shrink: 0;
+    left: var(--ginasio-x);
+    top: var(--ginasio-y);
 }
 
-#ginasio {
+#botaoPocao {
+    left: var(--loja-x);
+    top: var(--loja-y);
+}
+
+#botaoEnfermeira {
+    left: var(--centro-x);
+    top: var(--centro-y);
+}
+
+.pontoMapa {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: block;
+    width: clamp(30px, 4vw, 48px);
+    height: clamp(30px, 4vw, 48px);
+}
+
+.pontoMapa img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
-#botaoPocao {
-    position: absolute;
-    top: 25%;
-    left: 70%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
+#botaoGinasio img {
+    width: 100%;
+    height: 100%;
 }
 
-#pocao {
-    width: clamp(40px, 5vw, 65px);
-    height: clamp(40px, 5vw, 65px);
-    object-fit: contain;
+#corpoMapaInicio {
+    --loja-x: 75%;
+    --loja-y: 25%;
+    --centro-x: 35%;
+    --centro-y: 75%;
 }
 
-#botaoAmbulancia {
-    position: absolute;
-    top: 75%;
-    left: 35%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
+#corpoMapa1 {
+    --ginasio-x: 68%;
+    --ginasio-y: 29%;
+    --centro-x: 43%;
+    --centro-y: 75%;
+    --loja-x: 44%;
+    --loja-y: 91%;
 }
 
-#ambulancia {
-    width: clamp(50px, 6vw, 75px);
-    height: clamp(50px, 6vw, 75px);
-    object-fit: contain;
+#corpoMapa2 {
+    --ginasio-x: 40%;
+    --ginasio-y: 78%;
+    --centro-x: 14%;
+    --centro-y: 45%;
+    --loja-x: 89%;
+    --loja-y: 61%;
+}
+
+#corpoMapa3 {
+    --ginasio-x: 20%;
+    --ginasio-y: 17%;
+    --centro-x: 58%;
+    --centro-y: 20%;
+    --loja-x: 60%;
+    --loja-y: 63%;
+}
+
+#corpoMapa4 {
+    --ginasio-x: 25%;
+    --ginasio-y: 62%;
+    --centro-x: 50%;
+    --centro-y: 22%;
+    --loja-x: 80%;
+    --loja-y: 15%;
+}
+
+#corpoMapa5 {
+    --ginasio-x: 50%;
+    --ginasio-y: 22%;
+    --centro-x: 70%;
+    --centro-y: 50%;
+    --loja-x: 87%;
+    --loja-y: 37%;
+}
+
+#corpoMapa6 {
+    --ginasio-x: 56%;
+    --ginasio-y: 47%;
+    --centro-x: 15%;
+    --centro-y: 25%;
+    --loja-x: 13%;
+    --loja-y: 65%;
+}
+
+#corpoMapa7 {
+    --ginasio-x: 84%;
+    --ginasio-y: 19%;
+    --centro-x: 63%;
+    --centro-y: 48%;
+    --loja-x: 84%;
+    --loja-y: 56%;
+}
+
+#corpoMapa8 {
+    --ginasio-x: 56%;
+    --ginasio-y: 63%;
+    --centro-x: 86%;
+    --centro-y: 65%;
+    --loja-x: 26%;
+    --loja-y: 56%;
+}
+
+#corpoMapa8 #mapaContainer {
+    width: min(85vw, 167.3dvh);
+    height: auto;
+    aspect-ratio: 1122 / 631;
+    flex-shrink: 0;
 }
 
 #botaoSeta {

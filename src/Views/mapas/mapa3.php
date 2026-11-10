@@ -15,14 +15,28 @@
                 src="../public/assets/img/mapas/mapa3.png"
                 alt="Mapa 3"
             >
+            <a href="?modulo=mapa&acao=ginasio3" id="botaoGinasio" class="pontoMapa" aria-label="Entrar no ginásio de Mauville">
+                <img
+                    id="ginasio"
+                    src="../public/assets/img/icons/insignia_eletrico.png"
+                    alt="Insígnia elétrica"
+                >
+            </a>
+            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Mauville">
+                <img
+                    id="enfermeira"
+                    src="../public/assets/img/icons/joy_enfermeira.png"
+                    alt="Enfermeira"
+                >
+            </a>
+            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Mauville">
+                <img
+                    id="pocao"
+                    src="../public/assets/img/icons/pocao.jpg"
+                    alt="Poção"
+                >
+            </a>
         </div>
-        <a href="?modulo=mapa&acao=ginasio3" id="botaoGinasio" aria-label="Ginásio">
-            <img
-                id="ginasio"
-                src="../public/assets/img/icons/luta.png"
-                alt="Entrar no ginásio de batalha."
-            >
-        </a>
         <?php if (!empty($_SESSION['ginasio3_visitado'])): ?>
             <a href="?modulo=mapa&acao=mapa4" id="botaoSeta" aria-label="Ir para a próxima cidade">
                 <img
