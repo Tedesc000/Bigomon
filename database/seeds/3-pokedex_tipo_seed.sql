@@ -25,9 +25,8 @@
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (277, 3);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (278, 11);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (278, 3);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (279, 11);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (279, 3);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (280, 14);
-            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (280, 18);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (281, 14);
-            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (281, 18);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (282, 14);
-            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (282, 18);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (283, 7);
+            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (281, 14);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (282, 14);
+            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (283, 7);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (283, 11);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (284, 7);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (284, 3);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (285, 12);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (285, 3);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (286, 12);
@@ -43,12 +42,10 @@
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (295, 8);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (296, 2);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (296, 8);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (297, 2);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (297, 8);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (298, 1);
-            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (298, 18);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (299, 6);
-            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (299, 18);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (300, 1);
-            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (300, 18);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (301, 1);
-            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (301, 18);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (302, 17);
+            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (299, 6);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (300, 1);
+            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (301, 1);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (302, 17);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (302, 8);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (303, 9);
-            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (303, 18);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (304, 9);
+            INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (304, 9);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (304, 6);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (305, 9);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (305, 6);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (306, 9);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (306, 6);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (307, 2);
