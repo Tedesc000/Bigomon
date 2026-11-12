@@ -82,4 +82,4 @@ for($i=$inicio; $i<=$fim; $i++){
 }
 
 echo $sql;
-file_put_contents(__DIR__ . "/pokedex_seed.sql", $sql);
+file_put_contents(__DIR__ . "/1-pokedex_seed.sql", $sql);

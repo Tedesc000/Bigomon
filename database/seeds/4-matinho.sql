@@ -1,0 +1,10 @@
+INSERT INTO matinho (nome) VALUES ('mato Inicial');
+INSERT INTO matinho (nome) VALUES ('mato Rustboro');
+INSERT INTO matinho (nome) VALUES ('mato Dewford');
+INSERT INTO matinho (nome) VALUES ('mato Mawville');
+INSERT INTO matinho (nome) VALUES ('mato Lavaridge');
+INSERT INTO matinho (nome) VALUES ('mato Petalburg');
+INSERT INTO matinho (nome) VALUES ('mato Fortree');
+INSERT INTO matinho (nome) VALUES ('mato Mossdeep');
+INSERT INTO matinho (nome) VALUES ('mato Sootopolis');
+INSERT INTO matinho (nome) VALUES ('mato Elite Four');

@@ -24,7 +24,6 @@ class TreinadorControlador {
         // Se estiver vazia, chama as seeds automaticamente
         if ($total == 0) {
             $seedCtrl->rodar();
-            return;
         }
         require_once __DIR__ . "/../Views/treinador/cadastroLogin.php";
     }

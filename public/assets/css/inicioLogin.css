@@ -22,7 +22,6 @@
 #tituloContainer{
     display: flex;
     align-items: center;
-    gap: 20px;
     width: 100%;
     justify-content: space-around;
 }
@@ -41,13 +40,13 @@
     width: min(42vw, 650px);
     height: auto;
     object-fit: contain;
-    margin-bottom: -10vh;
-    margin-top: -10vh;
     filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
 }
 
 #subtituloInicio{
-    margin-left: 70px;
+    margin-left: 20%;
+    height: auto;
+    width: min(42vw, 650px);
 }
 
 #botoes{
@@ -73,7 +72,7 @@
     font-size: 2.5em;
     font-weight: bold;
     transition: 0.3s;
-    min-width: 15vw;
+    min-width: 300px;
     cursor: pointer;
 }
 
