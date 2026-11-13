@@ -63,6 +63,10 @@
                 <span class="hoverText">▸</span>
                 <span class="defaultText">DESCONECTAR</span>
             </a>
+            <a href="?modulo=treinador&acao=verLogs" class="botaoInicio">
+                <span class="hoverText">▸</span>
+                <span class="defaultText">VER LOGS</span>
+            </a>
             <a href="?modulo=mapa&acao=<?= htmlspecialchars($mapa) ?>" class="botaoInicio">
                 <span class="hoverText">▸</span>
                 <span class="defaultText">VOLTAR</span>

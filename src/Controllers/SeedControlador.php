@@ -73,4 +73,38 @@ class SeedControlador {
     public function triggers() {
         $this->rodarTriggers();
     }
+
+    public function verificarViews() {
+        try {
+            $stmt = $this->pdo->query("SHOW FULL TABLES WHERE Table_type = 'VIEW' AND Tables_in_bigomon LIKE 'view_logs_%'");
+            return $stmt && $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function rodarViews() {
+        $arquivoViews = __DIR__ . "/../../database/views.sql";
+        if (!file_exists($arquivoViews)) {
+            return;
+        }
+
+        $sql = file_get_contents($arquivoViews);
+        if (empty(trim($sql))) {
+            return;
+        }
+
+        // Divide os comandos por ponto e vírgula e executa cada CREATE VIEW
+        $comandos = explode(';', $sql);
+        foreach ($comandos as $cmd) {
+            $cmd = trim($cmd);
+            if (!empty($cmd)) {
+                try {
+                    $this->pdo->exec($cmd);
+                } catch (PDOException $e) {
+                    echo "<p style='color: red;'>Erro ao criar view: " . htmlspecialchars($e->getMessage()) . "</p>";
+                }
+            }
+        }
+    }
 }

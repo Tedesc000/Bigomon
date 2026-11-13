@@ -53,4 +53,61 @@ class Log {
                 return false;
             }
         }
+
+    public function buscarLogsView($idTreinador, $categoria = 'todos', $periodo = 'todos'){
+        $viewsPorCategoria = [
+            'todos'     => 'view_logs_todos',
+            'pokemon'   => 'view_logs_pokemon',
+            'saldo'     => 'view_logs_saldo',
+            'item'      => 'view_logs_item',
+            'treinador' => 'view_logs_treinador'
+        ];
+
+        // Se categoria for 'todos' mas foi escolhido um período, usa as views de data diretamente
+        if ($categoria === 'todos' && $periodo === 'hoje') {
+            $viewEscolhida = 'view_logs_hoje';
+        } elseif ($categoria === 'todos' && $periodo === '7dias') {
+            $viewEscolhida = 'view_logs_semana';
+        } elseif ($categoria === 'todos' && $periodo === '30dias') {
+            $viewEscolhida = 'view_logs_mes';
+        } else {
+            $viewEscolhida = $viewsPorCategoria[$categoria] ?? 'view_logs_todos';
+        }
+
+        $sql = "SELECT id_log, id_treinador, texto, data FROM {$viewEscolhida} WHERE id_treinador = :idTreinador";
+        $params = [':idTreinador' => $idTreinador];
+
+        // Se uma categoria específica foi selecionada combinada com período
+        if ($categoria !== 'todos') {
+            if ($periodo === 'hoje') {
+                $sql .= " AND DATE(data) = CURDATE()";
+            } elseif ($periodo === '7dias') {
+                $sql .= " AND data >= NOW() - INTERVAL 7 DAY";
+            } elseif ($periodo === '30dias') {
+                $sql .= " AND data >= NOW() - INTERVAL 30 DAY";
+            }
+        }
+
+        // Limita aos 30 mais recentes
+        $sql .= " ORDER BY data DESC, id_log DESC LIMIT 30";
+
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function verLogs(){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        if (!$idTreinador) {
+            return [];
+        }
+        return $this->buscarLogsView($idTreinador);
+    }
 }
