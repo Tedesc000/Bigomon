@@ -241,15 +241,6 @@ class TreinadorControlador {
     public function editar(){
         require_once __DIR__ . "/../Views/treinador/cadastro.php";
     }
-    
-    public function atualizar(){
-        
-    }
-    
-    public function deletar(){
-        
-    }
-
     public function verPerfil(){
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -261,5 +252,32 @@ class TreinadorControlador {
         }
 
         require_once __DIR__ . "/../Views/treinador/verPerfil.php";
+    }
+
+    public function verLogs(){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (empty($_SESSION['logado']) || empty($_SESSION['usuario_logado']['id_treinador'])) {
+            header("Location: ?modulo=treinador&acao=login");
+            exit;
+        }
+
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'];
+        $categoria = $_GET['categoria'] ?? 'todos';
+        $periodo = $_GET['periodo'] ?? 'todos';
+
+        // Garante que as views estejam instaladas no banco
+        require_once __DIR__ . "/SeedControlador.php";
+        $seedCtrl = new SeedControlador($this->pdo);
+        if (!$seedCtrl->verificarViews()) {
+            $seedCtrl->rodarViews();
+        }
+
+        $logModel = new Log($this->pdo);
+        $logs = $logModel->buscarLogsView($idTreinador, $categoria, $periodo);
+
+        require_once __DIR__ . "/../Views/treinador/verLogs.php";
     }
 }
