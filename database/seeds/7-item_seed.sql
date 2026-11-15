@@ -13,7 +13,7 @@ INSERT INTO item (id_categoria, nome, descricao, preco) VALUES
 (1, 'Revive', 'Revive um Pokémon com metade do HP.', 1500),
 (1, 'Max Revive', 'Revive um Pokémon com todo o HP.', 4000),
 (1, 'Rare Candy', 'Aumenta o nível de um Pokémon em 1.', 4800),
-(5, 'Universal Evolution Stone', 'Evolui qualquer Pokémon compatível.', 5000),
+(5, 'Evolution Stone', 'Evolui qualquer Pokémon compatível.', 5000),
 (2, 'Poké Ball', 'Pokébola básica para capturar Pokémon(1.0x).', 200),
 (2, 'Great Ball', 'Pokébola com boa taxa de captura(1.5x).', 600),
 (2, 'Ultra Ball', 'Pokébola com alta taxa de captura(2.0x).', 1200),
