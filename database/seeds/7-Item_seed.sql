@@ -1,0 +1,21 @@
+INSERT INTO item (id_categoria, nome, descricao, preco) VALUES
+(1, 'Antidote', 'Cura o envenenamento de um Pokémon.', 100),
+(1, 'Paralyze Heal', 'Cura a paralisia de um Pokémon.', 200),
+(1, 'Awakening', 'Acorda um Pokémon adormecido.', 250),
+(1, 'Burn Heal', 'Cura a queimadura de um Pokémon.', 250),
+(1, 'Ice Heal', 'Cura o congelamento de um Pokémon.', 250),
+(1, 'Full Heal', 'Cura qualquer condição de status.', 600),
+(1, 'Potion', 'Restaura 20 pontos de HP.', 300),
+(1, 'Super Potion', 'Restaura 50 pontos de HP.', 700),
+(1, 'Hyper Potion', 'Restaura 200 pontos de HP.', 1200),
+(1, 'Max Potion', 'Restaura todo o HP.', 2500),
+(1, 'Full Restore', 'Restaura todo o HP e cura status.', 3000),
+(1, 'Revive', 'Revive um Pokémon com metade do HP.', 1500),
+(1, 'Max Revive', 'Revive um Pokémon com todo o HP.', 4000),
+(1, 'Rare Candy', 'Aumenta o nível de um Pokémon em 1.', 4800),
+(5, 'Universal Evolution Stone', 'Evolui qualquer Pokémon compatível.', 5000),
+(2, 'Poké Ball', 'Pokébola básica para capturar Pokémon(1.0x).', 200),
+(2, 'Great Ball', 'Pokébola com boa taxa de captura(1.5x).', 600),
+(2, 'Ultra Ball', 'Pokébola com alta taxa de captura(2.0x).', 1200),
+(2, 'Master Ball', 'Captura qualquer Pokémon sem falhar.', 15000);
+
