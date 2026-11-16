@@ -30,7 +30,11 @@ class LojaItem {
     }
 
     public function getItensLoja($id_loja) {
-        $stmt = $this->pdo->prepare("SELECT * FROM loja_item WHERE id_loja = :id_loja");
+        $sql = "SELECT i.id_item, i.nome, i.preco, i.descricao, i.id_categoria, li.id_loja 
+                FROM loja_item li
+                INNER JOIN item i ON li.id_item = i.id_item
+                WHERE li.id_loja = :id_loja";
+        $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id_loja', $id_loja, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

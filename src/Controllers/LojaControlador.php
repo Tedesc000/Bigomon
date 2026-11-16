@@ -7,14 +7,18 @@ class LojaControlador {
     }
 
     public function verLoja(){
-        require_once __DIR__ . '/../Views/loja/loja.php';
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $idLoja = $_SESSION['id_loja'] ?? 1;
+
         $loja = new Loja($this->pdo);
-        $nomeLoja = $loja->nomeLoja($_SESSION['id_loja']);
+        $nomeLoja = $loja->nomeLoja($idLoja);
+
         $lojaItem = new LojaItem($this->pdo);
-        $itensLoja = $lojaItem->getItensLoja($_SESSION['id_loja']);
-        return [
-            'nomeLoja' => $nomeLoja,
-            'itensLoja' => $itensLoja
-        ];
+        $itensLoja = $lojaItem->getItensLoja($idLoja);
+
+        require_once __DIR__ . '/../Views/loja/loja.php';
     }
 }
