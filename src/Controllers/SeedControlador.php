@@ -10,6 +10,7 @@ class SeedControlador {
     public function rodar() {
         $caminhoSeeds = __DIR__ . "/../../database/seeds";
         $arquivos = glob($caminhoSeeds . "/*.sql");
+        natsort($arquivos);
 
         if (empty($arquivos)) {
             echo "<p>Nenhum arquivo de seed (.sql) encontrado em <code>database/seeds/</code>.</p>";
