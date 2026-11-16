@@ -60,6 +60,23 @@ if (!container || !botao || !resultado) {
     //cria a roleta usando as opções definidas
     const roleta = new spinWheel.Wheel(container, opcoes);
 
+    // Se o treinador já girou a roleta e possui um Pokémon inicial
+    if (typeof pokemonJaCapturado !== "undefined" && pokemonJaCapturado !== null) {
+        botao.disabled = true;
+        resultado.textContent = "Seu Bigomon é: " + pokemonJaCapturado.nome + "!";
+        const imgUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/brilliant-diamond-shining-pearl/${pokemonJaCapturado.id}.webp`;
+
+        pop(
+            false,
+            "Seu Bigomon é...",
+            pokemonJaCapturado.nome,
+            imgUrl,
+            "Parabéns! Você ganhou o " + pokemonJaCapturado.nome + ".",
+            "Continuar",
+            "?modulo=mapa&acao=mapaInicio"
+        );
+    }
+
     /*sorteia quando clicado no botão girar*/
     botao.addEventListener("click", function () {
         resultado.textContent = "Sorteando...";
@@ -75,7 +92,18 @@ if (!container || !botao || !resultado) {
 
         setTimeout(function () {
             const nomePokemon = bigomons[indice].label;
+            const idPokemonCapturado = bigomons[indice].value;
             resultado.textContent = "Seu Bigomon é: " + nomePokemon + "!";
+
+            fetch("?modulo=treinador&acao=capturarPokemon", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    id_pokemon_capturado: idPokemonCapturado
+                })
+            });
 
             pop(
                 false,

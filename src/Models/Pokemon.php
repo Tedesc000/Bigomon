@@ -56,4 +56,30 @@ class Pokemon {
         $this->status = $status;
     }
 
+    public function setDadosPokedex($id_treinador){
+        $dadosPokedex = $this->pdo->prepare("SELECT * FROM pokedex WHERE id_pokedex = :id_pokedex");
+        $dadosPokedex->execute(['id_pokedex' => $this->id_pokedex]);
+        $dados = $dadosPokedex->fetch(PDO::FETCH_ASSOC);
+
+        $nome = $dados['nome'] ?? '';
+        $hp_atual = $dados['hp'] ?? 50;
+        $nSexo = rand(0,1);
+        if($nSexo == 0){
+            $sexo = 'Masculino';
+        } else {
+            $sexo = 'Feminino';
+        }
+        $stmt = $this->pdo->prepare("INSERT INTO pokemon (id_treinador, id_pokedex, nome, hp_atual, sexo) VALUES (:id_treinador, :id_pokedex, :nome, :hp_atual, :sexo)");
+        $sucesso = $stmt->execute([
+            'id_treinador' => $id_treinador,
+            'id_pokedex' => $this->id_pokedex,
+            'nome' => $nome,
+            'hp_atual' => $hp_atual,
+            'sexo' => $sexo
+        ]);
+        if ($sucesso) {
+            $this->id_pokemon = $this->pdo->lastInsertId();
+        }
+        return $sucesso;
+    }
 }
