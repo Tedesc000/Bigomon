@@ -1,6 +1,4 @@
 INSERT INTO pokemon_movimento (id_pokemon, id_movimento) VALUES
--- Usuario padrão: Pokemon 1 Mudkip
-(1, 41), (1, 42), (1, 43), (1, 44),
 -- Roxanne: Pokemon 2 Geodude, 3 Geodude e 58 Nosepass
 (2, 21), (2, 22), (2, 23), (2, 24),
 (3, 21), (3, 22), (3, 23), (3, 24),
