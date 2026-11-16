@@ -1,6 +1,4 @@
 INSERT INTO pokemon (id_pokemon, id_treinador, id_pokedex, nome, hp_atual, sexo, status) VALUES
--- Usuario padrão: treinador 1 (joao)
-(1, 1, 258, 'mudkip', 50, 'masculino', NULL), -- Pokemon 1; Pokedex 258 Mudkip
 -- Lideres de ginasio: Pokemon ID, treinador ID e especie da Pokédex
 (2, 2, 74, 'geodude', 40, 'masculino', NULL), -- Pokemon 2; treinadora 2 Roxanne; Pokedex 74 Geodude
 (3, 2, 74, 'geodude', 40, 'masculino', NULL), -- Pokemon 3; treinadora 2 Roxanne; Pokedex 74 Geodude
