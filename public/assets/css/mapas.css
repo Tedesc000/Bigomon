@@ -12,7 +12,8 @@ body {
 }
 
 body[id^="corpoMapa"],
-body[id^="corpoGinasio"] {
+body[id^="corpoGinasio"],
+body[id^="corpoSus"] {
     width: 100%;
     height: 100vh;
     height: 100dvh;
@@ -20,6 +21,10 @@ body[id^="corpoGinasio"] {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+body#corpoSus {
+    background-image: url('../img/mapas/sus.png');
 }
 
 main[id^="paginaMapa"],

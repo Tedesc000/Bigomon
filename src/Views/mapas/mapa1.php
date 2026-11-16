@@ -22,7 +22,7 @@
                     alt="Insígnia de pedra"
                 >
             </a>
-            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Rustboro">
+            <a href="?modulo=mapa&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Rustboro">
                 <img
                     id="enfermeira"
                     src="../public/assets/img/icons/joy_enfermeira.png"
