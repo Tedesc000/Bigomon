@@ -28,4 +28,11 @@ class LojaItem {
     public function setPreco($preco){
         $this->preco = $preco;
     }
+
+    public function getItensLoja($id_loja) {
+        $stmt = $this->pdo->prepare("SELECT * FROM loja_item WHERE id_loja = :id_loja");
+        $stmt->bindParam(':id_loja', $id_loja, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
