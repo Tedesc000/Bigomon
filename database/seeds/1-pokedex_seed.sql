@@ -134,3 +134,17 @@ INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evo
     VALUES (384, 'rayquaza', 1, 105, 150, 90, 150, 90, 95, NULL);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
     VALUES (385, 'jirachi', 1, 100, 100, 100, 100, 100, 100, NULL);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
     VALUES (386, 'deoxys-normal', 1, 50, 150, 50, 150, 50, 150, NULL);
+
+-- Pokemons que faltaram pros lideres de ginásio pra ficar condizente com o emerald
+INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) VALUES
+(66, 'machop', 1, 70, 80, 50, 35, 35, 35, 67),
+(73, 'tentacruel', 2, 80, 70, 65, 80, 120, 100, NULL),
+(74, 'geodude', 1, 40, 80, 100, 30, 30, 20, 75),
+(81, 'magnemite', 1, 25, 35, 70, 95, 55, 45, 82),
+(82, 'magneton', 2, 50, 60, 95, 120, 70, 70, NULL),
+(100, 'voltorb', 1, 40, 30, 50, 55, 55, 100, 101),
+(130, 'gyarados', 2, 95, 125, 79, 60, 100, 81, NULL),
+(178, 'xatu', 2, 65, 75, 70, 95, 70, 95, NULL),
+(218, 'slugma', 1, 40, 40, 40, 70, 40, 20, 219),
+(227, 'skarmory', 1, 65, 80, 140, 40, 70, 70, NULL),
+(230, 'kingdra', 3, 75, 95, 95, 95, 95, 85, NULL);

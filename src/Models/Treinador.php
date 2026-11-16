@@ -216,7 +216,7 @@ class Treinador {
     }
 
     public function logar($email, $senha){
-        $stmt = $this->pdo->prepare("SELECT * FROM treinador WHERE email = :email AND senha = :senha");
+        $stmt = $this->pdo->prepare("SELECT * FROM treinador WHERE email = :email AND senha = :senha AND email NOT LIKE 'npc-%@npc.invalid'");
         $stmt->execute([
             'email' => $email,
             'senha' => $senha

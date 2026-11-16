@@ -129,3 +129,17 @@
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (384, 3);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (385, 9);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (385, 14);INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (386, 14);
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES (386, 14);
+
+-- pokemons que faltaram pros lideres de ginásio pra ficar condizente com o emerald
+INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES
+(66, 2),
+(73, 11), (73, 4),
+(74, 6), (74, 5),
+(81, 13), (81, 9),
+(82, 13), (82, 9),
+(100, 13),
+(130, 11), (130, 3),
+(178, 14), (178, 3),
+(218, 10),
+(227, 9), (227, 3),
+(230, 11), (230, 16);
