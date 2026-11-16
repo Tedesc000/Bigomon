@@ -12,7 +12,8 @@ body {
 }
 
 body[id^="corpoMapa"],
-body[id^="corpoGinasio"] {
+body[id^="corpoGinasio"],
+body#corpoLoja {
     width: 100%;
     height: 100vh;
     height: 100dvh;
@@ -23,7 +24,8 @@ body[id^="corpoGinasio"] {
 }
 
 main[id^="paginaMapa"],
-main[id^="paginaGinasio"] {
+main[id^="paginaGinasio"],
+main#paginaLoja {
     width: 100%;
     height: 100%;
     display: flex;
@@ -45,12 +47,16 @@ main[id^="paginaGinasio"] {
 }
 
 [id^="imagemMapa"],
-[id^="imagemGinasio"] {
+[id^="imagemGinasio"],
+#imagemLoja {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
     border: 5px solid black;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
 }
 
 #botaoGinasio {
@@ -227,3 +233,13 @@ main[id^="paginaGinasio"] {
 #botaoSeta.setaVoltar:hover #seta {
     transform: translateX(-8px) rotate(180deg);
 }
+
+#lojaContainer {
+    position: relative;
+    width: min(85vw, 121dvh);
+    height: auto;
+    aspect-ratio: 176 / 128;
+    max-height: 88dvh;
+    flex-shrink: 0;
+}
+
