@@ -7,7 +7,7 @@ class LojaControlador {
     }
 
     public function verLoja(){
-        require_once 'src/Views/loja.php';
+        require_once __DIR__ . '/../Views/loja/loja.php';
         $loja = new Loja($this->pdo);
         $nomeLoja = $loja->nomeLoja($_SESSION['id_loja']);
         $lojaItem = new LojaItem($this->pdo);

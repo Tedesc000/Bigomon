@@ -29,7 +29,7 @@
                     alt="Enfermeira"
                 >
             </a>
-            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Mauville">
+            <a href="?modulo=loja&acao=verLoja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Mauville">
                 <img
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"

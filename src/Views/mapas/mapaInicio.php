@@ -15,7 +15,7 @@
                 src="../public/assets/img/mapas/mapaInicio.png"
                 alt="Mapa inicial"
             >
-            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja">
+            <a href="?modulo=loja&acao=verLoja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja">
                 <img
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"
