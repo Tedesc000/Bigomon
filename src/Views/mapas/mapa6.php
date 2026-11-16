@@ -22,7 +22,7 @@
                     alt="Insígnia de voador"
                 >
             </a>
-            <a href="?modulo=mapa&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Fortree">
+            <a href="?modulo=pokemon&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Fortree">
                 <img
                     id="enfermeira"
                     src="../public/assets/img/icons/joy_enfermeira.png"

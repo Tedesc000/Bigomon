@@ -22,7 +22,7 @@
                     alt="Loja"
                 >
             </a>
-            <a href="?modulo=mapa&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Entrar no hospital">
+            <a href="?modulo=pokemon&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Entrar no hospital">
                 <img
                     id="enfermeira"
                     src="../public/assets/img/icons/joy_enfermeira.png"

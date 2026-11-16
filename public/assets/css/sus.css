@@ -1,0 +1,70 @@
+body#corpoSus {
+    --healing-machine-x: 33%;
+    --healing-machine-y: 55%;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background-image: url('../img/mapas/background-mapas.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+main#paginaSus {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    padding: 15px;
+}
+
+#susContainer {
+    position: relative;
+    width: min(85vw, 115dvh);
+    height: auto;
+    aspect-ratio: 498 / 380;
+    flex-shrink: 0;
+}
+
+#imagemSus {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border: 5px solid black;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+}
+
+#healingMachineControl {
+    position: absolute;
+    top: var(--healing-machine-y);
+    left: var(--healing-machine-x);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transform: translate(-50%, -50%);
+}
+
+#imagemHealingMachine {
+    width: auto;
+    height: clamp(230px, 130dvh, 330px);
+    max-width: 75vw;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+#botaoCurar {
+    padding: 8px 24px;
+    border: 3px solid white;
+    border-radius: 6px;
+    background-color: #d94b55;
+    color: white;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
