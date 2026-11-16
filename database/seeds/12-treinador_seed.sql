@@ -1,6 +1,6 @@
 INSERT INTO treinador (id_treinador, nome, email, senha, sexo, foto, dinheiro, slot1, slot2, slot3, slot4, slot5, slot6) VALUES
 -- Usuario padrão: slot1=Pokemon 1 (Mudkip)
-(1, 'joao', 'joao@joao.com', 'joao', 'masculino', 'fotoPerfilDefault.webp', 1000, 1, NULL, NULL, NULL, NULL, NULL),
+(1, 'joao', 'joao@joao.com', 'joao', 'masculino', 'fotoPerfilDefault.webp', 1000, NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 'Roxanne', 'npc-02@npc.invalid', 'NPC_SEM_LOGIN', 'feminino', NULL, 0, 2, 3, 58, NULL, NULL, NULL),
 (3, 'Brawly', 'npc-03@npc.invalid', 'NPC_SEM_LOGIN', 'masculino', NULL, 0, 4, 5, NULL, NULL, NULL, NULL),
 (4, 'Wattson', 'npc-04@npc.invalid', 'NPC_SEM_LOGIN', 'masculino', NULL, 0, 6, 7, 60, NULL, NULL, NULL),
