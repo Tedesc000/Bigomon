@@ -23,10 +23,6 @@ body#corpoLoja {
     background-repeat: no-repeat;
 }
 
-body#corpoSus {
-    background-image: url('../img/mapas/sus.png');
-}
-
 main[id^="paginaMapa"],
 main[id^="paginaGinasio"],
 main#paginaLoja {
@@ -246,4 +242,3 @@ main#paginaLoja {
     max-height: 88dvh;
     flex-shrink: 0;
 }
-
