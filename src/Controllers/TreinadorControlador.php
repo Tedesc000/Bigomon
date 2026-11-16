@@ -186,38 +186,19 @@ class TreinadorControlador {
             exit;
         }
 
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        $treinadorModel = new Treinador($this->pdo);
+        $dadosTreinador = $treinadorModel->buscarPorId($idTreinador);
+
+        $pokemonInicial = null;
+        if (!empty($dadosTreinador['slot1'])) {
+            $idPokedex = $dadosTreinador['slot1'];
+            $stmt = $this->pdo->prepare("SELECT * FROM pokedex WHERE id_pokedex = :id_pokedex");
+            $stmt->execute(['id_pokedex' => $idPokedex]);
+            $pokemonInicial = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
         require_once __DIR__ . "/../Views/treinador/roleta.php";
-    }
-
-    public function salvarRoleta(){
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (empty($_SESSION['logado'])) {
-            header("Location: ?modulo=treinador&acao=login");
-            exit;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
-            $slot1 = $_POST['slot1'] ?? null;
-
-            if ($idTreinador && $slot1) {
-                $treinador = new Treinador($this->pdo);
-                $treinador->atualizarSlot1($idTreinador, $slot1);
-
-                // Atualiza também na sessão ativa com todos os dados para refletir no jogo
-                $_SESSION['usuario_logado']['slot1'] = $slot1;
-                $treinador->recarregarSessao($idTreinador);
-            }
-
-            header("Location: ?modulo=treinador&acao=inicioLogado");
-            exit;
-        }
-
-        header("Location: ?modulo=treinador&acao=roleta");
-        exit;
     }
 
     public function inicioLogado(){
@@ -279,5 +260,81 @@ class TreinadorControlador {
         $logs = $logModel->buscarLogsView($idTreinador, $categoria, $periodo);
 
         require_once __DIR__ . "/../Views/treinador/verLogs.php";
+    }
+
+    public function capturarPokemon(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+        }
+
+        try{
+            if (empty($_POST['id_pokemon_capturado'])) {
+                throw new Exception("ID do Pokémon não recebido.");
+            }
+            $idPokemon = $_POST['id_pokemon_capturado'];
+        } catch (Exception $e) {
+            require_once __DIR__ . "/../Views/treinador/erroCaptura.php";
+            return;
+        }
+
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+
+        $treinador = new Treinador($this->pdo);
+        $dadosTreinador = $treinador->buscarPorId($idTreinador);
+
+        // Se o slot1 já estiver preenchido, impede nova rolagem na roleta inicial
+        if (!empty($dadosTreinador['slot1'])) {
+            return;
+        }
+
+        if ($dadosTreinador) {
+            $treinador->setIdTreinador($dadosTreinador['id_treinador']);
+            $treinador->setNome($dadosTreinador['nome']);
+            $treinador->setEmail($dadosTreinador['email']);
+            $treinador->setSenha($dadosTreinador['senha']);
+            $treinador->setSexo($dadosTreinador['sexo']);
+            $treinador->setFoto($dadosTreinador['foto']);
+            $treinador->setDinheiro($dadosTreinador['dinheiro']);
+            $treinador->setSlot1($dadosTreinador['slot1']);
+            $treinador->setSlot2($dadosTreinador['slot2']);
+            $treinador->setSlot3($dadosTreinador['slot3']);
+            $treinador->setSlot4($dadosTreinador['slot4']);
+            $treinador->setSlot5($dadosTreinador['slot5']);
+            $treinador->setSlot6($dadosTreinador['slot6']);
+        }
+
+        $pokemon = new Pokemon($this->pdo);
+        $pokemon->setIdPokedex($idPokemon);
+
+        if ($treinador->getSlot1() === null) {
+            $treinador->setSlot1($idPokemon);
+            $treinador->salvar();
+        }
+        elseif($treinador->getSlot2() == null){
+            $treinador->setSlot2($idPokemon);
+            $treinador->salvar();
+        }
+        elseif($treinador->getSlot3() == null){
+            $treinador->setSlot3($idPokemon);
+            $treinador->salvar();
+        }
+        elseif($treinador->getSlot4() == null){
+            $treinador->setSlot4($idPokemon);
+            $treinador->salvar();
+        }
+        elseif($treinador->getSlot5() == null){
+            $treinador->setSlot5($idPokemon);
+            $treinador->salvar();
+        }
+        elseif($treinador->getSlot6() == null){ 
+            $treinador->setSlot6($idPokemon);
+            $treinador->salvar();
+        }
+        
+        $pokemon->setDadosPokedex($idTreinador);
+
+        $treinador->recarregarSessao($idTreinador);
     }
 }

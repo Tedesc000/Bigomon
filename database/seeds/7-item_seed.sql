@@ -1,4 +1,4 @@
-INSERT INTO item (id, id_categoria, nome, descricao, preco) VALUES
+INSERT INTO item (id_item, id_categoria, nome, descricao, preco) VALUES
 (1, 2, 'Master Ball', 'Captura qualquer Pokémon sem falhar.', 15000),
 (2, 2, 'Ultra Ball', 'Pokébola com alta taxa de captura(2.0x).', 1200),
 (3, 2, 'Great Ball', 'Pokébola com boa taxa de captura(1.5x).', 600),
