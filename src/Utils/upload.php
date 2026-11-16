@@ -1,7 +1,7 @@
 <?php
 //reutilizei bastante código da aula do bigolin sobre upload
 //Realiza o upload da foto de perfil.
-function uploadFotoPerfil(array $arquivo, bool $obrigatorio = false){
+function uploadFotoPerfil(?array $arquivo = null, bool $obrigatorio = false){
     // Se nenhum arquivo foi enviado
     if (!$arquivo || $arquivo['error'] === UPLOAD_ERR_NO_FILE) {
         if ($obrigatorio) {
