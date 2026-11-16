@@ -21,4 +21,12 @@ class Loja {
     public function setNome($nome){
         $this->nome = $nome;
     }
+
+    public function nomeLoja($id_loja) {
+        $stmt = $this->pdo->prepare("SELECT nome FROM loja WHERE id_loja = :id_loja");
+        $stmt->bindParam(':id_loja', $id_loja, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['nome'] : null;
+    }
 }
