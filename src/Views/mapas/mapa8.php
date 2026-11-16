@@ -22,7 +22,7 @@
                     alt="Insígnia de água"
                 >
             </a>
-            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Sootopolis">
+            <a href="?modulo=mapa&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Sootopolis">
                 <img
                     id="enfermeira"
                     src="../public/assets/img/icons/joy_enfermeira.png"
