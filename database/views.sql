@@ -1,6 +1,6 @@
 -- views para os logs
 
---View Geral: Todos os logs
+-- View Geral: Todos os logs
 CREATE OR REPLACE VIEW view_logs_todos AS
 SELECT id_log, id_treinador, texto, data
 FROM log;

@@ -42,4 +42,10 @@ class Item {
     public function setPreco($preco){
         $this->preco = $preco;
     }
+
+    public function buscarPorId($id_item){
+        $stmt = $this->pdo->prepare("SELECT * FROM item WHERE id_item = :id_item");
+        $stmt->execute(['id_item' => $id_item]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

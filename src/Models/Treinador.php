@@ -14,6 +14,7 @@ class Treinador {
     private $slot5;
     private $slot6;
     private $pdo;
+    private $camposAlterados = [];
 
     //o private pdo e essa função vai em todos
     public function __construct(PDO $pdo){
@@ -63,73 +64,81 @@ class Treinador {
     }
     public function setNome($nome){
         $this->nome = $nome; 
+        $this->camposAlterados['nome'] = $nome;
     }
     public function setEmail($email){
         $this->email = $email; 
+        $this->camposAlterados['email'] = $email;
     }
     public function setSenha($senha){
         $this->senha = $senha; 
+        $this->camposAlterados['senha'] = $senha;
     }
     public function setSexo($sexo){
         $this->sexo = $sexo; 
+        $this->camposAlterados['sexo'] = $sexo;
     }
     public function setFoto($foto){
         $this->foto = $foto; 
+        $this->camposAlterados['foto'] = $foto;
     }
     public function setDinheiro($dinheiro){
         $this->dinheiro = $dinheiro; 
+        $this->camposAlterados['dinheiro'] = $dinheiro;
     }
     public function setSlot1($slot1){
         $this->slot1 = $slot1; 
+        $this->camposAlterados['slot1'] = $slot1;
     }
     public function setSlot2($slot2){
         $this->slot2 = $slot2; 
+        $this->camposAlterados['slot2'] = $slot2;
     }
     public function setSlot3($slot3){
         $this->slot3 = $slot3; 
+        $this->camposAlterados['slot3'] = $slot3;
     }
     public function setSlot4($slot4){
         $this->slot4 = $slot4; 
+        $this->camposAlterados['slot4'] = $slot4;
     }
     public function setSlot5($slot5){
         $this->slot5 = $slot5; 
+        $this->camposAlterados['slot5'] = $slot5;
     }
     public function setSlot6($slot6){
         $this->slot6 = $slot6; 
+        $this->camposAlterados['slot6'] = $slot6;
     }
 
     public function salvar(){
         if ($this->id_treinador){
-            $sql = "UPDATE treinador 
-                    SET nome = :nome, 
-                    email = :email, 
-                    senha = :senha, 
-                    sexo = :sexo, 
-                    foto = :foto, 
-                    dinheiro = :dinheiro, 
-                    slot1 = :slot1, 
-                    slot2 = :slot2, 
-                    slot3 = :slot3, 
-                    slot4 = :slot4, 
-                    slot5 = :slot5, 
-                    slot6 = :slot6 
-                    WHERE id_treinador = :id_treinador";
-            $stmt = $this->pdo->prepare($sql);
-            return $stmt->execute([
-                'nome' => $this->nome,
-                'email' => $this->email,
-                'senha' => $this->senha,
-                'sexo' => $this->sexo,
-                'foto' => $this->foto,
-                'dinheiro' => $this->dinheiro,
-                'slot1' => $this->slot1,
-                'slot2' => $this->slot2,
-                'slot3' => $this->slot3,
-                'slot4' => $this->slot4,
-                'slot5' => $this->slot5,
-                'slot6' => $this->slot6,
-                'id_treinador' => $this->id_treinador
-            ]);
+            // Se nenhum campo foi alterado via setter, não há nada para atualizar
+            if (empty($this->camposAlterados)){
+                return true;
+            }
+
+            $setClauses = [];
+            $params = ['id_treinador' => $this->id_treinador];
+
+            foreach ($this->camposAlterados as $campo => $valor) {
+                $setClauses[] = "$campo = :$campo";
+                $params[$campo] = $valor;
+            }
+
+            try {
+                $sql = "UPDATE treinador SET " . implode(', ', $setClauses) . " WHERE id_treinador = :id_treinador";
+                $stmt = $this->pdo->prepare($sql);
+                $ok = $stmt->execute($params);
+
+                if ($ok) {
+                    $this->camposAlterados = []; // limpa campos alterados após salvar com sucesso
+                }
+
+                return $ok;
+            } catch (PDOException $e) {
+                return false;
+            }
         }else{
             try {
                 $sql = "INSERT INTO treinador (nome, email, senha, sexo, foto, dinheiro, slot1, slot2, slot3, slot4, slot5, slot6) VALUES (:nome, :email, :senha, :sexo, :foto, :dinheiro, :slot1, :slot2, :slot3, :slot4, :slot5, :slot6)";
@@ -139,8 +148,8 @@ class Treinador {
                     'email' => $this->email,
                     'senha' => $this->senha,
                     'sexo' => $this->sexo,
-                    'foto' => $this->foto,
-                    'dinheiro' => $this->dinheiro,
+                    'foto' => $this->foto ?? 'fotoPerfilDefault.webp',
+                    'dinheiro' => $this->dinheiro ?? 0,
                     'slot1' => $this->slot1,
                     'slot2' => $this->slot2,
                     'slot3' => $this->slot3,
@@ -150,6 +159,7 @@ class Treinador {
                 ]);
                 if ($ok){
                     $this->id_treinador = $this->pdo->lastInsertId();
+                    $this->camposAlterados = [];
                 }
                 return $ok;
             } catch (PDOException $e) {
@@ -186,6 +196,28 @@ class Treinador {
         $stmt = $this->pdo->prepare("SELECT * FROM treinador WHERE id_treinador = :id_treinador");
         $stmt->execute(['id_treinador' => $id_treinador]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function carregarPorId($id_treinador){
+        $usuario = $this->buscarPorId($id_treinador);
+        if ($usuario){
+            $this->id_treinador = $usuario['id_treinador'] ?? null;
+            $this->nome         = $usuario['nome'] ?? '';
+            $this->email        = $usuario['email'] ?? '';
+            $this->senha        = $usuario['senha'] ?? '';
+            $this->sexo         = $usuario['sexo'] ?? '';
+            $this->foto         = $usuario['foto'] ?? 'fotoPerfilDefault.webp';
+            $this->dinheiro     = $usuario['dinheiro'] ?? 0;
+            $this->slot1        = $usuario['slot1'] ?? null;
+            $this->slot2        = $usuario['slot2'] ?? null;
+            $this->slot3        = $usuario['slot3'] ?? null;
+            $this->slot4        = $usuario['slot4'] ?? null;
+            $this->slot5        = $usuario['slot5'] ?? null;
+            $this->slot6        = $usuario['slot6'] ?? null;
+            $this->camposAlterados = []; // reset: nenhum campo alterado ainda
+            return true;
+        }
+        return false;
     }
 
     public function recarregarSessao($id_treinador){

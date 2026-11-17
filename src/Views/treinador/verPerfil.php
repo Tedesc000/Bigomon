@@ -55,8 +55,11 @@
                             <input type="radio" name="sexo" id="feminino" value="feminino" <?= ($sexo === 'feminino') ? 'checked' : '' ?>readonly>
                         </div>
                     </div>
-                    <input type="email" name="email" id="email" value="<?= htmlspecialchars($email) ?>"readonly>
-                    <input type="text" name="dinheiro" id="dinheiro" value="<?= htmlspecialchars($dinheiro) ?>"readonly>
+                    <input type="email" name="email" id="email" value="<?= htmlspecialchars($email) ?>" readonly>
+                    <div id="containerDinheiro">
+                        <input type="text" name="dinheiro" id="dinheiro" value="<?= htmlspecialchars($dinheiro) ?>" readonly>
+                        <img id="iconeDinheiro" class="iconeMoeda" src="assets/img/icons/pokedollar.webp" alt="Bigoreais" title="Bigoreais">
+                    </div>
                 </div>
             </div>
             <a href="?modulo=treinador&acao=logout" class="botaoInicio">

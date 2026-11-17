@@ -119,37 +119,11 @@ class TreinadorControlador {
             $treinador->setFoto($nomeFoto);
 
             if ($isLogado) {
-                // Busca os dados do banco para garantir que dinheiro e slots estejam sempre atualizados
-                $dadosBanco = $treinador->buscarPorId($usuarioLogado['id_treinador']);
-
-                // Na edição mantém id, dinheiro e slots atuais
+                // Na edição, basta setar o id_treinador: o salvar() atualiza apenas os campos alterados
                 $treinador->setIdTreinador($usuarioLogado['id_treinador']);
-                $treinador->setDinheiro($dadosBanco['dinheiro'] ?? $usuarioLogado['dinheiro'] ?? 0);
-                $treinador->setSlot1($dadosBanco['slot1'] ?? $usuarioLogado['slot1'] ?? null);
-                $treinador->setSlot2($dadosBanco['slot2'] ?? $usuarioLogado['slot2'] ?? null);
-                $treinador->setSlot3($dadosBanco['slot3'] ?? $usuarioLogado['slot3'] ?? null);
-                $treinador->setSlot4($dadosBanco['slot4'] ?? $usuarioLogado['slot4'] ?? null);
-                $treinador->setSlot5($dadosBanco['slot5'] ?? $usuarioLogado['slot5'] ?? null);
-                $treinador->setSlot6($dadosBanco['slot6'] ?? $usuarioLogado['slot6'] ?? null);
 
                 if ($treinador->salvar()) {
-                    // Atualiza a sessão com todos os dados novos (incluindo dinheiro e slots)
-                    $_SESSION['usuario_logado']['id_treinador'] = $treinador->getIdTreinador();
-                    $_SESSION['usuario_logado']['nome'] = $treinador->getNome();
-                    $_SESSION['usuario_logado']['email'] = $treinador->getEmail();
-                    $_SESSION['usuario_logado']['senha'] = $treinador->getSenha();
-                    $_SESSION['usuario_logado']['sexo'] = $treinador->getSexo();
-                    $_SESSION['usuario_logado']['foto'] = $treinador->getFoto();
-                    $_SESSION['usuario_logado']['dinheiro'] = $treinador->getDinheiro();
-                    $_SESSION['usuario_logado']['slot1'] = $treinador->getSlot1();
-                    $_SESSION['usuario_logado']['slot2'] = $treinador->getSlot2();
-                    $_SESSION['usuario_logado']['slot3'] = $treinador->getSlot3();
-                    $_SESSION['usuario_logado']['slot4'] = $treinador->getSlot4();
-                    $_SESSION['usuario_logado']['slot5'] = $treinador->getSlot5();
-                    $_SESSION['usuario_logado']['slot6'] = $treinador->getSlot6();
-
                     $treinador->recarregarSessao($treinador->getIdTreinador());
-
                     header("Location: ?modulo=treinador&acao=home");
                     exit;
                 } else {
@@ -282,27 +256,13 @@ class TreinadorControlador {
         $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
 
         $treinador = new Treinador($this->pdo);
-        $dadosTreinador = $treinador->buscarPorId($idTreinador);
-
-        // Se o slot1 já estiver preenchido, impede nova rolagem na roleta inicial
-        if (!empty($dadosTreinador['slot1'])) {
+        if (!$treinador->carregarPorId($idTreinador)) {
             return;
         }
 
-        if ($dadosTreinador) {
-            $treinador->setIdTreinador($dadosTreinador['id_treinador']);
-            $treinador->setNome($dadosTreinador['nome']);
-            $treinador->setEmail($dadosTreinador['email']);
-            $treinador->setSenha($dadosTreinador['senha']);
-            $treinador->setSexo($dadosTreinador['sexo']);
-            $treinador->setFoto($dadosTreinador['foto']);
-            $treinador->setDinheiro($dadosTreinador['dinheiro']);
-            $treinador->setSlot1($dadosTreinador['slot1']);
-            $treinador->setSlot2($dadosTreinador['slot2']);
-            $treinador->setSlot3($dadosTreinador['slot3']);
-            $treinador->setSlot4($dadosTreinador['slot4']);
-            $treinador->setSlot5($dadosTreinador['slot5']);
-            $treinador->setSlot6($dadosTreinador['slot6']);
+        // Se o slot1 já estiver preenchido, impede nova rolagem na roleta inicial
+        if (!empty($treinador->getSlot1())) {
+            return;
         }
 
         $pokemon = new Pokemon($this->pdo);
