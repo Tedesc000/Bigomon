@@ -78,7 +78,7 @@ class SeedControlador {
     public function verificarViews() {
         try {
             $stmt = $this->pdo->query("SHOW FULL TABLES WHERE Table_type = 'VIEW' AND Tables_in_bigomon LIKE 'view_logs_%'");
-            return $stmt && $stmt->rowCount() > 0;
+            return $stmt && $stmt->rowCount() >= 8;
         } catch (PDOException $e) {
             return false;
         }
@@ -95,8 +95,9 @@ class SeedControlador {
             return;
         }
 
-        // Divide os comandos por ponto e vírgula e executa cada CREATE VIEW
-        $comandos = explode(';', $sql);
+        // Remove comentários SQL antes de dividir por ponto e vírgula
+        $sqlLimpo = preg_replace('/--.*$/m', '', $sql);
+        $comandos = explode(';', $sqlLimpo);
         foreach ($comandos as $cmd) {
             $cmd = trim($cmd);
             if (!empty($cmd)) {
