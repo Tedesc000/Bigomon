@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rustboro</title>
-    <link rel="stylesheet" href="assets/css/mapas.css">
+    <link rel="stylesheet" href="assets/css/mapas.css?v=2">
 </head>
 
 <body id="corpoMapa1">
@@ -34,6 +34,18 @@
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"
                     alt="Poção"
+                >
+            </a>
+
+            <a
+                href="?modulo=batalha&acao=batalhaMatinho"
+                id="botaoBatalha"
+                aria-label="Iniciar batalha contra um matinho"
+            >
+                <img
+                    id="batalhaMatinho"
+                    src="../public/assets/img/icons/matinho.gif"
+                    alt="Matinho"
                 >
             </a>
         </div>

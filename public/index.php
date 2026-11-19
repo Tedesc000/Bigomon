@@ -14,11 +14,17 @@ if (session_status() === PHP_SESSION_NONE) {
 
 //define o nome da classe controlador e o seu caminho
 $nomeControlador = ucfirst($modulo) . "Controlador"; //ex: PokemonControlador
-$arquivoControlador = "../src/Controllers/{$nomeControlador}.php";
+$arquivoControlador = __DIR__ . "/../src/Controllers/{$nomeControlador}.php";
 
 //verifica se o controlador existe
-if (file_exists($arquivoControlador)){
+if (is_file($arquivoControlador)){
     require_once $arquivoControlador;
+
+    if (!class_exists($nomeControlador, false)) {
+        echo "Controlador {$nomeControlador} inválido: a classe não foi encontrada no arquivo.";
+        exit;
+    }
+
     $controlador = new $nomeControlador($pdo);
 
     //verifica se o método existe
