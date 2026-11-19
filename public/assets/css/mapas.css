@@ -252,6 +252,26 @@ main#paginaLoja {
     transform: translateX(-8px) rotate(180deg);
 }
 
+#botaoSetaAnterior {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+#setaAnterior {
+    width: clamp(45px, 6vw, 80px);
+    height: clamp(45px, 6vw, 80px);
+    object-fit: contain;
+    cursor: pointer;
+    transform: rotate(180deg);
+    transition: transform 0.2s;
+}
+
+#botaoSetaAnterior:hover #setaAnterior {
+    transform: translateX(-8px) rotate(180deg);
+}
+
 #lojaContainer {
     position: relative;
     width: min(85vw, 121dvh);

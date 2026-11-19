@@ -9,6 +9,13 @@
 
 <body id="corpoMapa2">
     <main id="paginaMapa2">
+        <a href="?modulo=mapa&acao=mapa1" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Rustboro">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa2"
