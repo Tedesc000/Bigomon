@@ -126,6 +126,8 @@ main#paginaLoja {
     --loja-y: 32%;
     --centro-x: 33%;
     --centro-y: 81%;
+    --batalha-x: 50%;
+    --batalha-y: 20%;
 }
 
 #corpoMapa1 {
@@ -135,7 +137,7 @@ main#paginaLoja {
     --centro-y: 79%;
     --loja-x: 42%;
     --loja-y: 92%;
-    --batalha-x: 50%;
+    --batalha-x: 30%;
     --batalha-y: 62%;
 }
 
@@ -146,6 +148,8 @@ main#paginaLoja {
     --centro-y: 51%;
     --loja-x: 87%;
     --loja-y: 72%;
+    --batalha-x: 50%;
+    --batalha-y: 10%;
 }
 
 #corpoMapa3 {
@@ -155,6 +159,8 @@ main#paginaLoja {
     --centro-y: 29%;
     --loja-x: 60%;
     --loja-y: 72%;
+    --batalha-x: 23%;
+    --batalha-y: 85%;
 }
 
 #corpoMapa4 {
@@ -164,6 +170,8 @@ main#paginaLoja {
     --centro-y: 33%;
     --loja-x: 78%;
     --loja-y: 28%;
+    --batalha-x: 80%;
+    --batalha-y: 90%;
 }
 
 #corpoMapa5 {
@@ -173,6 +181,8 @@ main#paginaLoja {
     --centro-y: 54%;
     --loja-x: 86%;
     --loja-y: 41%;
+    --batalha-x: 30%;
+    --batalha-y: 72%;
 }
 
 #corpoMapa6 {
@@ -182,6 +192,8 @@ main#paginaLoja {
     --centro-y: 34%;
     --loja-x: 13%;
     --loja-y: 72%;
+    --batalha-x: 50%;
+    --batalha-y: 62%;
 }
 
 #corpoMapa7 {
@@ -191,6 +203,8 @@ main#paginaLoja {
     --centro-y: 54%;
     --loja-x: 83%;
     --loja-y: 60%;
+    --batalha-x: 80%;
+    --batalha-y: 87%;
 }
 
 #corpoMapa8 {
@@ -200,6 +214,8 @@ main#paginaLoja {
     --centro-y: 75%;
     --loja-x: 25%;
     --loja-y: 66%;
+    --batalha-x: 30%;
+    --batalha-y: 95%;
 }
 
 #corpoMapa8 #mapaContainer {
