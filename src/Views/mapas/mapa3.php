@@ -9,6 +9,13 @@
 
 <body id="corpoMapa3">
     <main id="paginaMapa3">
+        <a href="?modulo=mapa&acao=mapa2" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Dewford">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa3"
@@ -34,6 +41,17 @@
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"
                     alt="Poção"
+                >
+            </a>
+            <a
+                href="?modulo=batalha&acao=batalhaMatinho"
+                id="botaoBatalha"
+                aria-label="Iniciar batalha contra um matinho"
+            >
+                <img
+                    id="batalhaMatinho"
+                    src="../public/assets/img/icons/matinho.gif"
+                    alt="Matinho"
                 >
             </a>
         </div>

@@ -37,6 +37,17 @@
                 alt="Avançar"
             >
         </a>
+        <a
+                href="?modulo=batalha&acao=batalhaMatinho"
+                id="botaoBatalha"
+                aria-label="Iniciar batalha contra um matinho"
+            >
+                <img
+                    id="batalhaMatinho"
+                    src="../public/assets/img/icons/matinho.gif"
+                    alt="Matinho"
+                >
+            </a>
     </main>
 </body>
 </html>

@@ -9,6 +9,13 @@
 
 <body id="corpoMapa7">
     <main id="paginaMapa7">
+        <a href="?modulo=mapa&acao=mapa6" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Fortree">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa7"
@@ -34,6 +41,17 @@
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"
                     alt="Poção"
+                >
+            </a>
+            <a
+                href="?modulo=batalha&acao=batalhaMatinho"
+                id="botaoBatalha"
+                aria-label="Iniciar batalha contra um matinho"
+            >
+                <img
+                    id="batalhaMatinho"
+                    src="../public/assets/img/icons/matinho.gif"
+                    alt="Matinho"
                 >
             </a>
         </div>
