@@ -105,6 +105,11 @@ if (!container || !botao || !resultado) {
                     })
                 });
                 const captura = await resposta.json();
+                if (captura.already_captured) {
+                    botao.disabled = true;
+                    resultado.textContent = captura.message;
+                    return;
+                }
                 if (!resposta.ok || !captura.success) {
                     throw new Error(captura.message || "Não foi possível salvar o Pokémon.");
                 }
