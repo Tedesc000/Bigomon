@@ -22,9 +22,42 @@
                     src="../public/assets/img/icons/healing_machine.png"
                     alt="Máquina de cura Pokémon"
                 >
-                <button type="button" id="botaoCurar">Curar</button>
+                <form action="?modulo=pokemon&acao=curar" method="POST">
+                    <button type="submit" id="botaoCurar">Curar</button>
+                </form>
             </div>
         </div>
+        <aside id="barraPokemons" aria-label="Pokémons do treinador">
+            <?php if (!empty($pokemons)): ?>
+                <div id="listaPokemons">
+                    <?php foreach ($pokemons as $pokemon): ?>
+                        <?php
+                        $hpMaximo = max(1, (int) $pokemon['hp_maximo']);
+                        $hpAtual = max(0, min((int) $pokemon['hp_atual'], $hpMaximo));
+                        ?>
+                        <article class="cartaoPokemon">
+                            <img
+                                class="imagemPokemon"
+                                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= (int) $pokemon['id_pokedex'] ?>.png"
+                                alt=""
+                            >
+                            <div class="dadosPokemon">
+                                <h2><?= htmlspecialchars($pokemon['nome'], ENT_QUOTES, 'UTF-8') ?></h2>
+                                <progress
+                                    class="barraVidaPokemon"
+                                    value="<?= $hpAtual ?>"
+                                    max="<?= $hpMaximo ?>"
+                                    aria-label="Vida de <?= htmlspecialchars($pokemon['nome'], ENT_QUOTES, 'UTF-8') ?>"
+                                ></progress>
+                                <span><?= $hpAtual ?>/<?= $hpMaximo ?> HP</span>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p id="semPokemons">Você ainda não tem Pokémons.</p>
+            <?php endif; ?>
+        </aside>
     </main>
 </body>
 </html>

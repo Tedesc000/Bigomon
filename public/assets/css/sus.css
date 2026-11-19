@@ -22,10 +22,11 @@ main#paginaSus {
 
 #susContainer {
     position: relative;
-    width: min(85vw, 115dvh);
+    width: min(65vw, 115dvh);
     height: auto;
     aspect-ratio: 498 / 380;
-    flex-shrink: 0;
+    flex-shrink: 1;
+    min-width: 0;
 }
 
 #imagemSus {
@@ -67,4 +68,102 @@ main#paginaSus {
     font: inherit;
     font-weight: bold;
     cursor: pointer;
+}
+
+#barraPokemons {
+    width: min(28vw, 360px);
+    max-height: 80dvh;
+    flex: 0 1 360px;
+    overflow-y: auto;
+    padding: 12px;
+    border: 3px solid #222;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.45);
+}
+
+#listaPokemons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cartaoPokemon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 8px;
+    border-radius: 6px;
+    background: #f0f0f0;
+}
+
+.imagemPokemon {
+    width: 56px;
+    height: 56px;
+    flex: 0 0 56px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.dadosPokemon {
+    min-width: 0;
+    flex: 1;
+}
+
+.dadosPokemon h2 {
+    overflow: hidden;
+    margin-bottom: 4px;
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.barraVidaPokemon {
+    display: block;
+    width: 100%;
+    height: 12px;
+    accent-color: #42a85a;
+}
+
+.dadosPokemon span {
+    display: block;
+    margin-top: 3px;
+    font-size: 0.8rem;
+    text-align: right;
+}
+
+#semPokemons {
+    text-align: center;
+}
+
+@media (max-width: 700px) {
+    main#paginaSus {
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 12px;
+        overflow-y: auto;
+    }
+
+    #susContainer {
+        width: min(90vw, 65dvh);
+        flex: 0 0 auto;
+    }
+
+    #barraPokemons {
+        width: min(90vw, 480px);
+        max-height: 28dvh;
+        flex: 0 0 auto;
+    }
+
+    #listaPokemons {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .cartaoPokemon {
+        min-width: 200px;
+        flex: 0 0 200px;
+    }
 }

@@ -90,20 +90,32 @@ if (!container || !botao || !resultado) {
         //gira a roleta até a opção sorteada
         roleta.spinToItem(indice, 4000, true, 3, 1);
 
-        setTimeout(function () {
+        setTimeout(async function () {
             const nomePokemon = bigomons[indice].label;
             const idPokemonCapturado = bigomons[indice].value;
-            resultado.textContent = "Seu Bigomon é: " + nomePokemon + "!";
 
-            fetch("?modulo=treinador&acao=capturarPokemon", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: new URLSearchParams({
-                    id_pokemon_capturado: idPokemonCapturado
-                })
-            });
+            try {
+                const resposta = await fetch("?modulo=treinador&acao=capturarPokemon", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({
+                        id_pokemon_capturado: idPokemonCapturado
+                    })
+                });
+                const captura = await resposta.json();
+                if (!resposta.ok || !captura.success) {
+                    throw new Error(captura.message || "Não foi possível salvar o Pokémon.");
+                }
+            } catch (erro) {
+                console.error("Erro ao salvar o Pokémon ganho:", erro);
+                resultado.textContent = "Não foi possível salvar o Pokémon. Tente novamente.";
+                botao.disabled = false;
+                return;
+            }
+
+            resultado.textContent = "Seu Bigomon é: " + nomePokemon + "!";
 
             pop(
                 false,
