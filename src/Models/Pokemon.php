@@ -61,8 +61,12 @@ class Pokemon {
         $dadosPokedex->execute(['id_pokedex' => $this->id_pokedex]);
         $dados = $dadosPokedex->fetch(PDO::FETCH_ASSOC);
 
-        $nome = $dados['nome'] ?? '';
-        $hp_atual = $dados['hp'] ?? 50;
+        if (!$dados) {
+            return false;
+        }
+
+        $nome = $dados['nome'];
+        $hp_atual = $dados['hp'];
         $nSexo = rand(0,1);
         if($nSexo == 0){
             $sexo = 'Masculino';

@@ -16,7 +16,7 @@
             'id' => $pokemonInicial['id_pokedex']
         ]) : 'null' ?>;
     </script>
-    <script src="../public/assets/js/roleta.js" defer></script>
+    <script src="../public/assets/js/roleta.js?v=<?= filemtime(__DIR__ . '/../../../public/assets/js/roleta.js') ?>" defer></script>
 </head>
 
 <body id="corpoRoleta">
