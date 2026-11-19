@@ -9,6 +9,13 @@
 
 <body id="corpoMapa8">
     <main id="paginaMapa8">
+        <a href="?modulo=mapa&acao=mapa7" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Mossdeep">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa8"

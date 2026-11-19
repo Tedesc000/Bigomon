@@ -9,6 +9,13 @@
 
 <body id="corpoMapa6">
     <main id="paginaMapa6">
+        <a href="?modulo=mapa&acao=mapa5" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Petalburg">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa6"

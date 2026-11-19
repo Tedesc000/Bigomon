@@ -9,6 +9,13 @@
 
 <body id="corpoMapa4">
     <main id="paginaMapa4">
+        <a href="?modulo=mapa&acao=mapa3" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Mauville">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa4"

@@ -9,6 +9,13 @@
 
 <body id="corpoMapa7">
     <main id="paginaMapa7">
+        <a href="?modulo=mapa&acao=mapa6" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Fortree">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa7"

@@ -9,6 +9,13 @@
 
 <body id="corpoMapa3">
     <main id="paginaMapa3">
+        <a href="?modulo=mapa&acao=mapa2" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Dewford">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa3"

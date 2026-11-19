@@ -9,6 +9,13 @@
 
 <body id="corpoMapa5">
     <main id="paginaMapa5">
+        <a href="?modulo=mapa&acao=mapa4" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Lavaridge">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa5"

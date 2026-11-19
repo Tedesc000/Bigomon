@@ -9,6 +9,13 @@
 
 <body id="corpoMapa1">
     <main id="paginaMapa1">
+        <a href="?modulo=mapa&acao=mapaInicio" id="botaoSetaAnterior" class="setaVoltar" aria-label="Voltar para Oldale Town">
+            <img
+                id="setaAnterior"
+                src="../public/assets/img/icons/seta.png"
+                alt="Mapa anterior"
+            >
+        </a>
         <div id="mapaContainer">
             <img
                 id="imagemMapa1"
