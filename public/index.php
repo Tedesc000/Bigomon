@@ -24,9 +24,11 @@ if (file_exists($arquivoControlador)){
     //verifica se o método existe
     if (method_exists($controlador, $acao)){
 
-        if(!isset($_SESSION['usuario_logado']) && $acao !== 'cadastro' && $acao !== 'cadastrar' && $acao !== 'logar' && $acao !== 'cadastroLogin' && $acao !== 'home' && $acao !== 'login') {
+        $acoesPublicas = ['home', 'cadastroLogin', 'login', 'logar', 'cadastrar', 'cadastro', 'salvar'];
+        if (!isset($_SESSION['usuario_logado']) && !in_array($acao, $acoesPublicas, true)) {
             header("Location: ?modulo=treinador&acao=cadastroLogin");
-        } else{
+            exit;
+        } else {
             $controlador->$acao();
         }
     } else{

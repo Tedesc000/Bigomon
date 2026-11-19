@@ -22,14 +22,14 @@
                     alt="Insígnia de água"
                 >
             </a>
-            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Sootopolis">
+            <a href="?modulo=pokemon&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Sootopolis">
                 <img
                     id="enfermeira"
                     src="../public/assets/img/icons/joy_enfermeira.png"
                     alt="Enfermeira"
                 >
             </a>
-            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Sootopolis">
+            <a href="?modulo=loja&acao=verLoja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Sootopolis">
                 <img
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"

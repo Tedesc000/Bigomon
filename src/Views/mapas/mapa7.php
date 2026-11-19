@@ -22,14 +22,14 @@
                     alt="Insígnia psíquica"
                 >
             </a>
-            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Mossdeep">
+            <a href="?modulo=pokemon&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Mossdeep">
                 <img
                     id="enfermeira"
                     src="../public/assets/img/icons/joy_enfermeira.png"
                     alt="Enfermeira"
                 >
             </a>
-            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Mossdeep">
+            <a href="?modulo=loja&acao=verLoja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Mossdeep">
                 <img
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"

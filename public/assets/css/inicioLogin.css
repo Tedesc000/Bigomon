@@ -514,4 +514,30 @@ span#titulo {
     font-size: 1.5rem;
 }
 
+/* Formatação do dinheiro e moeda no perfil */
+#containerDinheiro {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#camposLogin #containerDinheiro input[type="text"],
+#containerDinheiro input[type="text"] {
+    flex: 1;
+    min-width: 0;
+}
+
+#iconeDinheiro,
+.iconeMoeda,
+img#dinheiro {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+    transition: transform 0.2s ease;
+}
+
 

@@ -12,7 +12,8 @@ body {
 }
 
 body[id^="corpoMapa"],
-body[id^="corpoGinasio"] {
+body[id^="corpoGinasio"],
+body#corpoLoja {
     width: 100%;
     height: 100vh;
     height: 100dvh;
@@ -23,7 +24,8 @@ body[id^="corpoGinasio"] {
 }
 
 main[id^="paginaMapa"],
-main[id^="paginaGinasio"] {
+main[id^="paginaGinasio"],
+main#paginaLoja {
     width: 100%;
     height: 100%;
     display: flex;
@@ -45,27 +47,58 @@ main[id^="paginaGinasio"] {
 }
 
 [id^="imagemMapa"],
-[id^="imagemGinasio"] {
+[id^="imagemGinasio"],
+#imagemLoja {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: fill;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
     border: 5px solid black;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
 }
 
 #botaoGinasio {
     left: var(--ginasio-x);
     top: var(--ginasio-y);
+    filter: drop-shadow(0 0 5px white)
+            drop-shadow(0 0 10px white)
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+    transform-origin: center;
+    transition: transform 0.2s ease;
+}
+
+#botaoGinasio:hover {
+    transform: translate(-50%, -50%) scale(1.3);
 }
 
 #botaoPocao {
     left: var(--loja-x);
     top: var(--loja-y);
+    filter: drop-shadow(0 0 5px white)
+            drop-shadow(0 0 10px white)
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+    transform-origin: center;
+    transition: transform 0.2s ease;
+}
+
+#botaoPocao:hover {
+    transform: translate(-50%, -50%) scale(1.3);
 }
 
 #botaoEnfermeira {
     left: var(--centro-x);
     top: var(--centro-y);
+    filter: drop-shadow(0 0 5px white)
+            drop-shadow(0 0 10px white)
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+    transform-origin: center;
+    transition: transform 0.2s ease;
+}
+
+#botaoEnfermeira:hover {
+    transform: translate(-50%, -50%) scale(1.3);
 }
 
 .pontoMapa {
@@ -89,82 +122,82 @@ main[id^="paginaGinasio"] {
 }
 
 #corpoMapaInicio {
-    --loja-x: 75%;
-    --loja-y: 25%;
-    --centro-x: 35%;
-    --centro-y: 75%;
+    --loja-x: 73%;
+    --loja-y: 32%;
+    --centro-x: 33%;
+    --centro-y: 81%;
 }
 
 #corpoMapa1 {
     --ginasio-x: 68%;
     --ginasio-y: 29%;
     --centro-x: 43%;
-    --centro-y: 75%;
-    --loja-x: 44%;
-    --loja-y: 91%;
+    --centro-y: 79%;
+    --loja-x: 42%;
+    --loja-y: 92%;
 }
 
 #corpoMapa2 {
     --ginasio-x: 40%;
     --ginasio-y: 78%;
-    --centro-x: 14%;
-    --centro-y: 45%;
-    --loja-x: 89%;
-    --loja-y: 61%;
+    --centro-x: 15%;
+    --centro-y: 51%;
+    --loja-x: 87%;
+    --loja-y: 72%;
 }
 
 #corpoMapa3 {
     --ginasio-x: 20%;
     --ginasio-y: 17%;
     --centro-x: 58%;
-    --centro-y: 20%;
+    --centro-y: 29%;
     --loja-x: 60%;
-    --loja-y: 63%;
+    --loja-y: 72%;
 }
 
 #corpoMapa4 {
     --ginasio-x: 25%;
     --ginasio-y: 62%;
     --centro-x: 50%;
-    --centro-y: 22%;
-    --loja-x: 80%;
-    --loja-y: 15%;
+    --centro-y: 33%;
+    --loja-x: 78%;
+    --loja-y: 28%;
 }
 
 #corpoMapa5 {
     --ginasio-x: 50%;
     --ginasio-y: 22%;
     --centro-x: 70%;
-    --centro-y: 50%;
-    --loja-x: 87%;
-    --loja-y: 37%;
+    --centro-y: 54%;
+    --loja-x: 86%;
+    --loja-y: 41%;
 }
 
 #corpoMapa6 {
     --ginasio-x: 56%;
     --ginasio-y: 47%;
     --centro-x: 15%;
-    --centro-y: 25%;
+    --centro-y: 34%;
     --loja-x: 13%;
-    --loja-y: 65%;
+    --loja-y: 72%;
 }
 
 #corpoMapa7 {
     --ginasio-x: 84%;
     --ginasio-y: 19%;
     --centro-x: 63%;
-    --centro-y: 48%;
-    --loja-x: 84%;
-    --loja-y: 56%;
+    --centro-y: 54%;
+    --loja-x: 83%;
+    --loja-y: 60%;
 }
 
 #corpoMapa8 {
     --ginasio-x: 56%;
-    --ginasio-y: 63%;
+    --ginasio-y: 66%;
     --centro-x: 86%;
-    --centro-y: 65%;
-    --loja-x: 26%;
-    --loja-y: 56%;
+    --centro-y: 75%;
+    --loja-x: 25%;
+    --loja-y: 66%;
 }
 
 #corpoMapa8 #mapaContainer {
@@ -199,4 +232,13 @@ main[id^="paginaGinasio"] {
 
 #botaoSeta.setaVoltar:hover #seta {
     transform: translateX(-8px) rotate(180deg);
+}
+
+#lojaContainer {
+    position: relative;
+    width: min(85vw, 121dvh);
+    height: auto;
+    aspect-ratio: 176 / 128;
+    max-height: 88dvh;
+    flex-shrink: 0;
 }

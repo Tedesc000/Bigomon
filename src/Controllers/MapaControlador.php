@@ -12,11 +12,13 @@ class MapaControlador {
     public function mapaInicio() {
         require_once __DIR__ . "/../Views/mapas/mapaInicio.php";
         $_SESSION['mapa'] = 'mapaInicio';
+        $_SESSION['id_loja'] = 1;
     }
 
     public function mapa1() {
         require_once __DIR__ . "/../Views/mapas/mapa1.php";
         $_SESSION['mapa'] = 'mapa1';
+        $_SESSION['id_loja'] = 2;
     }
     public function ginasio1() {
         $_SESSION['ginasio1_visitado'] = true;
@@ -27,6 +29,7 @@ class MapaControlador {
     public function mapa2() {
         require_once __DIR__ . "/../Views/mapas/mapa2.php";
         $_SESSION['mapa'] = 'mapa2';
+        $_SESSION['id_loja'] = 3;
     }
 
     public function ginasio2() {
@@ -38,6 +41,7 @@ class MapaControlador {
     public function mapa3() {
         require_once __DIR__ . "/../Views/mapas/mapa3.php";
         $_SESSION['mapa'] = 'mapa3';
+        $_SESSION['id_loja'] = 4;
     }
 
     public function ginasio3() {
@@ -49,6 +53,7 @@ class MapaControlador {
     public function mapa4() {
         require_once __DIR__ . "/../Views/mapas/mapa4.php";
         $_SESSION['mapa'] = 'mapa4';
+        $_SESSION['id_loja'] = 5;
     }
 
     public function ginasio4() {
@@ -60,6 +65,7 @@ class MapaControlador {
     public function mapa5() {
         require_once __DIR__ . "/../Views/mapas/mapa5.php";
         $_SESSION['mapa'] = 'mapa5';
+        $_SESSION['id_loja'] = 6;
     }
 
     public function ginasio5() {
@@ -71,6 +77,7 @@ class MapaControlador {
     public function mapa6() {
         require_once __DIR__ . "/../Views/mapas/mapa6.php";
         $_SESSION['mapa'] = 'mapa6';
+        $_SESSION['id_loja'] = 7;
     }
 
     public function ginasio6() {
@@ -82,6 +89,7 @@ class MapaControlador {
     public function mapa7() {
         require_once __DIR__ . "/../Views/mapas/mapa7.php";
         $_SESSION['mapa'] = 'mapa7';
+        $_SESSION['id_loja'] = 8;
     }
 
     public function ginasio7() {
@@ -93,6 +101,7 @@ class MapaControlador {
     public function mapa8() {
         require_once __DIR__ . "/../Views/mapas/mapa8.php";
         $_SESSION['mapa'] = 'mapa8';
+        $_SESSION['id_loja'] = 9;
     }
 
     public function ginasio8() {

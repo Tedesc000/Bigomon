@@ -22,14 +22,14 @@
                     alt="Insígnia elétrica"
                 >
             </a>
-            <a href="sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Mauville">
+            <a href="?modulo=pokemon&acao=sus" id="botaoEnfermeira" class="pontoMapa" aria-label="Ir ao Poké Center de Mauville">
                 <img
                     id="enfermeira"
                     src="../public/assets/img/icons/joy_enfermeira.png"
                     alt="Enfermeira"
                 >
             </a>
-            <a href="loja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Mauville">
+            <a href="?modulo=loja&acao=verLoja" id="botaoPocao" class="pontoMapa" aria-label="Entrar na loja de Mauville">
                 <img
                     id="pocao"
                     src="../public/assets/img/icons/pocao.jpg"
