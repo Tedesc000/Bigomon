@@ -36,6 +36,17 @@
                     alt="Poção"
                 >
             </a>
+            <a
+                href="?modulo=batalha&acao=batalhaMatinho"
+                id="botaoBatalha"
+                aria-label="Iniciar batalha contra um matinho"
+            >
+                <img
+                    id="batalhaMatinho"
+                    src="../public/assets/img/icons/matinho.gif"
+                    alt="Matinho"
+                >
+            </a>
         </div>
         <?php if (!empty($_SESSION['ginasio2_visitado'])): ?>
             <a href="?modulo=mapa&acao=mapa3" id="botaoSeta" aria-label="Ir para a próxima cidade">
