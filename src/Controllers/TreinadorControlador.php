@@ -353,4 +353,33 @@ class TreinadorControlador {
             'slot' => $slotDisponivel
         ]);
     }
+
+    public function buscarPokemonsDosSlots(?array $slotIds = null): array {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        require_once __DIR__ . "/../Models/Treinador.php";
+        $treinador = new Treinador($this->pdo);
+
+        if ($idTreinador) {
+            $treinador->recarregarSessao($idTreinador);
+        }
+
+        // Se não foi passado array, obtém direto dos slots gravados na sessão
+        if ($slotIds === null) {
+            $usuario = $_SESSION['usuario_logado'] ?? [];
+            $slotIds = [
+                'slot1' => $usuario['slot1'] ?? null,
+                'slot2' => $usuario['slot2'] ?? null,
+                'slot3' => $usuario['slot3'] ?? null,
+                'slot4' => $usuario['slot4'] ?? null,
+                'slot5' => $usuario['slot5'] ?? null,
+                'slot6' => $usuario['slot6'] ?? null,
+            ];
+        }
+
+        return $treinador->buscarPokemonsPorIds($slotIds, $idTreinador);
+    }
 }

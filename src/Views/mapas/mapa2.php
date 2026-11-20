@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dewford</title>
     <link rel="stylesheet" href="assets/css/mapas.css">
+    <link rel="stylesheet" href="assets/css/frontJogo.css">
 </head>
 
 <body id="corpoMapa2">
@@ -64,6 +65,9 @@
                 >
             </a>
         <?php endif; ?>
+
+        <!-- FRONT DO JOGO: posicionado fora da imagem do mapa -->
+        <?php require_once __DIR__ . '/../../Utils/frontJogo.php'; ?>
     </main>
 </body>
 </html>

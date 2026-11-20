@@ -128,6 +128,19 @@ main#paginaLoja {
     --centro-y: 81%;
     --batalha-x: 50%;
     --batalha-y: 20%;
+
+    /* Coordenadas e Escala Front Jogo */
+    --hud-escala: 1;
+    --dinheiro-x: 6%;
+    --dinheiro-y: 4%;
+    --perfil-x: 14%;
+    --perfil-y: 90%;
+    --bolsa-itens-x: 82%;
+    --bolsa-itens-y: 6%;
+    --bolsa-pokemons-x: 93%;
+    --bolsa-pokemons-y: 6%;
+    --slots-x: 90%;
+    --slots-y: 55%;
 }
 
 #corpoMapa1 {
@@ -139,6 +152,19 @@ main#paginaLoja {
     --loja-y: 92%;
     --batalha-x: 30%;
     --batalha-y: 62%;
+
+    /* Coordenadas e Escala Front Jogo */
+    --hud-escala: 1;
+    --dinheiro-x: 6%;
+    --dinheiro-y: 4%;
+    --perfil-x: 14%;
+    --perfil-y: 90%;
+    --bolsa-itens-x: 82%;
+    --bolsa-itens-y: 6%;
+    --bolsa-pokemons-x: 93%;
+    --bolsa-pokemons-y: 6%;
+    --slots-x: 90%;
+    --slots-y: 55%;
 }
 
 #corpoMapa2 {
