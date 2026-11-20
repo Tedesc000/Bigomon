@@ -20,6 +20,7 @@
         moveDetailType: document.getElementById('moveDetailType'),
         moveDetailCat: document.getElementById('moveDetailCat'),
         moveDetailPower: document.getElementById('moveDetailPower'),
+        moveDetailAcc: document.getElementById('moveDetailAcc'),
         btnMoveBack: document.getElementById('btnMoveBack'),
 
         wildName: document.getElementById('wildName'),
@@ -51,6 +52,26 @@
         queimadura: 'BRN',
         sono: 'SLP',
         congelamento: 'FRZ',
+    };
+
+    const TYPE_LABELS_EN = {
+        normal: 'NORMAL',
+        lutador: 'FIGHTING',
+        voador: 'FLYING',
+        veneno: 'POISON',
+        terra: 'GROUND',
+        pedra: 'ROCK',
+        inseto: 'BUG',
+        fantasma: 'GHOST',
+        aco: 'STEEL',
+        fogo: 'FIRE',
+        agua: 'WATER',
+        planta: 'GRASS',
+        eletrico: 'ELECTRIC',
+        psiquico: 'PSYCHIC',
+        gelo: 'ICE',
+        dragao: 'DRAGON',
+        sombrio: 'DARK',
     };
 
     let ocupado = false;
@@ -132,6 +153,9 @@
             els.playerSprite.src = spriteBackUrl(j.id_pokedex);
             els.playerSprite.alt = `Seu ${j.nome}`;
         }
+        if (j.hp_atual > 0) {
+            els.playerSpriteWrap.classList.remove('anim-faint');
+        }
     }
 
     function definirModoMenu(modo) {
@@ -159,10 +183,12 @@
 
     function atualizarDetalhesGolpe(mov) {
         if (!mov) return;
-        els.moveDetailType.textContent = mov.tipo_nome.toUpperCase();
+        const tipoEn = TYPE_LABELS_EN[mov.tipo_nome] || mov.tipo_nome.toUpperCase();
+        els.moveDetailType.textContent = tipoEn;
         els.moveDetailType.className = `move-type-pill type-${mov.tipo_nome}`;
-        els.moveDetailCat.textContent = mov.categoria === 'fis' ? 'FÍSICO' : 'ESPECIAL';
+        els.moveDetailCat.textContent = mov.categoria === 'fis' ? 'PHYSICAL' : 'SPECIAL';
         els.moveDetailPower.textContent = mov.poder > 0 ? String(mov.poder) : '--';
+        els.moveDetailAcc.textContent = mov.precisao > 0 ? `${mov.precisao}%` : '--';
     }
 
     function renderizarGolpes() {
@@ -210,9 +236,7 @@
                 'anim-player-attack',
                 'anim-wild-attack',
                 'anim-hit',
-                'anim-faint',
-                'anim-switch-out',
-                'anim-switch-in'
+                'anim-faint'
             );
             void el.offsetWidth;
         };
@@ -235,12 +259,6 @@
         } else if (animacao === 'wild-faint') {
             limpar(els.wildSpriteWrap);
             els.wildSpriteWrap.classList.add('anim-faint');
-        } else if (animacao === 'player-switch-out') {
-            limpar(els.playerSpriteWrap);
-            els.playerSpriteWrap.classList.add('anim-switch-out');
-        } else if (animacao === 'player-switch-in') {
-            limpar(els.playerSpriteWrap);
-            els.playerSpriteWrap.classList.add('anim-switch-in');
         }
     }
 
@@ -520,19 +538,10 @@
         }
     });
 
-    // Inicialização da batalha
-    async function iniciar() {
+    // Inicialização da batalha (vai direto para o menu principal)
+    function iniciar() {
         configurarFallbacksSprite();
         atualizarHud({ jogador: estado.jogador, selvagem: estado.selvagem });
-
-        ocupado = true;
-        definirModoMenu('message');
-        els.battleMessageText.textContent = `Um ${estado.selvagem.nome} selvagem apareceu!`;
-        await aguardarAvancoMensagem(1400);
-        els.battleMessageText.textContent = `Vai, ${estado.jogador.nome}!`;
-        aplicarAnimacao('player-switch-in');
-        await aguardarAvancoMensagem(1100);
-        ocupado = false;
         definirModoMenu('main');
     }
 

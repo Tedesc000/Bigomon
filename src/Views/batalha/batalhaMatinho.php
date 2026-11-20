@@ -76,7 +76,7 @@ $classeHp = static function (float $pct): string {
         <section class="battle-menu" id="battleMenu" aria-label="Menu de batalha">
             <!-- Modo principal / mensagem -->
             <div class="battle-message" id="battleMessage">
-                <span id="battleMessageText">Um <?= htmlspecialchars($selvagem['nome'], ENT_QUOTES, 'UTF-8') ?> selvagem apareceu!</span>
+                <span id="battleMessageText">O que<br><?= htmlspecialchars($jogador['nome'], ENT_QUOTES, 'UTF-8') ?> vai fazer?</span>
                 <span class="next-arrow hidden" id="nextArrow" aria-hidden="true">▼</span>
             </div>
 
@@ -93,18 +93,22 @@ $classeHp = static function (float $pct): string {
                 <div class="move-grid" id="moveGrid"></div>
                 <aside class="move-details" id="moveDetails">
                     <div class="move-detail-row">
-                        <span class="move-detail-label">TIPO/</span>
+                        <span class="move-detail-label">TYPE/</span>
                         <span class="move-type-pill" id="moveDetailType">NORMAL</span>
                     </div>
                     <div class="move-detail-row">
                         <span class="move-detail-label">CAT/</span>
-                        <span class="move-detail-value" id="moveDetailCat">FIS</span>
+                        <span class="move-detail-value" id="moveDetailCat">PHYSICAL</span>
                     </div>
                     <div class="move-detail-row">
-                        <span class="move-detail-label">PODER/</span>
+                        <span class="move-detail-label">POWER/</span>
                         <span class="move-detail-value" id="moveDetailPower">40</span>
                     </div>
-                    <button type="button" class="move-back-btn" id="btnMoveBack"><span class="cursor">▶</span> VOLTAR</button>
+                    <div class="move-detail-row">
+                        <span class="move-detail-label">ACC/</span>
+                        <span class="move-detail-value" id="moveDetailAcc">100%</span>
+                    </div>
+                    <button type="button" class="move-back-btn" id="btnMoveBack"><span class="cursor">▶</span> BACK</button>
                 </aside>
             </div>
         </section>

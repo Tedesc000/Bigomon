@@ -208,22 +208,10 @@ body {
     100% { transform: translateY(70px); opacity: 0; }
 }
 
-@keyframes animSwitchOut {
-    0% { transform: translateX(0) scale(1); opacity: 1; }
-    100% { transform: translateX(-60px) scale(0.75); opacity: 0; }
-}
-
-@keyframes animSwitchIn {
-    0% { transform: translateX(-60px) scale(0.75); opacity: 0; }
-    100% { transform: translateX(0) scale(1); opacity: 1; }
-}
-
 .anim-player-attack { animation: animPlayerAttack 0.32s ease-out; }
 .anim-wild-attack { animation: animWildAttack 0.32s ease-out; }
 .anim-hit { animation: animHitFlash 0.45s linear; }
 .anim-faint { animation: animFaint 0.55s ease-in forwards; }
-.anim-switch-out { animation: animSwitchOut 0.3s ease-in forwards; }
-.anim-switch-in { animation: animSwitchIn 0.35s ease-out forwards; }
 
 /* Menu inferior */
 .battle-menu {
@@ -315,7 +303,7 @@ body {
 
 .battle-action:hover,
 .battle-action:focus-visible {
-    background: #f5f2c4;
+    background: #fdfcde;
     outline: none;
 }
 
@@ -326,11 +314,12 @@ body {
 
 .cursor {
     display: inline-block;
-    width: clamp(14px, 1.3vw, 22px);
-    margin-right: 4px;
+    width: clamp(16px, 1.4vw, 24px);
+    margin-right: clamp(10px, 1vw, 18px);
     color: #253711;
     font-size: 0.75em;
     opacity: 0;
+    flex-shrink: 0;
 }
 
 .battle-action:hover .cursor,
@@ -386,7 +375,7 @@ body {
 .move-btn:hover,
 .move-btn:focus-visible,
 .move-btn.selected {
-    background: #f3efb9;
+    background: #fdfcde;
     outline: none;
 }
 
@@ -394,10 +383,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 2px;
     background: #fdfcde;
     border: 4px solid #686584;
     border-radius: clamp(8px, 0.9vw, 12px);
-    padding: clamp(8px, 1vw, 14px) clamp(12px, 1.6vw, 22px);
+    padding: clamp(6px, 0.75vw, 12px) clamp(12px, 1.4vw, 20px);
     color: #252525;
 }
 
@@ -406,7 +396,8 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    font-size: clamp(16px, 1.5vw, 26px);
+    font-size: clamp(24px, 1.3vw, 32px);
+    line-height: 1.1;
 }
 
 .move-detail-label {
@@ -449,19 +440,20 @@ body {
 
 .move-back-btn {
     align-self: flex-end;
-    border: 2px solid #253711;
-    border-radius: 6px;
-    background: #e5e2b5;
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    background: #fdfcde;
     color: #252525;
     font-family: inherit;
-    font-size: clamp(15px, 1.3vw, 22px);
-    padding: 2px 12px 2px 6px;
+    font-size: clamp(32px, 1.25vw, 36px);
+    padding: 2px 4px;
     cursor: pointer;
 }
 
 .move-back-btn:hover,
 .move-back-btn:focus-visible {
-    background: #d8d49c;
+    background: #fdfcde;
     outline: none;
 }
 
