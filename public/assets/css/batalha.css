@@ -3,5 +3,11 @@
 }
 
 #wildBody{
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
     background-image: url('../img/batalha/wildBattle.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
