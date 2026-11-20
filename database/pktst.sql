@@ -7,3 +7,5 @@ INSERT INTO pokemon_movimento (id_pokemon, id_movimento) VALUES
 (115, 18), (115, 43), (115, 59), (115, 24),
 -- Ninjask: 
 (116, 28), (116, 39), (116, 52), (116, 15);
+
+UPDATE treinador SET slot2=115, slot3=116 WHERE id_treinador=1;
