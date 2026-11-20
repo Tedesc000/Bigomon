@@ -240,15 +240,8 @@ main#paginaLoja {
     --centro-y: 75%;
     --loja-x: 25%;
     --loja-y: 66%;
-    --batalha-x: 30%;
-    --batalha-y: 95%;
-}
-
-#corpoMapa8 #mapaContainer {
-    width: min(85vw, 167.3dvh);
-    height: auto;
-    aspect-ratio: 1122 / 631;
-    flex-shrink: 0;
+    --batalha-x: 26%;
+    --batalha-y: 24%;
 }
 
 #botaoSeta {
