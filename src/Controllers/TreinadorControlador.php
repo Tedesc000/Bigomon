@@ -326,6 +326,21 @@ class TreinadorControlador {
                 return;
             }
 
+            // Sorteia 4 movimentos aleatórios da tabela movimento para o Pokémon obtido na roleta
+            $stmtMov = $this->pdo->query("SELECT id_movimento FROM movimento ORDER BY RAND() LIMIT 4");
+            $movimentosSorteados = $stmtMov->fetchAll(PDO::FETCH_COLUMN);
+            if (!empty($movimentosSorteados)) {
+                $stmtInsertMov = $this->pdo->prepare(
+                    "INSERT INTO pokemon_movimento (id_pokemon, id_movimento) VALUES (:id_pokemon, :id_movimento)"
+                );
+                foreach ($movimentosSorteados as $idMovimento) {
+                    $stmtInsertMov->execute([
+                        'id_pokemon' => $pokemon->getIdPokemon(),
+                        'id_movimento' => $idMovimento
+                    ]);
+                }
+            }
+
             if ($slotDisponivel !== null) {
                 $setter = 'setSlot' . $slotDisponivel;
                 $treinador->$setter($idPokemon);
