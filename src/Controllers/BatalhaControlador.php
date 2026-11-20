@@ -37,6 +37,19 @@ class BatalhaControlador
         $mapaAtual = $_SESSION['mapa'] ?? 'mapaInicio';
         $idMatinho = self::MAPA_PARA_MATINHO[$mapaAtual] ?? 1;
 
+        // Se já existe uma batalha ativa em andamento para este treinador, retoma a mesma luta ao recarregar
+        $batalhaExistente = $_SESSION['batalha_atual'] ?? null;
+        if (
+            is_array($batalhaExistente)
+            && empty($batalhaExistente['finalizada'])
+            && ($batalhaExistente['tipo'] ?? null) === 'matinho'
+            && (int) ($batalhaExistente['id_treinador'] ?? 0) === (int) $idTreinador
+        ) {
+            $estadoInicial = $this->montarEstadoPublico($batalhaExistente);
+            require_once __DIR__ . '/../Views/batalha/batalhaMatinho.php';
+            return;
+        }
+
         $equipe = $this->carregarEquipeTreinador((int) $idTreinador);
         if (empty($equipe)) {
             header("Location: ?modulo=pokemon&acao=sus");
@@ -57,6 +70,7 @@ class BatalhaControlador
 
         $_SESSION['batalha_atual'] = [
             'tipo' => 'matinho',
+            'id_treinador' => (int) $idTreinador,
             'mapa_retorno' => $mapaAtual,
             'id_matinho' => $idMatinho,
             'equipe' => $equipe,

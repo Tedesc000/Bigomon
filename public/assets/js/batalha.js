@@ -538,11 +538,15 @@
         }
     });
 
-    // Inicialização da batalha (vai direto para o menu principal)
+    // Inicialização da batalha (vai direto para o menu principal ou troca obrigatória)
     function iniciar() {
         configurarFallbacksSprite();
         atualizarHud({ jogador: estado.jogador, selvagem: estado.selvagem });
-        definirModoMenu('main');
+        if (estado.troca_obrigatoria) {
+            abrirTelaPokemon(true);
+        } else {
+            definirModoMenu('main');
+        }
     }
 
     iniciar();
