@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oldale Town</title>
     <link rel="stylesheet" href="assets/css/mapas.css">
+    <link rel="stylesheet" href="assets/css/frontJogo.css">
 </head>
 
 <body id="corpoMapaInicio">
@@ -48,6 +49,9 @@
                     alt="Matinho"
                 >
             </a>
+
+        <!-- FRONT DO JOGO: posicionado fora da imagem do mapa -->
+        <?php require_once __DIR__ . '/../../Utils/frontJogo.php'; ?>
     </main>
 </body>
 </html>

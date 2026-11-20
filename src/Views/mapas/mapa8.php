@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sootopolis</title>
     <link rel="stylesheet" href="assets/css/mapas.css">
+    <link rel="stylesheet" href="assets/css/frontJogo.css">
 </head>
 
 <body id="corpoMapa8">
@@ -55,6 +56,9 @@
                 >
             </a>
         </div>
+
+        <!-- FRONT DO JOGO: posicionado fora da imagem do mapa -->
+        <?php require_once __DIR__ . '/../../Utils/frontJogo.php'; ?>
     </main>
 </body>
 </html>
