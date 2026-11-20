@@ -72,7 +72,7 @@ $classeHp = static function (float $pct): string {
             >
         </div>
 
-        <!-- Menu inferior (Estilo Pokémon Emerald) -->
+        <!-- Menu inferior  -->
         <section class="battle-menu" id="battleMenu" aria-label="Menu de batalha">
             <!-- Modo principal / mensagem -->
             <div class="battle-message" id="battleMessage">

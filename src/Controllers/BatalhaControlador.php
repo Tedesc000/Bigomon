@@ -386,10 +386,10 @@ class BatalhaControlador
         $stmtPokemons = $this->pdo->prepare(
             "SELECT p.id_pokemon, p.id_pokedex, p.nome, p.hp_atual, p.sexo, p.status,
                     pd.hp AS hp_maximo, pd.atk, pd.def, pd.spa, pd.spd, pd.spe
-             FROM pokemon p
-             INNER JOIN pokedex pd ON pd.id_pokedex = p.id_pokedex
-             WHERE p.id_treinador = :id_treinador
-             ORDER BY p.id_pokemon ASC"
+                    FROM pokemon p
+                    INNER JOIN pokedex pd ON pd.id_pokedex = p.id_pokedex
+                    WHERE p.id_treinador = :id_treinador
+                    ORDER BY p.id_pokemon ASC"
         );
         $stmtPokemons->execute(['id_treinador' => $idTreinador]);
         $todosPokemons = $stmtPokemons->fetchAll(PDO::FETCH_ASSOC);
@@ -398,7 +398,12 @@ class BatalhaControlador
             return [];
         }
 
-        // Ordena respeitando slot1..slot6 (suporta tanto id_pokemon quanto id_pokedex salvo no slot)
+        // Indexa os Pokémon do treinador por id_pokemon e ordena conforme slot1..slot6
+        $pokemonsPorId = [];
+        foreach ($todosPokemons as $poke) {
+            $pokemonsPorId[(int) $poke['id_pokemon']] = $poke;
+        }
+
         $equipeOrdenada = [];
         $usados = [];
 
@@ -409,33 +414,9 @@ class BatalhaControlador
             }
             $idSlot = (int) $valorSlot;
 
-            $encontrado = null;
-            foreach ($todosPokemons as $poke) {
-                $idPoke = (int) $poke['id_pokemon'];
-                if (isset($usados[$idPoke])) {
-                    continue;
-                }
-                if ($idPoke === $idSlot) {
-                    $encontrado = $poke;
-                    break;
-                }
-            }
-            if (!$encontrado) {
-                foreach ($todosPokemons as $poke) {
-                    $idPoke = (int) $poke['id_pokemon'];
-                    if (isset($usados[$idPoke])) {
-                        continue;
-                    }
-                    if ((int) $poke['id_pokedex'] === $idSlot) {
-                        $encontrado = $poke;
-                        break;
-                    }
-                }
-            }
-
-            if ($encontrado) {
-                $usados[(int) $encontrado['id_pokemon']] = true;
-                $equipeOrdenada[] = $encontrado;
+            if (isset($pokemonsPorId[$idSlot]) && !isset($usados[$idSlot])) {
+                $usados[$idSlot] = true;
+                $equipeOrdenada[] = $pokemonsPorId[$idSlot];
             }
         }
 
