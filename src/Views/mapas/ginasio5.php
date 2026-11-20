@@ -16,6 +16,30 @@
                 src="../public/assets/img/mapas/ginasio5.png"
                 alt="Ginásio 5"
             >
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=1"
+                id="botaoTreinadorPadrao1"
+                class="pontoTreinadorPadrao"
+                aria-label="Iniciar batalha contra o treinador padrão 1"
+            >
+                <img
+                    id="treinadorPadrao1"
+                    src="../public/assets/img/treinadores/trainer_default.png"
+                    alt="Treinador padrão 1"
+                >
+            </a>
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=2"
+                id="botaoTreinadorPadrao2"
+                class="pontoTreinadorPadrao"
+                aria-label="Iniciar batalha contra o treinador padrão 2"
+            >
+                <img
+                    id="treinadorPadrao2"
+                    src="../public/assets/img/treinadores/trainer_default.png"
+                    alt="Treinador padrão 2"
+                >
+            </a>
         </div>
         <a href="?modulo=mapa&acao=mapa5" id="botaoSeta" class="setaVoltar" aria-label="Voltar para Petalburg">
             <img

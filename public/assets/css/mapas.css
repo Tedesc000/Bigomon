@@ -116,9 +116,93 @@ main#paginaLoja {
     object-fit: contain;
 }
 
+.pontoTreinadorPadrao {
+    position: absolute;
+    z-index: 3;
+    display: block;
+    width: clamp(48px, 6vw, 72px);
+    height: clamp(48px, 6vw, 72px);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.pontoTreinadorPadrao img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
 #botaoGinasio img {
     width: 100%;
     height: 100%;
+}
+
+#botaoTreinadorPadrao1 {
+    left: var(--treinador-padrao1-x, 50%);
+    top: var(--treinador-padrao1-y, 50%);
+}
+
+#botaoTreinadorPadrao2 {
+    left: var(--treinador-padrao2-x, 50%);
+    top: var(--treinador-padrao2-y, 50%);
+}
+
+#corpoGinasio1 {
+    --treinador-padrao1-x: 50%;
+    --treinador-padrao1-y: 75%;
+    --treinador-padrao2-x: 18%;
+    --treinador-padrao2-y: 30%;
+}
+
+#corpoGinasio2 {
+    --treinador-padrao1-x: 34%;
+    --treinador-padrao1-y: 85%;
+    --treinador-padrao2-x: 72%;
+    --treinador-padrao2-y: 24%;
+}
+
+#corpoGinasio3 {
+    --treinador-padrao1-x: 50%;
+    --treinador-padrao1-y: 75%;
+    --treinador-padrao2-x: 50%;
+    --treinador-padrao2-y: 50%;
+}
+
+#corpoGinasio4 {
+    --treinador-padrao1-x: 50%;
+    --treinador-padrao1-y: 50%;
+    --treinador-padrao2-x: 19%;
+    --treinador-padrao2-y: 30%;
+}
+
+#corpoGinasio5 {
+    --treinador-padrao1-x: 50%;
+    --treinador-padrao1-y: 80%;
+    --treinador-padrao2-x: 50%;
+    --treinador-padrao2-y: 50%;
+}
+
+#corpoGinasio6 {
+    --treinador-padrao1-x: 19%;
+    --treinador-padrao1-y: 80%;
+    --treinador-padrao2-x: 30%;
+    --treinador-padrao2-y: 31%;
+}
+
+#corpoGinasio7 {
+    --treinador-padrao1-x: 20%;
+    --treinador-padrao1-y: 58%;
+    --treinador-padrao2-x: 90%;
+    --treinador-padrao2-y: 65%;
+}
+
+#corpoGinasio8 {
+    --treinador-padrao1-x: 50%;
+    --treinador-padrao1-y: 50%;
+    --treinador-padrao2-x: 50%;
+    --treinador-padrao2-y: 30%;
 }
 
 #corpoMapaInicio {

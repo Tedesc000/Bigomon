@@ -25,6 +25,24 @@ class BatalhaControlador
         }
     }
 
+    public function batalhaTreinador()
+    {
+        $numeroTreinador = (int) ($_GET['treinador'] ?? 1);
+        if (!in_array($numeroTreinador, [1, 2], true)) {
+            $numeroTreinador = 1;
+        }
+
+        $numeroGinasio = (int) ($_GET['ginasio'] ?? 1);
+        if ($numeroGinasio < 1 || $numeroGinasio > 8) {
+            $numeroGinasio = 1;
+        }
+
+        $_SESSION['batalha'] = 'batalhaTreinador';
+        $_SESSION['ginasio_padrao_atual'] = $numeroGinasio;
+        $_SESSION['treinador_padrao_atual'] = $numeroTreinador;
+        require_once __DIR__ . '/../Views/batalha/batalhaTreinador.php';
+    }
+
     public function batalhaMatinho()
     {
         $_SESSION['batalha'] = 'batalhaMatinho';
