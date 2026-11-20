@@ -699,3 +699,52 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Efeitos visuais de golpe por tipo */
+.fx-layer { position: absolute; z-index: 15; pointer-events: none; overflow: visible; }
+.fx-glow { position: absolute; inset: -20%; opacity: 0; animation: fxGlow ease-out forwards; }
+@keyframes fxGlow { 0% { opacity: 0; transform: scale(.5); } 25% { opacity: 1; } 100% { opacity: 0; transform: scale(1.3); } }
+
+.fx-p { position: absolute; display: block; opacity: 0; width: 22px; height: 22px; margin: -11px 0 0 -11px;
+    background: var(--c); animation: fxMove ease-out forwards; }
+@keyframes fxMove {
+    0%   { opacity: 0; transform: translate(0, 0) rotate(var(--r0)) scale(var(--s0)); }
+    15%  { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(var(--mx), var(--my)) rotate(var(--r1)) scale(var(--s1)); }
+}
+.fx-star   { clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); width: 28px; height: 28px; }
+.fx-ring   { width: 90px; height: 90px; margin: -45px 0 0 -45px; background: transparent; border: 6px solid var(--c); border-radius: 50%; }
+.fx-slash  { width: 150px; height: 9px; margin: -4px 0 0 -75px; border-radius: 50%; box-shadow: 0 0 10px var(--c);
+    animation-name: fxSlash; }
+@keyframes fxSlash {
+    0%   { opacity: 0; transform: rotate(var(--r0)) scaleX(0); }
+    30%  { opacity: 1; transform: rotate(var(--r0)) scaleX(1); }
+    100% { opacity: 0; transform: rotate(var(--r0)) scaleX(1.1); }
+}
+.fx-bubble { border-radius: 50%; background: radial-gradient(circle at 30% 30%, #e7b8ff, var(--c)); width: 20px; height: 20px; }
+.fx-rock   { clip-path: polygon(15% 10%, 80% 0, 100% 55%, 70% 100%, 10% 85%, 0 40%); width: 24px; height: 24px; }
+.fx-dot    { border-radius: 50%; width: 9px; height: 9px; box-shadow: 0 0 6px var(--c); }
+.fx-orb    { border-radius: 50%; width: 26px; height: 26px; box-shadow: 0 0 14px 4px var(--c); }
+.fx-flame  { border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; width: 22px; height: 32px; box-shadow: 0 0 12px var(--c);
+    background: radial-gradient(circle at 50% 70%, #ffe27a 0%, var(--c) 60%); }
+.fx-drop   { border-radius: 0 50% 50% 50%; width: 14px; height: 14px; transform: rotate(45deg); }
+.fx-leaf   { border-radius: 0 100% 0 100%; width: 22px; height: 14px; }
+.fx-bolt   { width: 22px; height: 90px; margin: -10px 0 0 -11px; box-shadow: 0 0 12px var(--c);
+    clip-path: polygon(55% 0, 15% 50%, 45% 50%, 25% 100%, 85% 40%, 52% 40%, 80% 0); animation-name: fxBolt; }
+@keyframes fxBolt {
+    0%   { opacity: 0; }
+    10%, 40%, 70% { opacity: 1; }
+    25%, 55% { opacity: .15; }
+    100% { opacity: 0; }
+}
+.fx-shard  { clip-path: polygon(50% 0, 100% 60%, 50% 100%, 0 60%); width: 16px; height: 28px; box-shadow: 0 0 8px var(--c); }
+
+.fx-shake { animation: fxShake .4s linear; }
+@keyframes fxShake {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-6px, 3px); }
+    40% { transform: translate(5px, -3px); }
+    60% { transform: translate(-4px, -2px); }
+    80% { transform: translate(3px, 2px); }
+}

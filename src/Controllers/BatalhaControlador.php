@@ -807,6 +807,7 @@ class BatalhaControlador
             $eventos[] = [
                 'mensagem' => implode(' ', $mensagensDano),
                 'animacao' => $animHit,
+                'tipo_efeito' => $movimento['tipo_nome'] ?? null,
                 'hud' => $this->montarSnapshotHud($batalha),
             ];
         } else {
@@ -814,6 +815,7 @@ class BatalhaControlador
             $eventos[] = [
                 'mensagem' => null,
                 'animacao' => $animHit,
+                'tipo_efeito' => $movimento['tipo_nome'] ?? null,
                 'hud' => $this->montarSnapshotHud($batalha),
             ];
         }
