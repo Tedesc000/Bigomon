@@ -44,7 +44,8 @@ class PokemonControlador {
         $stmt = $this->pdo->prepare(
             "UPDATE pokemon
             INNER JOIN pokedex ON pokedex.id_pokedex = pokemon.id_pokedex
-            SET pokemon.hp_atual = pokedex.hp
+            SET pokemon.hp_atual = pokedex.hp,
+                pokemon.status = NULL
             WHERE pokemon.id_treinador = :id_treinador"
         );
         $stmt->execute(['id_treinador' => $idTreinador]);
