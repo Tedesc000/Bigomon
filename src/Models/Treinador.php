@@ -286,4 +286,75 @@ class Treinador {
         $_SESSION = [];
         session_destroy();
     }
+
+    public function buscarPokemonsPorIds(array $slotIds, $idTreinador = null): array {
+        $slots = array_fill(0, 6, null);
+
+        // Coleta apenas IDs numéricos válidos dos 6 slots
+        $idsParaBuscar = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $val = $slotIds["slot$i"] ?? ($slotIds[$i - 1] ?? null);
+            if (!empty($val) && is_numeric($val)) {
+                $idsParaBuscar[] = (int)$val;
+            }
+        }
+
+        // Se nenhum slot numérico estiver preenchido, mas temos o ID do treinador,
+        // busca os pokémons do próprio treinador no banco
+        if (empty($idsParaBuscar)) {
+            if ($idTreinador) {
+                $stmtFallback = $this->pdo->prepare("
+                    SELECT p.id_pokemon, p.id_pokedex, p.nome, p.hp_atual, pd.hp AS hp_maximo
+                    FROM pokemon p
+                    INNER JOIN pokedex pd ON p.id_pokedex = pd.id_pokedex
+                    WHERE p.id_treinador = :id_treinador
+                    ORDER BY p.id_pokemon ASC
+                    LIMIT 6
+                ");
+                $stmtFallback->execute(['id_treinador' => $idTreinador]);
+                $pokemonsFallback = $stmtFallback->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($pokemonsFallback as $idx => $poke) {
+                    $slots[$idx] = $poke;
+                }
+            }
+            return $slots;
+        }
+
+        $idsUnicos = array_values(array_unique($idsParaBuscar));
+        $placeholders = implode(',', array_fill(0, count($idsUnicos), '?'));
+
+        $sql = "
+            SELECT p.id_pokemon, p.id_pokedex, p.nome, p.hp_atual, pd.hp AS hp_maximo
+            FROM pokemon p
+            INNER JOIN pokedex pd ON p.id_pokedex = pd.id_pokedex
+            WHERE p.id_pokemon IN ($placeholders)
+               OR p.id_pokedex IN ($placeholders)
+        ";
+        $params = array_merge($idsUnicos, $idsUnicos);
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        $pokemonsMapById = [];
+        $pokemonsMapByPokedex = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $pokemonsMapById[$row['id_pokemon']] = $row;
+            $pokemonsMapByPokedex[$row['id_pokedex']] = $row;
+        }
+
+        // Preenche cada posição de 0 a 5 com o Pokémon correspondente do slot
+        for ($i = 1; $i <= 6; $i++) {
+            $idPoke = $slotIds["slot$i"] ?? ($slotIds[$i - 1] ?? null);
+            if (!empty($idPoke)) {
+                $idInt = (int)$idPoke;
+                if (isset($pokemonsMapById[$idInt])) {
+                    $slots[$i - 1] = $pokemonsMapById[$idInt];
+                } elseif (isset($pokemonsMapByPokedex[$idInt])) {
+                    $slots[$i - 1] = $pokemonsMapByPokedex[$idInt];
+                }
+            }
+        }
+
+        return $slots;
+    }
 }

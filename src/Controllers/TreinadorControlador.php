@@ -161,15 +161,17 @@ class TreinadorControlador {
         }
 
         $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
-        $treinadorModel = new Treinador($this->pdo);
-        $dadosTreinador = $treinadorModel->buscarPorId($idTreinador);
-
         $pokemonInicial = null;
-        if (!empty($dadosTreinador['slot1'])) {
-            $idPokedex = $dadosTreinador['slot1'];
-            $stmt = $this->pdo->prepare("SELECT * FROM pokedex WHERE id_pokedex = :id_pokedex");
-            $stmt->execute(['id_pokedex' => $idPokedex]);
-            $pokemonInicial = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($idTreinador !== null) {
+            $stmt = $this->pdo->prepare(
+                "SELECT pokemon.nome, pokemon.id_pokedex
+                FROM pokemon
+                WHERE pokemon.id_treinador = :id_treinador
+                ORDER BY pokemon.id_pokemon
+                LIMIT 1"
+            );
+            $stmt->execute(['id_treinador' => $idTreinador]);
+            $pokemonInicial = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
         }
 
         require_once __DIR__ . "/../Views/treinador/roleta.php";
@@ -237,64 +239,147 @@ class TreinadorControlador {
     }
 
     public function capturarPokemon(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            header('Allow: POST');
+            echo json_encode(['success' => false, 'message' => 'Método não permitido.']);
+            return;
         }
 
-        try{
-            if (empty($_POST['id_pokemon_capturado'])) {
-                throw new Exception("ID do Pokémon não recebido.");
-            }
-            $idPokemon = $_POST['id_pokemon_capturado'];
-        } catch (Exception $e) {
-            require_once __DIR__ . "/../Views/treinador/erroCaptura.php";
+        $idPokemonRecebido = $_POST['id_pokemon_capturado'] ?? null;
+        $idPokemon = is_scalar($idPokemonRecebido)
+            ? filter_var($idPokemonRecebido, FILTER_VALIDATE_INT)
+            : false;
+
+        if ($idPokemon === false || $idPokemon < 1) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'ID do Pokémon inválido.']);
             return;
         }
 
         $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
-
-        $treinador = new Treinador($this->pdo);
-        if (!$treinador->carregarPorId($idTreinador)) {
+        if ($idTreinador === null) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Treinador não autenticado.']);
             return;
         }
 
-        // Se o slot1 já estiver preenchido, impede nova rolagem na roleta inicial
-        if (!empty($treinador->getSlot1())) {
-            return;
-        }
+        $this->pdo->beginTransaction();
+        try {
+            $stmt = $this->pdo->prepare(
+                "SELECT id_treinador
+                FROM treinador
+                WHERE id_treinador = :id_treinador
+                FOR UPDATE"
+            );
+            $stmt->execute(['id_treinador' => $idTreinador]);
+            if (!$stmt->fetchColumn()) {
+                $this->pdo->rollBack();
+                http_response_code(404);
+                echo json_encode(['success' => false, 'message' => 'Treinador não encontrado.']);
+                return;
+            }
 
-        $pokemon = new Pokemon($this->pdo);
-        $pokemon->setIdPokedex($idPokemon);
+            $stmt = $this->pdo->prepare(
+                "SELECT id_pokemon
+                FROM pokemon
+                WHERE id_treinador = :id_treinador
+                LIMIT 1"
+            );
+            $stmt->execute(['id_treinador' => $idTreinador]);
+            if ($stmt->fetchColumn()) {
+                $this->pdo->rollBack();
+                http_response_code(409);
+                echo json_encode([
+                    'success' => false,
+                    'already_captured' => true,
+                    'message' => 'Você já ganhou um Pokémon nesta roleta.'
+                ]);
+                return;
+            }
 
-        if ($treinador->getSlot1() === null) {
-            $treinador->setSlot1($idPokemon);
-            $treinador->salvar();
+            $treinador = new Treinador($this->pdo);
+            if (!$treinador->carregarPorId($idTreinador)) {
+                $this->pdo->rollBack();
+                http_response_code(404);
+                echo json_encode(['success' => false, 'message' => 'Treinador não encontrado.']);
+                return;
+            }
+
+            $slotDisponivel = null;
+            for ($slot = 1; $slot <= 6; $slot++) {
+                $getter = 'getSlot' . $slot;
+                if (empty($treinador->$getter())) {
+                    $slotDisponivel = $slot;
+                    break;
+                }
+            }
+
+            $pokemon = new Pokemon($this->pdo);
+            $pokemon->setIdPokedex($idPokemon);
+            if (!$pokemon->setDadosPokedex($idTreinador)) {
+                $this->pdo->rollBack();
+                http_response_code(404);
+                echo json_encode(['success' => false, 'message' => 'Pokémon não encontrado na Pokédex.']);
+                return;
+            }
+
+            if ($slotDisponivel !== null) {
+                $setter = 'setSlot' . $slotDisponivel;
+                $treinador->$setter($idPokemon);
+                if (!$treinador->salvar()) {
+                    $this->pdo->rollBack();
+                    http_response_code(500);
+                    echo json_encode(['success' => false, 'message' => 'Não foi possível atualizar o time.']);
+                    return;
+                }
+            }
+
+            $this->pdo->commit();
+        } catch (PDOException $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $e;
         }
-        elseif($treinador->getSlot2() == null){
-            $treinador->setSlot2($idPokemon);
-            $treinador->salvar();
-        }
-        elseif($treinador->getSlot3() == null){
-            $treinador->setSlot3($idPokemon);
-            $treinador->salvar();
-        }
-        elseif($treinador->getSlot4() == null){
-            $treinador->setSlot4($idPokemon);
-            $treinador->salvar();
-        }
-        elseif($treinador->getSlot5() == null){
-            $treinador->setSlot5($idPokemon);
-            $treinador->salvar();
-        }
-        elseif($treinador->getSlot6() == null){ 
-            $treinador->setSlot6($idPokemon);
-            $treinador->salvar();
-        }
-        
-        $pokemon->setDadosPokedex($idTreinador);
 
         $treinador->recarregarSessao($idTreinador);
+        echo json_encode([
+            'success' => true,
+            'id_pokemon' => $pokemon->getIdPokemon(),
+            'id_pokedex' => $idPokemon,
+            'slot' => $slotDisponivel
+        ]);
+    }
+
+    public function buscarPokemonsDosSlots(?array $slotIds = null): array {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        require_once __DIR__ . "/../Models/Treinador.php";
+        $treinador = new Treinador($this->pdo);
+
+        if ($idTreinador) {
+            $treinador->recarregarSessao($idTreinador);
+        }
+
+        // Se não foi passado array, obtém direto dos slots gravados na sessão
+        if ($slotIds === null) {
+            $usuario = $_SESSION['usuario_logado'] ?? [];
+            $slotIds = [
+                'slot1' => $usuario['slot1'] ?? null,
+                'slot2' => $usuario['slot2'] ?? null,
+                'slot3' => $usuario['slot3'] ?? null,
+                'slot4' => $usuario['slot4'] ?? null,
+                'slot5' => $usuario['slot5'] ?? null,
+                'slot6' => $usuario['slot6'] ?? null,
+            ];
+        }
+
+        return $treinador->buscarPokemonsPorIds($slotIds, $idTreinador);
     }
 }

@@ -1,0 +1,376 @@
+@font-face {
+    font-family: 'PokemonEmerald';
+    src: url('pokemon-emerald-pro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Padrão para qualquer tela de mapa e ginásio */
+:root,
+body[id^="corpoMapa"],
+body[id^="corpoGinasio"] {
+    /* Escala global das caixas */
+    --hud-escala: 1;
+    --dinheiro-escala: var(--hud-escala);
+    --bolsa-itens-escala: var(--hud-escala);
+    --bolsa-pokemons-escala: var(--hud-escala);
+    --perfil-escala: var(--hud-escala);
+    --slots-escala: var(--hud-escala);
+
+    /* Coordenadas padrão baseadas no mapaInicio */
+    --dinheiro-x: 6%;
+    --dinheiro-y: 4%;
+    --perfil-x: 14%;
+    --perfil-y: 90%;
+    --bolsa-itens-x: 82%;
+    --bolsa-itens-y: 6%;
+    --bolsa-pokemons-x: 93%;
+    --bolsa-pokemons-y: 6%;
+    --slots-x: 90%;
+    --slots-y: 55%;
+}
+
+/* Coordenadas e escala específicas para mapaInicio*/
+#corpoMapaInicio {
+    --hud-escala: 1;
+    --dinheiro-x: 6%;
+    --dinheiro-y: 4%;
+    --perfil-x: 14%;
+    --perfil-y: 90%;
+    --bolsa-itens-x: 82%;
+    --bolsa-itens-y: 6%;
+    --bolsa-pokemons-x: 93%;
+    --bolsa-pokemons-y: 6%;
+    --slots-x: 90%;
+    --slots-y: 55%;
+}
+
+/* Garante que o container de tela do mapa ou ginásio seja o referencial para o posicionamento */
+main[id^="paginaMapa"],
+main[id^="paginaGinasio"] {
+    position: relative;
+}
+
+#hudFrontJogo {
+    position: absolute;
+    inset: 0;
+    pointer-events: none; /* Deixa cliques passarem livremente pelo mapa, background e setas */
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+
+.pontoFront {
+    position: absolute;
+    pointer-events: auto; /* Reativa cliques e interações nos elementos */
+    font-family: 'PokemonEmerald', monospace;
+    z-index: 10;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+    transition: transform 0.2s ease, filter 0.2s ease, background-color 0.2s ease;
+}
+
+/* ==========================================================================
+   1. CANTO SUPERIOR ESQUERDO: DINHEIRO
+   ========================================================================== */
+#hudDinheiro {
+    left: var(--dinheiro-x, 8%);
+    top: var(--dinheiro-y, 6%);
+    transform: translate(-50%, -50%) scale(var(--dinheiro-escala, var(--hud-escala, 1)));
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #766f8a;
+    border-radius: 8px;
+    padding: 5px 12px;
+    user-select: none;
+}
+
+#hudDinheiro:hover {
+    transform: translate(-50%, -50%) scale(calc(var(--dinheiro-escala, var(--hud-escala, 1)) * 1.05));
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+}
+
+.hudIconeMoeda {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.hudValorDinheiro {
+    font-size: 3em;
+    font-weight: bold;
+    color: #1e6d4c;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   CANTO SUPERIOR DIREITO: BAGS DE ITENS E POKÉMONS
+   ========================================================================== */
+.hudBotaoFront {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #766f8a;
+    border-radius: 8px;
+    padding: 6px 14px;
+    color: #595556;
+    text-decoration: none;
+    font-size: 2em;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    text-shadow: 1px 1px 0 #ffffff;
+}
+
+.hudBotaoFront:hover {
+    background: #a89ec4;
+    color: #262230;
+    border-color: #554f63;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+}
+
+#hudBolsaItens {
+    left: var(--bolsa-itens-x, 86%);
+    top: var(--bolsa-itens-y, 6%);
+    transform: translate(-50%, -50%) scale(var(--bolsa-itens-escala, var(--hud-escala, 1)));
+}
+
+#hudBolsaItens:hover {
+    transform: translate(-50%, -50%) scale(calc(var(--bolsa-itens-escala, var(--hud-escala, 1)) * 1.08));
+}
+
+#hudBolsaPokemons {
+    left: var(--bolsa-pokemons-x, 93%);
+    top: var(--bolsa-pokemons-y, 6%);
+    transform: translate(-50%, -50%) scale(var(--bolsa-pokemons-escala, var(--hud-escala, 1)));
+}
+
+#hudBolsaPokemons:hover {
+    transform: translate(-50%, -50%) scale(calc(var(--bolsa-pokemons-escala, var(--hud-escala, 1)) * 1.08));
+}
+
+.hudIconeFront {
+    font-size: 1em;
+    line-height: 1;
+}
+
+.iconPokebola, .iconItem{
+    width: 60px;
+    height: 60px;
+}
+
+/* ==========================================================================
+   CANTO INFERIOR ESQUERDO: PERFIL DO TREINADOR
+   ========================================================================== */
+#hudPerfil {
+    left: var(--perfil-x, 8%);
+    top: var(--perfil-y, 92%);
+    transform: translate(-50%, -50%) scale(var(--perfil-escala, var(--hud-escala, 1)));
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #766f8a;
+    border-radius: 10px;
+    padding: 6px 12px 6px 8px;
+    text-decoration: none;
+    color: #262230;
+    min-width: 25%;
+}
+
+#hudPerfil:hover {
+    transform: translate(-50%, -50%) scale(calc(var(--perfil-escala, var(--hud-escala, 1)) * 1.05));
+    background: #ffffff;
+    border-color: #554f63;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+}
+
+.hudFotoWrapper {
+    width: 150px;
+    height: 150px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid #766f8a;
+    background: #333;
+    flex-shrink: 0;
+}
+
+.hudFotoPerfil {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+    display: block;
+}
+
+.hudDadosPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.hudNomeTreinador {
+    font-size: 3em;
+    font-weight: bold;
+    color: #262230;
+    line-height: 1.1;
+    min-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hudVerPerfilAviso {
+    font-size: 2em;
+    color: #6c5a88;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   CANTO DIREITO: COLUNA COM OS 6 SLOTS DO TREINADOR
+   ========================================================================== */
+#hudSlotsColuna {
+    left: var(--slots-x, 92%);
+    top: var(--slots-y, 54%);
+    transform: translate(-50%, -50%) scale(var(--slots-escala, var(--hud-escala, 1)));
+    width: 15%;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #766f8a;
+    border-radius: 10px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#hudSlotsColuna:hover {
+    filter: drop-shadow(0 5px 14px rgba(0, 0, 0, 0.6));
+}
+
+.hudSlotsCabecalho {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #d4cfe2;
+}
+
+.hudSlotsTitulo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #433d52;
+    letter-spacing: 1px;
+}
+
+.hudSlotsLista {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.hudSlotCard {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 5px;
+    border-radius: 8px;
+    background: #f7f6fb;
+    border: 1.5px solid #d1cbde;
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.hudSlotCard.slotOcupado:hover {
+    background: #eae5f7;
+    border-color: #766f8a;
+    transform: translateX(-3px);
+}
+
+.hudSlotSprite {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+}
+
+.hudSlotInfo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+    gap: 3px;
+}
+
+.hudSlotNome {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #262230;
+    text-transform: capitalize;
+    line-height: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hudSlotBarraHpFundo {
+    width: 100%;
+    height: 8px;
+    background: #3e3a47;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #1a1721;
+}
+
+.hudSlotBarraHpProgresso {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.hudSlotBarraHpProgresso.hpAlto {
+    background: linear-gradient(to right, #40c057, #51cf66);
+}
+
+.hudSlotBarraHpProgresso.hpMedio {
+    background: linear-gradient(to right, #fab005, #fcc419);
+}
+
+.hudSlotBarraHpProgresso.hpBaixo {
+    background: linear-gradient(to right, #fa5252, #ff6b6b);
+}
+
+.hudSlotHpTexto {
+    font-size: 1.2em;
+    color: #555060;
+    line-height: 1;
+    text-align: right;
+    font-weight: bold;
+}
+
+.hudSlotCard.slotVazio {
+    opacity: 0.6;
+    border: 2px dashed #b5adc9;
+    background: transparent;
+    justify-content: flex-start;
+    padding: 10px 12px;
+}
+
+.hudSlotVazioIcone {
+    font-size: 1.15rem;
+    line-height: 1;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.hudSlotVazioTexto {
+    font-size: 1rem;
+    color: #8c859d;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}

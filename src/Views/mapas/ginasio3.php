@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mauville - Ginásio</title>
     <link rel="stylesheet" href="assets/css/mapas.css">
+    <link rel="stylesheet" href="assets/css/frontJogo.css">
 </head>
 
 <body id="corpoGinasio3">
@@ -23,6 +24,9 @@
                 alt="Voltar"
             >
         </a>
+
+        <!-- FRONT DO JOGO: posicionado fora da imagem do ginasio -->
+        <?php require_once __DIR__ . '/../../Utils/frontJogo.php'; ?>
     </main>
 </body>
 </html>

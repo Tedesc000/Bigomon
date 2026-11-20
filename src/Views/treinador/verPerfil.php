@@ -66,6 +66,10 @@
                 <span class="hoverText">▸</span>
                 <span class="defaultText">DESCONECTAR</span>
             </a>
+            <a href="?modulo=treinador&acao=cadastrar" class="botaoInicio">
+                <span class="hoverText">▸</span>
+                <span class="defaultText">EDITAR</span>
+            </a>
             <a href="?modulo=treinador&acao=verLogs" class="botaoInicio">
                 <span class="hoverText">▸</span>
                 <span class="defaultText">VER LOGS</span>
