@@ -1,3 +1,29 @@
+@import url('https://fonts.cdnfonts.com/css/pokemon-solid');
+
+@font-face {
+    font-family: 'PokemonEmerald';
+    src: url('pokemon-emerald-pro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+    font-family: 'PokemonEmerald', 'Courier New', monospace;
+}
+
 #trainerBody{
     background-image: url('../img/batalha/trainerBattle.png');
 }
@@ -10,4 +36,190 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.battle-screen {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 480px;
+    overflow: hidden;
+}
+
+.pokemon-status {
+    position: absolute;
+    z-index: 10;
+    width: clamp(230px, 25vw, 390px);
+    min-height: clamp(78px, 10vw, 118px);
+    border: clamp(3px, 0.35vw, 5px) solid #253711;
+    border-radius: clamp(6px, 1vw, 12px);
+    background: #fdfcde;
+    padding: clamp(8px, 1vw, 16px) clamp(10px, 1.2vw, 18px);
+    color: #252525;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.9);
+}
+
+.pokemon-status-front {
+    top: 5%;
+    left: 4%;
+}
+
+.pokemon-status-back {
+    right: 5%;
+    bottom: 31%;
+}
+
+.status-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(5px, 0.7vw, 12px);
+    white-space: nowrap;
+}
+
+.pokemon-name {
+    flex: 1;
+    font-size: clamp(18px, 2.1vw, 34px);
+    letter-spacing: 1px;
+}
+
+.hp-row {
+    display: grid;
+    grid-template-columns: clamp(20px, 3.5vw, 30px) 1fr;
+    align-items: center;
+    gap: 8px;
+    margin-top: clamp(8px, 0.9vw, 14px);
+    border: 2px solid #253711;
+    border-radius: 4px;
+    background: #516354;
+}
+
+.hp-label {
+    font-size: clamp(16px, 1.55vw, 25px);
+    font-weight: bold;
+    color: #f49a78;
+}
+
+.hp-track {
+    height: clamp(10px, 0.95vw, 15px);
+    border: 2px solid #253711;
+    border-radius: 2px;
+    background: #fffef1;
+    overflow: hidden;
+}
+
+.hp-bar {
+    width: 100%;
+    height: 100%;
+    background: #45c94a;
+}
+
+.hp-numbers {
+    margin-top: 6px;
+    text-align: right;
+    font-size: clamp(17px, 1.55vw, 26px);
+}
+
+.pokemon-sprite {
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.pokemon-sprite img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.pokemon-sprite-front {
+    top: 5%;
+    right: 15%;
+    width: clamp(170px, 22vw, 340px);
+    height: clamp(170px, 22vw, 340px);
+}
+
+.pokemon-sprite-back {
+    left: 12%;
+    bottom: 20%;
+    width: clamp(200px, 26vw, 400px);
+    height: clamp(200px, 26vw, 400px);
+}
+
+.battle-menu {
+    position: absolute;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 25%;
+    min-height: 120px;
+    display: grid;
+    grid-template-columns: 58% 42%;
+    border: clamp(4px, 0.45vw, 7px) solid #253711;
+    border-bottom: 0;
+    border-radius: clamp(8px, 0.8vw, 12px) clamp(8px, 0.8vw, 12px) 0 0;
+    background: #253711;
+    overflow: hidden;
+}
+
+.battle-message {
+    display: flex;
+    align-items: flex-start;
+    min-width: 0;
+    padding: clamp(16px, 2vw, 30px) clamp(20px, 3vw, 48px);
+    border: 4px solid #d1473c;
+    border-left-width: 32px;
+    border-right: clamp(4px, 0.45vw, 7px) solid #253711;
+    border-radius: clamp(10px, 1vw, 14px) 0 0 clamp(10px, 1vw, 14px);
+    background: #6ba2a5;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: clamp(48px, 4vw, 56px);
+    line-height: 1.35;
+    overflow: hidden;
+}
+
+.battle-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    min-width: 0;
+    background: #686584;
+    border: 8px solid #686584;
+    border-radius: clamp(10px, 1vw, 14px);
+    overflow: hidden;
+}
+
+.battle-action {
+    border: 0;
+    background: #fdfcde;
+    color: #252525;
+    font-family: inherit;
+    font-size: clamp(34px, 3vw, 48px);
+    cursor: pointer;
+}
+
+.battle-action:hover,
+.battle-action:focus-visible {
+    background: #fdfcde;
+    outline: none;
+}
+
+.cursor {
+    display: inline-block;
+    width: clamp(16px, 1.4vw, 24px);
+    margin-right: 4px;
+    color: #253711;
+    font-size: 0.75em;
+    opacity: 0;
+}
+
+.battle-action:hover .cursor,
+.battle-action:focus-visible .cursor {
+    opacity: 1;
 }
