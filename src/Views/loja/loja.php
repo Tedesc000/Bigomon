@@ -8,6 +8,51 @@
     <link rel="stylesheet" href="assets/css/loja.css">
 </head>
 
+<?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    // Mapa de itens pelo ID oficial da PokeAPI (ex: 814 = Key Stone / Pedra de Megaevolução)
+    $mapaPorId = [
+        814 => 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key-stone.png'
+    ];
+
+    // Carrega e salva as URLs oficiais da PokeAPI na sessão sem travar a página
+    if (!empty($itensLoja)){
+        foreach($itensLoja as $item){
+            $idItem = (int)($item['id_item'] ?? 0);
+            if (!$idItem) {
+                continue;
+            }
+
+            // Para o ID 814 (Pedra de Megaevolução), define o sprite oficial
+            if (isset($mapaPorId[$idItem])) {
+                $urlItem = $mapaPorId[$idItem];
+                $_SESSION[$idItem]['urlItem'] = $urlItem;
+                $_SESSION['itens'][$idItem]['urlItem'] = $urlItem;
+                continue;
+            }
+
+            // Se já está na sessão, não processa novamente
+            if (!empty($_SESSION[$idItem]['urlItem'])) {
+                continue;
+            }
+
+            $nomeItem = strtolower(trim($item['nome'] ?? ''));
+            // Gera a URL oficial direta da CDN de sprites da PokeAPI
+            $slug = $nomeItem;
+            $slug = str_replace(['é', 'è', 'ê'], 'e', $slug);
+            $slug = preg_replace('/[^a-z0-9]+/i', '-', $slug);
+            $slug = trim($slug, '-');
+            $urlItem = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{$slug}.png";
+
+            // Salva na sessão conforme solicitado
+            $_SESSION[$idItem]['urlItem'] = $urlItem;
+            $_SESSION['itens'][$idItem]['urlItem'] = $urlItem;
+        }
+    }
+?>
+
 <body id="corpoLoja">
     <main id="paginaLoja">
         <div id="lojaContainer">
@@ -38,10 +83,17 @@
                     <?php foreach ($itensLoja as $item): 
                         $preco = $item['preco'] ?? 0;
                         $semSaldo = $preco > $saldoTreinador;
+                        $idItem = $item['id_item'] ?? 0;
+                        $urlImagem = $_SESSION[$idItem]['urlItem'] ?? ($_SESSION['itens'][$idItem]['urlItem'] ?? '');
                     ?>
                         <li class="cardItemLoja">
                             <div class="infoItemLoja">
-                                <span class="nomeItem"><?= htmlspecialchars($item['nome'] ?? 'Item') ?></span>
+                                <div class="detalhesItemLoja">
+                                    <?php if (!empty($urlImagem)): ?>
+                                        <img src="<?= htmlspecialchars($urlImagem) ?>" alt="<?= htmlspecialchars($item['nome'] ?? '') ?>" class="iconeItemLoja" onerror="this.style.display='none'">
+                                    <?php endif; ?>
+                                    <span class="nomeItem"><?= htmlspecialchars($item['nome'] ?? 'Item') ?></span>
+                                </div>
                                 <span class="precoItem">R$ <?= number_format($preco, 2, ',', '.') ?></span>
                             </div>
                             <form action="?modulo=loja&acao=comprar" method="POST" class="formComprarItem">
