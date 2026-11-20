@@ -262,6 +262,108 @@
         }
     }
 
+
+    // ---------- Efeitos visuais de golpe por tipo (puramente estéticos) ----------
+    // shape: forma CSS | from: origem (top/bottom/center/around) | spread: dispersão em px
+    const EFEITOS_TIPO = {
+        normal:   { shape: 'star',   color: '#fff6d8', count: 8,  from: 'center', spread: 90,  dur: 520, glow: 'rgba(255,255,255,.7)' },
+        lutador:  { shape: 'ring',   color: '#e8482c', count: 3,  from: 'center', spread: 0,   dur: 480, glow: 'rgba(255,120,60,.6)', shake: true },
+        voador:   { shape: 'slash',  color: '#d8ecff', count: 4,  from: 'center', spread: 70,  dur: 520, glow: 'rgba(200,230,255,.35)' },
+        veneno:   { shape: 'bubble', color: '#a64fd8', count: 12, from: 'bottom', spread: 110, dur: 800, glow: 'rgba(150,60,200,.4)' },
+        terra:    { shape: 'rock',   color: '#a8793c', count: 10, from: 'bottom', spread: 120, dur: 700, glow: 'rgba(140,100,50,.4)', shake: true },
+        pedra:    { shape: 'rock',   color: '#8d8a7c', count: 9,  from: 'top',    spread: 120, dur: 650, glow: 'rgba(120,120,110,.35)', shake: true },
+        inseto:   { shape: 'dot',    color: '#8fc43a', count: 16, from: 'around', spread: 110, dur: 800, glow: 'rgba(140,200,50,.3)' },
+        fantasma: { shape: 'orb',    color: '#7a4fb0', count: 8,  from: 'around', spread: 100, dur: 850, glow: 'rgba(60,20,100,.6)' },
+        aco:      { shape: 'slash',  color: '#dfe6ee', count: 3,  from: 'center', spread: 60,  dur: 450, glow: 'rgba(220,230,240,.55)' },
+        fogo:     { shape: 'flame',  color: '#ff7a1a', count: 12, from: 'bottom', spread: 100, dur: 800, glow: 'rgba(255,110,20,.55)' },
+        agua:     { shape: 'drop',   color: '#3a9bf0', count: 14, from: 'top',    spread: 120, dur: 700, glow: 'rgba(60,150,240,.4)' },
+        planta:   { shape: 'leaf',   color: '#4fb83a', count: 12, from: 'around', spread: 130, dur: 850, glow: 'rgba(80,190,60,.3)' },
+        eletrico: { shape: 'bolt',   color: '#ffe53a', count: 6,  from: 'top',    spread: 100, dur: 600, glow: 'rgba(255,240,80,.75)', shake: true },
+        psiquico: { shape: 'ring',   color: '#f45bb4', count: 4,  from: 'center', spread: 0,   dur: 900, glow: 'rgba(240,90,180,.4)' },
+        gelo:     { shape: 'shard',  color: '#aeeeff', count: 12, from: 'around', spread: 120, dur: 750, glow: 'rgba(170,235,255,.5)' },
+        dragao:   { shape: 'flame',  color: '#6a5cf0', count: 14, from: 'around', spread: 120, dur: 850, glow: 'rgba(100,70,230,.5)', shake: true },
+        sombrio:  { shape: 'slash',  color: '#4a2a6a', count: 5,  from: 'center', spread: 80,  dur: 600, glow: 'rgba(20,0,40,.65)' },
+    };
+
+    function rand(min, max) {
+        return min + Math.random() * (max - min);
+    }
+
+    function tocarEfeitoTipo(tipo, alvo) {
+        const cfg = EFEITOS_TIPO[tipo];
+        const wrap = alvo === 'wild' ? els.wildSpriteWrap : els.playerSpriteWrap;
+        const tela = wrap && wrap.closest('.battle-screen');
+        if (!cfg || !tela) return;
+
+        const rt = tela.getBoundingClientRect();
+        const rw = wrap.getBoundingClientRect();
+        const layer = document.createElement('div');
+        layer.className = 'fx-layer';
+        layer.style.left = `${rw.left - rt.left}px`;
+        layer.style.top = `${rw.top - rt.top}px`;
+        layer.style.width = `${rw.width}px`;
+        layer.style.height = `${rw.height}px`;
+
+        const glow = document.createElement('div');
+        glow.className = 'fx-glow';
+        glow.style.background = `radial-gradient(circle, ${cfg.glow} 0%, transparent 65%)`;
+        glow.style.animationDuration = `${cfg.dur}ms`;
+        layer.appendChild(glow);
+
+        const w = rw.width;
+        const h = rw.height;
+        for (let i = 0; i < cfg.count; i++) {
+            const el = document.createElement('span');
+            el.className = `fx-p fx-${cfg.shape}`;
+            el.style.setProperty('--c', cfg.color);
+            el.style.animationDuration = `${cfg.dur * rand(0.75, 1)}ms`;
+            el.style.animationDelay = `${Math.round(rand(0, cfg.dur * 0.35))}ms`;
+
+            let x = w / 2, y = h / 2, mx = 0, my = 0;
+            const sp = cfg.spread;
+            if (cfg.from === 'top') {
+                x = w / 2 + rand(-sp, sp); y = rand(-h * 0.1, h * 0.1);
+                mx = rand(-10, 10); my = h * rand(0.5, 0.9);
+            } else if (cfg.from === 'bottom') {
+                x = w / 2 + rand(-sp, sp); y = h * rand(0.75, 0.95);
+                mx = rand(-20, 20); my = -h * rand(0.4, 0.8);
+            } else if (cfg.from === 'around') {
+                const a = rand(0, Math.PI * 2);
+                x = w / 2 + Math.cos(a) * sp; y = h / 2 + Math.sin(a) * sp * 0.8;
+                mx = -Math.cos(a) * sp * 0.7 + rand(-15, 15); my = -Math.sin(a) * sp * 0.6 + rand(-15, 15);
+            } else {
+                const a = rand(0, Math.PI * 2);
+                x = w / 2 + rand(-15, 15); y = h / 2 + rand(-15, 15);
+                mx = Math.cos(a) * sp * rand(0.4, 1); my = Math.sin(a) * sp * rand(0.4, 1);
+            }
+            const slashLike = cfg.shape === 'slash';
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.style.setProperty('--mx', `${slashLike ? 0 : mx}px`);
+            el.style.setProperty('--my', `${slashLike ? 0 : my}px`);
+            el.style.setProperty('--r0', `${slashLike ? -35 + rand(-15, 15) : rand(-90, 90)}deg`);
+            el.style.setProperty('--r1', `${slashLike ? -35 + rand(-15, 15) : rand(-360, 360)}deg`);
+            el.style.setProperty('--s0', cfg.shape === 'ring' ? String(0.15 + i * 0.1) : '0.6');
+            el.style.setProperty('--s1', cfg.shape === 'ring' ? String(2 + i * 0.5) : '1.1');
+            if (slashLike) {
+                el.style.left = `${w / 2 + rand(-sp, sp) * 0.5}px`;
+                el.style.top = `${h / 2 + rand(-sp, sp) * 0.5}px`;
+            }
+            layer.appendChild(el);
+        }
+
+        tela.appendChild(layer);
+        if (cfg.shake) {
+            tela.classList.remove('fx-shake');
+            void tela.offsetWidth;
+            tela.classList.add('fx-shake');
+        }
+        setTimeout(() => {
+            layer.remove();
+            tela.classList.remove('fx-shake');
+        }, cfg.dur * 1.6 + 100);
+    }
+
     function aguardar(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
@@ -293,11 +395,14 @@
             if (ev.animacao) {
                 aplicarAnimacao(ev.animacao);
             }
+            if (ev.tipo_efeito && ev.animacao) {
+                tocarEfeitoTipo(ev.tipo_efeito, ev.animacao.startsWith('wild') ? 'wild' : 'player');
+            }
             if (ev.mensagem) {
                 els.battleMessageText.textContent = ev.mensagem;
                 await aguardarAvancoMensagem(1400);
             } else {
-                await aguardar(520);
+                await aguardar(ev.tipo_efeito ? 900 : 520);
             }
         }
     }

@@ -24,7 +24,7 @@ $classeHp = static function (float $pct): string {
     <title>Bigomon - Wild Battle</title>
 </head>
 <body id="wildBody">
-    <main class="battle-screen" aria-label="Tela de batalha">
+    <main class="battle-screen">
         <!-- Status do Pokémon selvagem -->
         <section class="pokemon-status pokemon-status-front" aria-label="Status do Pokémon adversário">
             <div class="status-name-row">
@@ -72,7 +72,7 @@ $classeHp = static function (float $pct): string {
             >
         </div>
 
-        <!-- Menu inferior (Estilo Pokémon Emerald) -->
+        <!-- Menu inferior  -->
         <section class="battle-menu" id="battleMenu" aria-label="Menu de batalha">
             <!-- Modo principal / mensagem -->
             <div class="battle-message" id="battleMessage">
@@ -88,7 +88,7 @@ $classeHp = static function (float $pct): string {
                 <button type="button" class="battle-action" id="btnRun" data-action="run"><span class="cursor">▶</span> RUN</button>
             </nav>
 
-            <!-- Submenu FIGHT (grade 2x2 de golpes + painel de detalhes estilo Emerald) -->
+            <!-- Submenu FIGHT -->
             <div class="fight-panel hidden" id="fightPanel" aria-label="Escolha de golpes">
                 <div class="move-grid" id="moveGrid"></div>
                 <aside class="move-details" id="moveDetails">
@@ -113,7 +113,7 @@ $classeHp = static function (float $pct): string {
             </div>
         </section>
 
-        <!-- Overlay Party Screen (Estilo Pokémon Emerald) -->
+        <!-- Party Screen -->
         <section class="party-overlay hidden" id="partyOverlay" aria-label="Equipe Pokémon" aria-modal="true" role="dialog">
             <div class="party-layout">
                 <div class="party-active-column" id="partyActiveSlot"></div>
@@ -125,7 +125,7 @@ $classeHp = static function (float $pct): string {
                 <button type="button" class="party-cancel-btn" id="btnPartyCancel">CANCELAR</button>
             </footer>
 
-            <!-- Mini-menu TROCAR / CANCELAR do Emerald -->
+            <!-- Mini-menu TROCAR / CANCELAR-->
             <div class="party-action-box hidden" id="partyActionBox">
                 <button type="button" class="party-action-item" id="btnPartySwitch"><span class="cursor">▶</span> TROCAR</button>
                 <button type="button" class="party-action-item" id="btnPartyActionCancel"><span class="cursor">▶</span> CANCELAR</button>

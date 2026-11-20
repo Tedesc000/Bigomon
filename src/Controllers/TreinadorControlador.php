@@ -343,7 +343,7 @@ class TreinadorControlador {
 
             if ($slotDisponivel !== null) {
                 $setter = 'setSlot' . $slotDisponivel;
-                $treinador->$setter($idPokemon);
+                $treinador->$setter((int) $pokemon->getIdPokemon());
                 if (!$treinador->salvar()) {
                     $this->pdo->rollBack();
                     http_response_code(500);
