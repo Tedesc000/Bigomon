@@ -31,7 +31,7 @@
     ?>
     <title>Ver Perfil</title>
 </head>
-<body id="home">
+<body id="home" class="paginaPerfil">
     <div id="container">
         <div id="tituloContainer">
             <span id="titulo">BIGOMON</span>

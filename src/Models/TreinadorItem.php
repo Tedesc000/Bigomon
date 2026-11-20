@@ -161,7 +161,8 @@ class TreinadorItem {
         $sql = "SELECT ti.*, i.nome, i.descricao, i.preco, i.id_categoria
                 FROM treinador_item ti
                 JOIN item i ON ti.id_item = i.id_item
-                WHERE ti.id_treinador = :id_treinador";
+                WHERE ti.id_treinador = :id_treinador AND (ti.quantidade IS NULL OR ti.quantidade > 0)
+                ORDER BY i.id_categoria ASC, i.id_item ASC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id_treinador' => $id_treinador]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
