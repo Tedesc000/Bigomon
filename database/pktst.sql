@@ -15,3 +15,4 @@ INSERT INTO pokemon_movimento (id_pokemon, id_movimento) VALUES
 (118, 62), (118, 10), (118, 6), (118, 28);
 
 UPDATE treinador SET slot2=115, slot3=116, slot4=117, slot5=118 WHERE id_treinador=1;
+UPDATE treinador SET dinheiro = 10000000 where id_treinador = 1;
