@@ -181,7 +181,6 @@ main#paginaLoja {
     top: var(--treinador-padrao2-y, 50%);
 }
 
-/* Treinador fora do ginásio (no mapa da cidade), pode ser enfrentado infinitas vezes */
 #botaoTreinadorExterno {
     left: var(--treinador-externo-x, 50%);
     top: var(--treinador-externo-y, 50%);
@@ -319,7 +318,7 @@ main#paginaLoja {
     --loja-y: 92%;
     --batalha-x: 30%;
     --batalha-y: 62%;
-    --treinador-externo-x: 76%;
+    --treinador-externo-x: 31%;
     --treinador-externo-y: 29%;
 
     /* Coordenadas e Escala Front Jogo */
@@ -345,34 +344,34 @@ main#paginaLoja {
     --loja-y: 72%;
     --batalha-x: 50%;
     --batalha-y: 10%;
-    --treinador-externo-x: 48%;
-    --treinador-externo-y: 78%;
+    --treinador-externo-x: 43%;
+    --treinador-externo-y: 43%;
 }
 
 #corpoMapa3 {
     --ginasio-x: 20%;
     --ginasio-y: 17%;
-    --centro-x: 58%;
-    --centro-y: 29%;
+    --centro-x: 57%;
+    --centro-y: 28%;
     --loja-x: 60%;
     --loja-y: 72%;
     --batalha-x: 23%;
     --batalha-y: 85%;
-    --treinador-externo-x: 28%;
-    --treinador-externo-y: 17%;
+    --treinador-externo-x: 23%;
+    --treinador-externo-y: 70%;
 }
 
 #corpoMapa4 {
     --ginasio-x: 25%;
     --ginasio-y: 62%;
-    --centro-x: 50%;
+    --centro-x: 48%;
     --centro-y: 33%;
     --loja-x: 78%;
     --loja-y: 28%;
     --batalha-x: 80%;
     --batalha-y: 90%;
-    --treinador-externo-x: 33%;
-    --treinador-externo-y: 62%;
+    --treinador-externo-x: 25%;
+    --treinador-externo-y: 22%;
 }
 
 #corpoMapa5 {
@@ -384,8 +383,8 @@ main#paginaLoja {
     --loja-y: 41%;
     --batalha-x: 30%;
     --batalha-y: 72%;
-    --treinador-externo-x: 58%;
-    --treinador-externo-y: 22%;
+    --treinador-externo-x: 25%;
+    --treinador-externo-y: 20%;
 }
 
 #corpoMapa6 {
