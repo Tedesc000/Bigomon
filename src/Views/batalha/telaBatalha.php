@@ -64,6 +64,8 @@ $classeHp = static function (float $pct): string {
                 src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/brilliant-diamond-shining-pearl/<?= (int) $oponente['id_pokedex'] ?>.webp"
                 alt="<?= htmlspecialchars($oponente['nome'], ENT_QUOTES, 'UTF-8') ?> <?= $sufixoOponente ?>"
             >
+            <!-- Pokébola arremessada na captura -->
+            <img id="pokeballSprite" class="pokeball-sprite hidden" src="" alt="">
         </div>
 
         <!-- Status do Pokémon do jogador -->
@@ -145,9 +147,25 @@ $classeHp = static function (float $pct): string {
 
             <!-- Mini-menu TROCAR / CANCELAR-->
             <div class="party-action-box hidden" id="partyActionBox">
-                <button type="button" class="party-action-item" id="btnPartySwitch"><span class="cursor">▶</span> TROCAR</button>
+                <button type="button" class="party-action-item" id="btnPartySwitch"><span class="cursor">▶</span> <span id="btnPartySwitchLabel">TROCAR</span></button>
                 <button type="button" class="party-action-item" id="btnPartyActionCancel"><span class="cursor">▶</span> CANCELAR</button>
             </div>
+        </section>
+
+        <!-- Bolsa de itens da batalha -->
+        <section class="bag-overlay hidden" id="bagOverlay" aria-label="Bolsa de itens" aria-modal="true" role="dialog">
+            <div class="bag-layout">
+                <div class="bag-list" id="bagList"></div>
+                <aside class="bag-detail">
+                    <img class="bag-detail-img hidden" id="bagDetailImg" src="" alt="">
+                    <p class="bag-detail-text" id="bagDetailText">Escolha um item.</p>
+                </aside>
+            </div>
+
+            <footer class="party-footer">
+                <div class="party-prompt" id="bagPrompt">Qual item usar?</div>
+                <button type="button" class="party-cancel-btn" id="btnBagCancel">CANCELAR</button>
+            </footer>
         </section>
     </main>
 

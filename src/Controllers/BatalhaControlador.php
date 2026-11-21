@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../Utils/tmImagens.php';
+
 class BatalhaControlador
 {
     private $pdo;
@@ -205,24 +207,279 @@ class BatalhaControlador
         require_once __DIR__ . '/../Views/batalha/batalhaMatinho.php';
     }
 
+    // Usa um item da bolsa durante a batalha (cura/reviver em qualquer Pokémon da equipe, Pokébola só no matinho).
+    // Gasta o turno: depois do item, o oponente ataca.
     public function usarItem()
     {
-        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
-        if (!$idTreinador) {
-            header("Location: ?modulo=treinador&acao=cadastroLogin");
-            exit;
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['ok' => false, 'erro' => 'Método não permitido.']);
+            return;
         }
 
-        $idItem = (int)($_POST['id_item'] ?? 0);
-        $tipoBatalha = $_POST['tipo_batalha'] ?? ($_SESSION['batalha_atual']['tipo'] ?? 'matinho');
-        $destino = ($tipoBatalha === 'treinador') ? 'batalhaTreinador' : 'batalhaMatinho';
-
-        if ($idItem > 0) {
-            $_SESSION['item_usado_batalha'] = $idItem;
+        $batalha = $this->obterBatalhaAtiva();
+        if (!$batalha) {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => 'Nenhuma batalha ativa encontrada.']);
+            return;
         }
 
-        header("Location: ?modulo=batalha&acao={$destino}");
-        exit;
+        if (!empty($batalha['troca_obrigatoria'])) {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => 'Escolha um Pokémon antes de usar um item.']);
+            return;
+        }
+
+        $payload = $this->lerJsonBody();
+        $idItem = (int) ($payload['id_item'] ?? 0);
+        $idTreinador = (int) $batalha['id_treinador'];
+
+        $item = $this->buscarItemDoTreinador($idTreinador, $idItem);
+        if (!$item) {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => 'Você não tem esse item.']);
+            return;
+        }
+
+        if (ItemEfeito::ehPokebola($idItem) && $batalha['tipo'] !== 'matinho') {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => 'Não dá pra capturar o Pokémon de outro treinador!']);
+            return;
+        }
+
+        if (!ItemEfeito::permitidoNaBatalha($idItem, $batalha['tipo'])) {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => 'Esse item não pode ser usado em batalha.']);
+            return;
+        }
+
+        $nomeItem = strtoupper($item['nome']);
+        $eventos = [];
+        $redirect = null;
+
+        if (ItemEfeito::ehPokebola($idItem)) {
+            $this->consumirItem($idTreinador, $idItem);
+            $redirect = $this->arremessarPokebola($batalha, $idItem, $nomeItem, $eventos);
+        } else {
+            $idPokemonAlvo = (int) ($payload['id_pokemon'] ?? 0);
+            $alvoIdx = null;
+            foreach ($batalha['equipe'] as $idx => $poke) {
+                if ((int) $poke['id_pokemon'] === $idPokemonAlvo) {
+                    $alvoIdx = $idx;
+                    break;
+                }
+            }
+            if ($alvoIdx === null) {
+                http_response_code(400);
+                echo json_encode(['ok' => false, 'erro' => 'Escolha um Pokémon da sua equipe.']);
+                return;
+            }
+
+            $resultado = ItemEfeito::aplicarConsumivel($batalha['equipe'][$alvoIdx], $idItem);
+            if (!$resultado['ok']) {
+                http_response_code(400);
+                echo json_encode(['ok' => false, 'erro' => $resultado['erro']]);
+                return;
+            }
+
+            $this->consumirItem($idTreinador, $idItem);
+
+            $nomeAlvo = strtoupper($batalha['equipe'][$alvoIdx]['nome']);
+            $eventos[] = [
+                'mensagem' => "Você usou {$nomeItem} em {$nomeAlvo}!",
+                'animacao' => null,
+                'hud' => $this->montarSnapshotHud($batalha),
+            ];
+            foreach ($resultado['mensagens'] as $msg) {
+                $eventos[] = [
+                    'mensagem' => $msg,
+                    'animacao' => null,
+                    'hud' => $this->montarSnapshotHud($batalha),
+                ];
+            }
+
+            $this->turnoDoOponente($batalha, $eventos, $redirect);
+        }
+
+        $this->sincronizarEquipeNoBanco($batalha['equipe']);
+        $this->salvarBatalha($batalha);
+
+        echo json_encode([
+            'ok' => true,
+            'eventos' => $eventos,
+            'estado' => $this->montarEstadoPublico($batalha),
+            'redirect' => $redirect,
+        ]);
+    }
+
+    // Oponente ataca + dano de fim de turno + desmaios (usado quando o jogador gastou o turno sem atacar)
+    private function turnoDoOponente(array &$batalha, array &$eventos, ?string &$redirect): void
+    {
+        if ((int) $this->oponenteAtivo($batalha)['hp_atual'] <= 0) {
+            return;
+        }
+        $movOponente = $this->escolherMovimentoOponente($this->oponenteAtivo($batalha));
+        $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
+        $this->aplicarFimDeTurno($batalha, $eventos);
+        $redirect = $this->finalizarVerificacoesTurno($batalha, $eventos);
+    }
+
+    // Arremessa a Pokébola no selvagem; retorna o redirect se capturou (ou se a batalha acabou no contra-ataque)
+    private function arremessarPokebola(array &$batalha, int $idItem, string $nomeItem, array &$eventos): ?string
+    {
+        $selvagem = $this->oponenteAtivo($batalha);
+        $nomeSelvagem = $this->nomeOponente($batalha);
+        $resultado = ItemEfeito::tentarCaptura($selvagem, $idItem);
+        $bolaUrl = urlImagemItem($idItem, $nomeItem);
+
+        $eventos[] = [
+            'mensagem' => "Você arremessou uma {$nomeItem}!",
+            'animacao' => 'ball-throw',
+            'bola_url' => $bolaUrl,
+            'hud' => $this->montarSnapshotHud($batalha),
+        ];
+        for ($i = 0; $i < $resultado['balancadas']; $i++) {
+            $eventos[] = [
+                'mensagem' => null,
+                'animacao' => 'ball-shake',
+                'hud' => $this->montarSnapshotHud($batalha),
+            ];
+        }
+
+        if (!$resultado['capturou']) {
+            $mensagem = match ($resultado['balancadas']) {
+                0 => 'Ah não! O Pokémon escapou!',
+                1 => 'Aaah! Parecia que tinha pegado!',
+                2 => 'Argh! Quase!',
+                default => 'Droga! Foi por pouco!',
+            };
+            $eventos[] = [
+                'mensagem' => $mensagem,
+                'animacao' => 'ball-break',
+                'hud' => $this->montarSnapshotHud($batalha),
+            ];
+
+            $redirect = null;
+            $this->turnoDoOponente($batalha, $eventos, $redirect);
+            return $redirect;
+        }
+
+        $eventos[] = [
+            'mensagem' => "Gotcha! " . strtoupper($selvagem['nome']) . " foi capturado!",
+            'animacao' => 'capture-ok',
+            'hud' => $this->montarSnapshotHud($batalha),
+        ];
+
+        $foiParaEquipe = $this->registrarCaptura((int) $batalha['id_treinador'], $selvagem);
+        if (!$foiParaEquipe) {
+            $eventos[] = [
+                'mensagem' => strtoupper($selvagem['nome']) . ' foi enviado para o PC.',
+                'animacao' => null,
+                'hud' => $this->montarSnapshotHud($batalha),
+            ];
+        }
+
+        $batalha['finalizada'] = true;
+        $batalha['resultado'] = 'captura';
+        return '?modulo=mapa&acao=' . urlencode($batalha['mapa_retorno'] ?? 'mapaInicio');
+    }
+
+    // Grava o Pokémon capturado (HP/status atuais e os golpes que ele usava). Retorna true se entrou na equipe, false se foi pro box
+    private function registrarCaptura(int $idTreinador, array $selvagem): bool
+    {
+        $this->pdo->beginTransaction();
+        try {
+            $stmt = $this->pdo->prepare(
+                "INSERT INTO pokemon (id_treinador, id_pokedex, nome, hp_atual, sexo, status)
+                 VALUES (:id_treinador, :id_pokedex, :nome, :hp_atual, :sexo, :status)"
+            );
+            $stmt->execute([
+                'id_treinador' => $idTreinador,
+                'id_pokedex' => (int) $selvagem['id_pokedex'],
+                'nome' => $selvagem['nome'],
+                'hp_atual' => max(1, (int) $selvagem['hp_atual']),
+                'sexo' => random_int(0, 1) === 0 ? 'Masculino' : 'Feminino',
+                'status' => $selvagem['status'] ?: null,
+            ]);
+            $idPokemon = (int) $this->pdo->lastInsertId();
+
+            $stmtMov = $this->pdo->prepare(
+                "INSERT INTO pokemon_movimento (id_pokemon, id_movimento) VALUES (:id_pokemon, :id_movimento)"
+            );
+            foreach ($selvagem['movimentos'] as $mov) {
+                $stmtMov->execute(['id_pokemon' => $idPokemon, 'id_movimento' => (int) $mov['id_movimento']]);
+            }
+
+            $stmtSlots = $this->pdo->prepare(
+                "SELECT slot1, slot2, slot3, slot4, slot5, slot6 FROM treinador WHERE id_treinador = :id FOR UPDATE"
+            );
+            $stmtSlots->execute(['id' => $idTreinador]);
+            $slots = $stmtSlots->fetch(PDO::FETCH_ASSOC) ?: [];
+
+            $slotLivre = null;
+            for ($i = 1; $i <= 6; $i++) {
+                if (empty($slots["slot{$i}"])) {
+                    $slotLivre = $i;
+                    break;
+                }
+            }
+
+            if ($slotLivre !== null) {
+                $this->pdo->prepare("UPDATE treinador SET slot{$slotLivre} = :id_pokemon WHERE id_treinador = :id")
+                    ->execute(['id_pokemon' => $idPokemon, 'id' => $idTreinador]);
+            }
+
+            $this->pdo->commit();
+        } catch (Throwable $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
+
+        (new Treinador($this->pdo))->recarregarSessao($idTreinador);
+        return $slotLivre !== null;
+    }
+
+    private function buscarItemDoTreinador(int $idTreinador, int $idItem): ?array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT i.id_item, i.nome, i.descricao, i.id_categoria, ti.quantidade
+             FROM treinador_item ti
+             INNER JOIN item i ON i.id_item = ti.id_item
+             WHERE ti.id_treinador = :id_treinador AND ti.id_item = :id_item AND ti.quantidade > 0"
+        );
+        $stmt->execute(['id_treinador' => $idTreinador, 'id_item' => $idItem]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
+    private function consumirItem(int $idTreinador, int $idItem): void
+    {
+        (new TreinadorItem($this->pdo))->removerItem($idTreinador, $idItem, 1);
+    }
+
+    // Itens que aparecem na bolsa da batalha (cura, reviver e Pokébolas), com flag se podem ser usados nesta batalha
+    private function listarItensBatalha(array $batalha): array
+    {
+        $itens = (new TreinadorItem($this->pdo))->buscarItensTreinador((int) $batalha['id_treinador']);
+        $lista = [];
+        foreach ($itens as $item) {
+            $idItem = (int) $item['id_item'];
+            if (!ItemEfeito::usavelEmBatalha($idItem)) {
+                continue;
+            }
+            $efeito = ItemEfeito::efeito($idItem);
+            $lista[] = [
+                'id_item' => $idItem,
+                'nome' => $item['nome'],
+                'descricao' => $item['descricao'],
+                'quantidade' => (int) $item['quantidade'],
+                'tipo' => $efeito['tipo'],
+                'imagem' => urlImagemItem($idItem, (string) $item['nome']),
+                'permitido' => ItemEfeito::permitidoNaBatalha($idItem, $batalha['tipo']),
+            ];
+        }
+        return $lista;
     }
 
     public function atacar()
@@ -700,7 +957,7 @@ class BatalhaControlador
     private function sortearPokemonSelvagem(int $idMatinho): ?array
     {
         $stmt = $this->pdo->prepare(
-            "SELECT pd.id_pokedex, pd.nome, pd.hp, pd.atk, pd.def, pd.spa, pd.spd, pd.spe
+            "SELECT pd.id_pokedex, pd.nome, pd.fase, pd.hp, pd.atk, pd.def, pd.spa, pd.spd, pd.spe
              FROM matinho_pokedex mp
              INNER JOIN pokedex pd ON pd.id_pokedex = mp.id_pokedex
              WHERE mp.id_matinho = :id_matinho
@@ -712,7 +969,7 @@ class BatalhaControlador
 
         if (!$dados) {
             $stmtFallback = $this->pdo->query(
-                "SELECT id_pokedex, nome, hp, atk, def, spa, spd, spe FROM pokedex ORDER BY RAND() LIMIT 1"
+                "SELECT id_pokedex, nome, fase, hp, atk, def, spa, spd, spe FROM pokedex ORDER BY RAND() LIMIT 1"
             );
             $dados = $stmtFallback->fetch(PDO::FETCH_ASSOC);
         }
@@ -738,6 +995,7 @@ class BatalhaControlador
         return [
             'id_pokedex' => $idPokedex,
             'nome' => $dados['nome'],
+            'fase' => (int) $dados['fase'],
             'hp_atual' => $hpMax,
             'hp_maximo' => $hpMax,
             'atk' => max(1, (int) $dados['atk']),
@@ -1315,6 +1573,7 @@ class BatalhaControlador
                 'status' => $oponente['status'],
             ],
             'equipe' => $equipePublica,
+            'itens' => $this->listarItensBatalha($batalha),
         ];
     }
 }

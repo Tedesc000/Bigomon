@@ -45,6 +45,15 @@
         partyActionBox: document.getElementById('partyActionBox'),
         btnPartySwitch: document.getElementById('btnPartySwitch'),
         btnPartyActionCancel: document.getElementById('btnPartyActionCancel'),
+        btnPartySwitchLabel: document.getElementById('btnPartySwitchLabel'),
+
+        pokeballSprite: document.getElementById('pokeballSprite'),
+        bagOverlay: document.getElementById('bagOverlay'),
+        bagList: document.getElementById('bagList'),
+        bagDetailImg: document.getElementById('bagDetailImg'),
+        bagDetailText: document.getElementById('bagDetailText'),
+        bagPrompt: document.getElementById('bagPrompt'),
+        btnBagCancel: document.getElementById('btnBagCancel'),
     };
 
     const STATUS_LABELS = {
@@ -79,8 +88,9 @@
     const SUFIXO_OPONENTE = estado.tipo === 'treinador' ? 'inimigo' : 'selvagem';
 
     let ocupado = false;
-    let modoAtual = 'main'; // 'main' | 'fight' | 'message' | 'party'
+    let modoAtual = 'main'; // 'main' | 'fight' | 'message' | 'party' | 'bag'
     let pokemonSelecionadoParty = null;
+    let itemEmUso = null; // item da bolsa aguardando a escolha do Pokémon alvo
     let resolverCliqueMensagem = null;
 
     function spriteFrontUrl(idPokedex) {
@@ -246,7 +256,7 @@
         }
     }
 
-    function aplicarAnimacao(animacao) {
+    function aplicarAnimacao(animacao, ev = null) {
         const limpar = (el) => {
             el.classList.remove(
                 'anim-player-attack',
@@ -275,6 +285,22 @@
         } else if (animacao === 'wild-faint') {
             limpar(els.wildSpriteWrap);
             els.wildSpriteWrap.classList.add('anim-faint');
+        } else if (animacao === 'ball-throw') {
+            limpar(els.wildSpriteWrap);
+            if (ev && ev.bola_url) {
+                els.pokeballSprite.src = ev.bola_url;
+            }
+            els.pokeballSprite.className = 'pokeball-sprite anim-ball-throw';
+            els.wildSpriteWrap.classList.add('is-captured');
+        } else if (animacao === 'ball-shake') {
+            els.pokeballSprite.className = 'pokeball-sprite';
+            void els.pokeballSprite.offsetWidth;
+            els.pokeballSprite.className = 'pokeball-sprite anim-ball-shake';
+        } else if (animacao === 'capture-ok') {
+            els.pokeballSprite.className = 'pokeball-sprite is-caught';
+        } else if (animacao === 'ball-break') {
+            els.pokeballSprite.className = 'pokeball-sprite hidden';
+            els.wildSpriteWrap.classList.remove('is-captured');
         }
     }
 
@@ -409,7 +435,7 @@
                 atualizarHud(ev.hud);
             }
             if (ev.animacao) {
-                aplicarAnimacao(ev.animacao);
+                aplicarAnimacao(ev.animacao, ev);
             }
             if (ev.tipo_efeito && ev.animacao) {
                 tocarEfeitoTipo(ev.tipo_efeito, ev.animacao.startsWith('wild') ? 'wild' : 'player');
@@ -519,15 +545,22 @@
         return btn;
     }
 
+    function textoPromptParty() {
+        if (itemEmUso) return `Usar ${itemEmUso.nome.toUpperCase()} em qual POKÉMON?`;
+        return estado.troca_obrigatoria
+            ? 'Escolha o próximo POKÉMON para batalhar!'
+            : 'Escolha um POKÉMON.';
+    }
+
     function abrirTelaPokemon(obrigatoria = false) {
         modoAtual = 'party';
         pokemonSelecionadoParty = null;
+        if (obrigatoria) itemEmUso = null;
         els.partyActionBox.classList.add('hidden');
         els.partyOverlay.classList.remove('hidden');
+        els.btnPartySwitchLabel.textContent = itemEmUso ? 'USAR' : 'TROCAR';
 
-        els.partyPrompt.textContent = obrigatoria
-            ? 'Escolha o próximo POKÉMON para batalhar!'
-            : 'Escolha um POKÉMON.';
+        els.partyPrompt.textContent = textoPromptParty();
 
         if (obrigatoria) {
             els.btnPartyCancel.classList.add('hidden');
@@ -563,12 +596,27 @@
         pokemonSelecionadoParty = null;
         els.partyActionBox.classList.add('hidden');
         els.partyOverlay.classList.add('hidden');
+        if (itemEmUso) {
+            // Cancelar a escolha do alvo volta pra bolsa
+            itemEmUso = null;
+            abrirBolsa();
+            return;
+        }
         definirModoMenu('main');
     }
 
     function selecionarPokemonParty(poke, cardEl) {
         els.partyOverlay.querySelectorAll('.party-card').forEach((c) => c.classList.remove('selected'));
         cardEl.classList.add('selected');
+
+        // Modo item: qualquer Pokémon da equipe pode ser alvo (o servidor valida se o item tem efeito)
+        if (itemEmUso) {
+            pokemonSelecionadoParty = poke;
+            els.partyPrompt.textContent = `Usar ${itemEmUso.nome.toUpperCase()} em ${poke.nome}?`;
+            els.partyActionBox.classList.remove('hidden');
+            els.btnPartySwitch.focus();
+            return;
+        }
 
         if (poke.ativo) {
             els.partyActionBox.classList.add('hidden');
@@ -593,7 +641,80 @@
         const idPokemon = pokemonSelecionadoParty.id_pokemon;
         els.partyActionBox.classList.add('hidden');
         els.partyOverlay.classList.add('hidden');
+        if (itemEmUso) {
+            const idItem = itemEmUso.id_item;
+            itemEmUso = null;
+            enviarAcao('usarItem', { id_item: idItem, id_pokemon: idPokemon });
+            return;
+        }
         enviarAcao('trocar', { id_pokemon: idPokemon });
+    }
+
+    // ---------- Bolsa de itens da batalha ----------
+    function abrirBolsa() {
+        modoAtual = 'bag';
+        els.bagOverlay.classList.remove('hidden');
+        els.bagList.innerHTML = '';
+        els.bagDetailImg.classList.add('hidden');
+        els.bagDetailText.textContent = 'Escolha um item.';
+        els.bagPrompt.textContent = 'Qual item usar?';
+
+        const itens = Array.isArray(estado.itens) ? estado.itens : [];
+        if (itens.length === 0) {
+            const vazio = document.createElement('div');
+            vazio.className = 'bag-empty';
+            vazio.textContent = 'Nenhum item utilizável em batalha.';
+            els.bagList.appendChild(vazio);
+            return;
+        }
+
+        itens.forEach((item) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'bag-item' + (item.permitido ? '' : ' is-disabled');
+            btn.innerHTML = `
+                <img class="bag-item-img" src="${item.imagem}" alt="" onerror="this.style.visibility='hidden'">
+                <span class="bag-item-name"></span>
+                <span class="bag-item-qty">x${item.quantidade}</span>
+            `;
+            btn.querySelector('.bag-item-name').textContent = item.nome.toUpperCase();
+            btn.addEventListener('mouseenter', () => mostrarDetalheItem(item));
+            btn.addEventListener('focus', () => mostrarDetalheItem(item));
+            btn.addEventListener('click', () => escolherItem(item));
+            els.bagList.appendChild(btn);
+        });
+
+        const primeiro = els.bagList.querySelector('.bag-item');
+        if (primeiro) primeiro.focus();
+    }
+
+    function mostrarDetalheItem(item) {
+        els.bagDetailImg.src = item.imagem;
+        els.bagDetailImg.classList.remove('hidden');
+        els.bagDetailText.textContent = item.permitido
+            ? item.descricao
+            : 'Não dá pra capturar o Pokémon de outro treinador!';
+    }
+
+    function fecharBolsa(voltarMenu = true) {
+        els.bagOverlay.classList.add('hidden');
+        if (voltarMenu) definirModoMenu('main');
+    }
+
+    function escolherItem(item) {
+        if (ocupado) return;
+        if (!item.permitido) {
+            mostrarDetalheItem(item);
+            els.bagPrompt.textContent = 'Esse item não pode ser usado agora.';
+            return;
+        }
+        fecharBolsa(false);
+        if (item.tipo === 'pokebola') {
+            enviarAcao('usarItem', { id_item: item.id_item });
+            return;
+        }
+        itemEmUso = item;
+        abrirTelaPokemon(false);
     }
 
     // Eventos dos botões
@@ -619,17 +740,15 @@
 
     els.btnBag.addEventListener('click', () => {
         if (ocupado) return;
-        const tipoBatalha = estado.tipo === 'treinador' ? 'treinador' : 'matinho';
-        window.location.href = `?modulo=bolsa&acao=listarItens&origem=batalha&tipo=${tipoBatalha}`;
+        abrirBolsa();
     });
+    els.btnBagCancel.addEventListener('click', () => fecharBolsa());
 
     els.btnPartyCancel.addEventListener('click', fecharTelaPokemon);
     els.btnPartyActionCancel.addEventListener('click', () => {
         pokemonSelecionadoParty = null;
         els.partyActionBox.classList.add('hidden');
-        els.partyPrompt.textContent = estado.troca_obrigatoria
-            ? 'Escolha o próximo POKÉMON para batalhar!'
-            : 'Escolha um POKÉMON.';
+        els.partyPrompt.textContent = textoPromptParty();
     });
     els.btnPartySwitch.addEventListener('click', confirmarTrocaPokemon);
 
@@ -651,6 +770,9 @@
             if (modoAtual === 'fight' && !ocupado) {
                 e.preventDefault();
                 definirModoMenu('main');
+            } else if (modoAtual === 'bag' && !ocupado) {
+                e.preventDefault();
+                fecharBolsa();
             } else if (modoAtual === 'party' && !ocupado) {
                 e.preventDefault();
                 if (!els.partyActionBox.classList.contains('hidden')) {
