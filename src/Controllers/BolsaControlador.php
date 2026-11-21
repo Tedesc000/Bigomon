@@ -21,11 +21,14 @@ class BolsaControlador
 
         $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
         $itensTreinador = [];
+        $equipeBolsa = [];
 
         if ($idTreinador) {
             require_once __DIR__ . "/../Models/TreinadorItem.php";
             $treinadorItem = new TreinadorItem($this->pdo);
             $itensTreinador = $treinadorItem->buscarItensTreinador($idTreinador);
+            // Equipe para escolher o alvo ao usar um item (cura, TM, Evolution Stone)
+            $equipeBolsa = array_values(array_filter($this->carregarSlotsDetalhados((int) $idTreinador)));
         }
 
         require_once __DIR__ . "/../Views/bolsa/itens.php";
@@ -82,7 +85,8 @@ class BolsaControlador
                 pd.spa,
                 pd.spd,
                 pd.spe,
-                pd.fase
+                pd.fase,
+                pd.id_evolucao
              FROM pokemon p
              INNER JOIN pokedex pd ON pd.id_pokedex = p.id_pokedex
              WHERE p.id_treinador = :id_treinador
@@ -258,7 +262,7 @@ class BolsaControlador
 
         $stmtPokemons = $this->pdo->prepare(
             "SELECT p.id_pokemon, p.id_pokedex, p.nome, p.hp_atual, p.sexo, p.status,
-                    pd.hp AS hp_maximo, pd.atk, pd.def, pd.spa, pd.spd, pd.spe, pd.fase
+                    pd.hp AS hp_maximo, pd.atk, pd.def, pd.spa, pd.spd, pd.spe, pd.fase, pd.id_evolucao
              FROM pokemon p
              INNER JOIN pokedex pd ON pd.id_pokedex = p.id_pokedex
              WHERE p.id_treinador = :id_treinador
@@ -332,6 +336,7 @@ class BolsaControlador
             'spd' => (int) $poke['spd'],
             'spe' => (int) $poke['spe'],
             'fase' => (int) $poke['fase'],
+            'pode_evoluir' => !empty($poke['id_evolucao']),
             'sexo' => strtolower((string) $poke['sexo']),
             'status' => !empty($poke['status']) ? strtolower((string) $poke['status']) : null,
             'tipos' => $this->buscarTipos($idPokedex),
