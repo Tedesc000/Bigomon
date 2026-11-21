@@ -40,6 +40,17 @@
                     alt="Treinador padrão 2"
                 >
             </a>
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=7&treinador=3"
+                id="botaoLiderGinasio"
+                class="pontoLiderGinasio"
+                aria-label="Iniciar batalha contra Tate"
+            >
+                <img
+                    src="../public/assets/img/treinadores/tate.png"
+                    alt="Tate, líder do ginásio"
+                >
+            </a>
         </div>
         <a href="?modulo=mapa&acao=mapa7" id="botaoSeta" class="setaVoltar" aria-label="Voltar para Mossdeep">
             <img

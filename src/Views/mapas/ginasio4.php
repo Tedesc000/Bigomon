@@ -40,6 +40,17 @@
                     alt="Treinador padrão 2"
                 >
             </a>
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=4&treinador=3"
+                id="botaoLiderGinasio"
+                class="pontoLiderGinasio"
+                aria-label="Iniciar batalha contra Flannery"
+            >
+                <img
+                    src="../public/assets/img/treinadores/flannery.png"
+                    alt="Flannery, líder do ginásio"
+                >
+            </a>
         </div>
         <a href="?modulo=mapa&acao=mapa4" id="botaoSeta" class="setaVoltar" aria-label="Voltar para Lavaridge">
             <img

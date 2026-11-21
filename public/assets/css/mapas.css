@@ -134,9 +134,41 @@ main#paginaLoja {
     image-rendering: crisp-edges;
 }
 
+.pontoLiderGinasio {
+    position: absolute;
+    z-index: 4;
+    display: block;
+    width: clamp(56px, 7vw, 84px);
+    height: clamp(56px, 7vw, 84px);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    filter: drop-shadow(0 0 5px white)
+            drop-shadow(0 0 10px #ffdf70);
+    transition: transform 0.2s ease;
+}
+
+.pontoLiderGinasio:hover,
+.pontoLiderGinasio:focus-visible {
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+.pontoLiderGinasio img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    transform: scale(var(--lider-escala, 1));
+}
+
 #botaoGinasio img {
     width: 100%;
     height: 100%;
+}
+
+#botaoLiderGinasio {
+    left: var(--lider-x, 50%);
+    top: var(--lider-y, 18%);
 }
 
 #botaoTreinadorPadrao1 {
@@ -150,6 +182,9 @@ main#paginaLoja {
 }
 
 #corpoGinasio1 {
+    --lider-x: 50%;
+    --lider-y: 18%;
+    --lider-escala: 1.40;
     --treinador-padrao1-x: 50%;
     --treinador-padrao1-y: 75%;
     --treinador-padrao2-x: 18%;
@@ -157,6 +192,9 @@ main#paginaLoja {
 }
 
 #corpoGinasio2 {
+    --lider-x: 22.6%;
+    --lider-y: 15%;
+    --lider-escala: 1;
     --treinador-padrao1-x: 34%;
     --treinador-padrao1-y: 85%;
     --treinador-padrao2-x: 72%;
@@ -164,6 +202,9 @@ main#paginaLoja {
 }
 
 #corpoGinasio3 {
+    --lider-x: 50%;
+    --lider-y: 18%;
+    --lider-escala: 1;
     --treinador-padrao1-x: 50%;
     --treinador-padrao1-y: 75%;
     --treinador-padrao2-x: 50%;
@@ -171,6 +212,9 @@ main#paginaLoja {
 }
 
 #corpoGinasio4 {
+    --lider-x: 78%;
+    --lider-y: 58%;
+    --lider-escala: 1.06;
     --treinador-padrao1-x: 50%;
     --treinador-padrao1-y: 50%;
     --treinador-padrao2-x: 19%;
@@ -178,6 +222,9 @@ main#paginaLoja {
 }
 
 #corpoGinasio5 {
+    --lider-x: 50%;
+    --lider-y: 18%;
+    --lider-escala: 1.16;
     --treinador-padrao1-x: 50%;
     --treinador-padrao1-y: 80%;
     --treinador-padrao2-x: 50%;
@@ -185,6 +232,9 @@ main#paginaLoja {
 }
 
 #corpoGinasio6 {
+    --lider-x: 77%;
+    --lider-y: 15%;
+    --lider-escala: 1.03;
     --treinador-padrao1-x: 19%;
     --treinador-padrao1-y: 80%;
     --treinador-padrao2-x: 30%;
@@ -192,6 +242,9 @@ main#paginaLoja {
 }
 
 #corpoGinasio7 {
+    --lider-x: 92%;
+    --lider-y: 18%;
+    --lider-escala: 1.12;
     --treinador-padrao1-x: 20%;
     --treinador-padrao1-y: 58%;
     --treinador-padrao2-x: 90%;
@@ -199,6 +252,9 @@ main#paginaLoja {
 }
 
 #corpoGinasio8 {
+    --lider-x: 50%;
+    --lider-y: 8%;
+    --lider-escala: 0.97;
     --treinador-padrao1-x: 50%;
     --treinador-padrao1-y: 50%;
     --treinador-padrao2-x: 50%;

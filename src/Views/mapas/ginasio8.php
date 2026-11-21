@@ -40,6 +40,17 @@
                     alt="Treinador padrão 2"
                 >
             </a>
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=8&treinador=3"
+                id="botaoLiderGinasio"
+                class="pontoLiderGinasio"
+                aria-label="Iniciar batalha contra Juan"
+            >
+                <img
+                    src="../public/assets/img/treinadores/juan.png"
+                    alt="Juan, líder do ginásio"
+                >
+            </a>
         </div>
         <a href="?modulo=mapa&acao=mapa8" id="botaoSeta" class="setaVoltar" aria-label="Voltar para Sootopolis">
             <img
