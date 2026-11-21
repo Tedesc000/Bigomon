@@ -23,6 +23,7 @@
         moveDetailAcc: document.getElementById('moveDetailAcc'),
         btnMoveBack: document.getElementById('btnMoveBack'),
 
+        foeParty: document.getElementById('foeParty'),
         wildName: document.getElementById('wildName'),
         wildStatusBadge: document.getElementById('wildStatusBadge'),
         wildHpBar: document.getElementById('wildHpBar'),
@@ -74,6 +75,9 @@
         sombrio: 'DARK',
     };
 
+    // "selvagem" no matinho, "inimigo" contra treinador
+    const SUFIXO_OPONENTE = estado.tipo === 'treinador' ? 'inimigo' : 'selvagem';
+
     let ocupado = false;
     let modoAtual = 'main'; // 'main' | 'fight' | 'message' | 'party'
     let pokemonSelecionadoParty = null;
@@ -95,13 +99,13 @@
         els.wildSprite.onerror = () => {
             if (!els.wildSprite.dataset.fallback) {
                 els.wildSprite.dataset.fallback = '1';
-                els.wildSprite.src = spriteFrontFallback(estado.selvagem.id_pokedex);
+                els.wildSprite.src = spriteFrontFallback(els.wildSprite.dataset.pokedexId || estado.oponente.id_pokedex);
             }
         };
         els.playerSprite.onerror = () => {
             if (!els.playerSprite.dataset.fallback) {
                 els.playerSprite.dataset.fallback = '1';
-                els.playerSprite.src = spriteFrontFallback(estado.jogador.id_pokedex);
+                els.playerSprite.src = spriteFrontFallback(els.playerSprite.dataset.pokedexId || estado.jogador.id_pokedex);
             }
         };
     }
@@ -123,9 +127,18 @@
         el.classList.add(`status-${status}`);
     }
 
+    // Pokébolas do treinador adversário (só existe em batalha contra treinador)
+    function atualizarPokebolasAdversario(restantes) {
+        if (!els.foeParty || typeof restantes !== 'number') return;
+        els.foeParty.querySelectorAll('.foe-ball').forEach((bola, idx) => {
+            bola.classList.toggle('is-fainted', idx >= restantes);
+        });
+    }
+
     function atualizarHud(hud) {
         const j = hud.jogador;
-        const s = hud.selvagem;
+        const s = hud.oponente;
+        atualizarPokebolasAdversario(hud.oponente_restantes);
 
         els.wildName.textContent = s.nome;
         const pctWild = s.hp_maximo > 0 ? Math.max(0, Math.min(100, (s.hp_atual / s.hp_maximo) * 100)) : 0;
@@ -137,7 +150,10 @@
             els.wildSprite.dataset.pokedexId = String(s.id_pokedex);
             delete els.wildSprite.dataset.fallback;
             els.wildSprite.src = spriteFrontUrl(s.id_pokedex);
-            els.wildSprite.alt = `${s.nome} selvagem`;
+            els.wildSprite.alt = `${s.nome} ${SUFIXO_OPONENTE}`;
+        }
+        if (s.hp_atual > 0) {
+            els.wildSpriteWrap.classList.remove('anim-faint');
         }
 
         els.playerName.textContent = j.nome;
@@ -407,6 +423,14 @@
         }
     }
 
+    function hudDoEstado() {
+        return {
+            jogador: estado.jogador,
+            oponente: estado.oponente,
+            oponente_restantes: estado.adversario ? estado.adversario.restantes : undefined,
+        };
+    }
+
     async function enviarAcao(acao, body = {}) {
         if (ocupado) return;
         ocupado = true;
@@ -433,7 +457,7 @@
 
             if (data.estado) {
                 Object.assign(estado, data.estado);
-                atualizarHud({ jogador: estado.jogador, selvagem: estado.selvagem });
+                atualizarHud(hudDoEstado());
             }
 
             if (data.redirect) {
@@ -643,10 +667,18 @@
         }
     });
 
-    // Inicialização da batalha (vai direto para o menu principal ou troca obrigatória)
-    function iniciar() {
+    // Inicialização da batalha: toca a introdução (batalha contra treinador) e vai para o menu principal ou troca obrigatória
+    async function iniciar() {
         configurarFallbacksSprite();
-        atualizarHud({ jogador: estado.jogador, selvagem: estado.selvagem });
+        atualizarHud(hudDoEstado());
+
+        const introducao = Array.isArray(estado.eventos_iniciais) ? estado.eventos_iniciais : [];
+        if (introducao.length > 0) {
+            ocupado = true;
+            await reproduzirEventos(introducao);
+            ocupado = false;
+        }
+
         if (estado.troca_obrigatoria) {
             abrirTelaPokemon(true);
         } else {

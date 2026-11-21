@@ -28,19 +28,33 @@ body {
     display: none !important;
 }
 
+#wildBody,
 #trainerBody{
-    background-image: url('../img/batalha/trainerBattle.png');
-}
-
-#wildBody{
     width: 100%;
     height: 100vh;
     height: 100dvh;
-    background-image: url('../img/batalha/wildBattle.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
+}
+
+#wildBody{
+    background-image: url('../img/batalha/wildBattle.png');
+}
+
+/* trainerBattle.png tem uma faixa preta nos ~22% de cima da imagem:
+   ancora o fundo embaixo e garante que a parte sem faixa (77,5% da altura) cubra a tela inteira.
+   193.6vh = 100vh / 0.775 * 1.5 (proporção 1536x1024) */
+#trainerBody{
+    background-image: url('../img/batalha/trainerBattle.png');
+    background-size: max(100%, 193.6vh) auto;
+    background-position: center bottom;
+}
+
+/* Na trainerBattle.png a plataforma do adversário fica mais baixa que na wildBattle.png */
+#trainerBody .pokemon-sprite-front {
+    top: 12%;
 }
 
 .battle-screen {
@@ -212,6 +226,27 @@ body {
 .anim-wild-attack { animation: animWildAttack 0.32s ease-out; }
 .anim-hit { animation: animHitFlash 0.45s linear; }
 .anim-faint { animation: animFaint 0.55s ease-in forwards; }
+
+/* Pokébolas restantes do treinador adversário */
+.foe-party {
+    display: flex;
+    gap: clamp(4px, 0.5vw, 8px);
+    margin-top: clamp(6px, 0.7vw, 10px);
+}
+
+.foe-ball {
+    position: relative;
+    width: clamp(12px, 1.2vw, 18px);
+    height: clamp(12px, 1.2vw, 18px);
+    border: 2px solid #253711;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #e64c3c 0 45%, #253711 45% 55%, #fffef1 55% 100%);
+}
+
+.foe-ball.is-fainted {
+    background: #8c8c9c;
+    opacity: 0.6;
+}
 
 /* Menu inferior */
 .battle-menu {
