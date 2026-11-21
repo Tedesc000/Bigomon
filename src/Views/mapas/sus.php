@@ -10,6 +10,13 @@
 
 <body id="corpoSus">
     <main id="paginaSus">
+        <a href="?modulo=mapa&acao=<?= htmlspecialchars($_SESSION['mapa'] ?? 'mapaInicio') ?>" id="botaoSeta" class="setaVoltar" aria-label="Voltar para o mapa">
+            <img
+                id="seta"
+                src="../public/assets/img/icons/seta.png"
+                alt="Voltar"
+            >
+        </a>
         <div id="susContainer">
             <img
                 id="imagemSus"
@@ -22,9 +29,10 @@
                     src="../public/assets/img/icons/healing_machine.png"
                     alt="Máquina de cura Pokémon"
                 >
-                <form action="?modulo=pokemon&acao=curar" method="POST">
-                    <button type="submit" id="botaoCurar">Curar</button>
-                </form>
+                <button type="submit" class="botaoCurar">
+                    <span class="hoverText">▸</span>
+                    <span class="defaultText">CURAR</span>
+                </button>
             </div>
         </div>
         <aside id="barraPokemons" aria-label="Pokémons do treinador">
@@ -35,7 +43,7 @@
                         $hpMaximo = max(1, (int) $pokemon['hp_maximo']);
                         $hpAtual = max(0, min((int) $pokemon['hp_atual'], $hpMaximo));
                         ?>
-                        <article class="cartaoPokemon">
+                        <article class="cartaoPokemon"> 
                             <img
                                 class="imagemPokemon"
                                 src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= (int) $pokemon['id_pokedex'] ?>.png"
