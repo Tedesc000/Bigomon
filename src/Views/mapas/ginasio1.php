@@ -40,6 +40,17 @@
                     alt="Treinador padrão 2"
                 >
             </a>
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=1&treinador=3"
+                id="botaoLiderGinasio"
+                class="pontoLiderGinasio"
+                aria-label="Iniciar batalha contra Roxanne"
+            >
+                <img
+                    src="../public/assets/img/treinadores/roxanne.png"
+                    alt="Roxanne, líder do ginásio"
+                >
+            </a>
         </div>
         <a href="?modulo=mapa&acao=mapa1" id="botaoSeta" class="setaVoltar" aria-label="Voltar para Rustboro">
             <img

@@ -40,6 +40,17 @@
                     alt="Treinador padrão 2"
                 >
             </a>
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=3"
+                id="botaoLiderGinasio"
+                class="pontoLiderGinasio"
+                aria-label="Iniciar batalha contra Norman"
+            >
+                <img
+                    src="../public/assets/img/treinadores/norman.png"
+                    alt="Norman, líder do ginásio"
+                >
+            </a>
         </div>
         <a href="?modulo=mapa&acao=mapa5" id="botaoSeta" class="setaVoltar" aria-label="Voltar para Petalburg">
             <img

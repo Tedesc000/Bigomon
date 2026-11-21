@@ -27,14 +27,14 @@ class BatalhaControlador
 
     public function batalhaTreinador()
     {
-        $numeroTreinador = (int) ($_GET['treinador'] ?? 1);
-        if (!in_array($numeroTreinador, [1, 2], true)) {
-            $numeroTreinador = 1;
-        }
-
         $numeroGinasio = (int) ($_GET['ginasio'] ?? 1);
         if ($numeroGinasio < 1 || $numeroGinasio > 8) {
             $numeroGinasio = 1;
+        }
+
+        $numeroTreinador = (int) ($_GET['treinador'] ?? 1);
+        if (!in_array($numeroTreinador, [1, 2, 3], true)) {
+            $numeroTreinador = 1;
         }
 
         $_SESSION['batalha'] = 'batalhaTreinador';

@@ -40,6 +40,17 @@
                     alt="Treinador padrão 2"
                 >
             </a>
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=2&treinador=3"
+                id="botaoLiderGinasio"
+                class="pontoLiderGinasio"
+                aria-label="Iniciar batalha contra Brawly"
+            >
+                <img
+                    src="../public/assets/img/treinadores/brawly.png"
+                    alt="Brawly, líder do ginásio"
+                >
+            </a>
         </div>
         <a href="?modulo=mapa&acao=mapa2" id="botaoSeta" class="setaVoltar" aria-label="Voltar para Dewford">
             <img
