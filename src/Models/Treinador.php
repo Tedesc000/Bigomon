@@ -357,4 +357,139 @@ class Treinador {
 
         return $slots;
     }
+
+    // ------------------------------------------------------------------
+    // Progressão: ginásios e vitórias contra treinadores NPC
+    // ------------------------------------------------------------------
+
+    // Configuração de cada ginásio (ids dos NPCs vêm da seed 12-treinador_seed.sql)
+    // internos: os 2 treinadores dentro do ginásio, que liberam o líder
+    // externo: treinador no mapa da cidade, pode ser enfrentado infinitas vezes
+    public const GINASIOS = [
+        1 => ['mapa' => 'mapa1', 'ginasio' => 'ginasio1', 'cidade' => 'Rustboro',   'insignia' => 'Pedra',     'lider' => 2,  'internos' => [16, 17], 'externo' => 18],
+        2 => ['mapa' => 'mapa2', 'ginasio' => 'ginasio2', 'cidade' => 'Dewford',    'insignia' => 'Punho',     'lider' => 3,  'internos' => [19, 20], 'externo' => 21],
+        3 => ['mapa' => 'mapa3', 'ginasio' => 'ginasio3', 'cidade' => 'Mauville',   'insignia' => 'Dínamo',    'lider' => 4,  'internos' => [22, 23], 'externo' => 24],
+        4 => ['mapa' => 'mapa4', 'ginasio' => 'ginasio4', 'cidade' => 'Lavaridge',  'insignia' => 'Calor',     'lider' => 5,  'internos' => [25, 26], 'externo' => 27],
+        5 => ['mapa' => 'mapa5', 'ginasio' => 'ginasio5', 'cidade' => 'Petalburg',  'insignia' => 'Equilíbrio','lider' => 6,  'internos' => [28, 29], 'externo' => 30],
+        6 => ['mapa' => 'mapa6', 'ginasio' => 'ginasio6', 'cidade' => 'Fortree',    'insignia' => 'Pena',      'lider' => 7,  'internos' => [31, 32], 'externo' => 33],
+        7 => ['mapa' => 'mapa7', 'ginasio' => 'ginasio7', 'cidade' => 'Mossdeep',   'insignia' => 'Mente',     'lider' => 8,  'internos' => [34, 35], 'externo' => 36],
+        8 => ['mapa' => 'mapa8', 'ginasio' => 'ginasio8', 'cidade' => 'Sootopolis', 'insignia' => 'Chuva',     'lider' => 10, 'internos' => [37, 38], 'externo' => 39],
+    ];
+
+    // Prefixo fixo dos logs de vitória: a progressão é lida da tabela log a partir dele
+    private const PREFIXO_LOG_VITORIA = 'Vitória contra treinador #';
+
+    // Retorna o id do NPC para um papel do ginásio: interno1, interno2, lider ou externo
+    public static function idAdversario(int $numeroGinasio, string $papel): ?int {
+        $g = self::GINASIOS[$numeroGinasio] ?? null;
+        if (!$g) {
+            return null;
+        }
+        return match ($papel) {
+            'interno1' => $g['internos'][0],
+            'interno2' => $g['internos'][1],
+            'lider'    => $g['lider'],
+            'externo'  => $g['externo'],
+            default    => null,
+        };
+    }
+
+    // Ids dos NPCs que o treinador já venceu (lidos da tabela log)
+    public function buscarVitorias($id_treinador): array {
+        $stmt = $this->pdo->prepare(
+            "SELECT texto FROM log WHERE id_treinador = :id_treinador AND texto LIKE :prefixo"
+        );
+        $stmt->execute([
+            'id_treinador' => $id_treinador,
+            'prefixo' => self::PREFIXO_LOG_VITORIA . '%',
+        ]);
+
+        $ids = [];
+        foreach ($stmt->fetchAll(PDO::FETCH_COLUMN) as $texto) {
+            // o ":" depois do id evita que #8 seja confundido com #80
+            if (preg_match('/#(\d+):/', (string) $texto, $m)) {
+                $ids[(int) $m[1]] = true;
+            }
+        }
+        return array_keys($ids);
+    }
+
+    public function registrarVitoria($id_treinador, int $idAdversario, string $nomeAdversario): bool {
+        $log = new Log($this->pdo);
+        $log->setIdTreinador($id_treinador);
+        $log->setTexto(self::PREFIXO_LOG_VITORIA . $idAdversario . ': ' . $nomeAdversario);
+        $log->setData(date('Y-m-d H:i:s'));
+        return (bool) $log->salvar();
+    }
+
+    public function adicionarDinheiro($id_treinador, int $valor): void {
+        if ($valor <= 0) {
+            return;
+        }
+        $stmt = $this->pdo->prepare(
+            "UPDATE treinador SET dinheiro = dinheiro + :valor WHERE id_treinador = :id_treinador"
+        );
+        $stmt->execute(['valor' => $valor, 'id_treinador' => $id_treinador]);
+    }
+
+    public function ginasioConcluido($id_treinador, int $numeroGinasio, ?array $vitorias = null): bool {
+        $g = self::GINASIOS[$numeroGinasio] ?? null;
+        if (!$g) {
+            return false;
+        }
+        $vitorias ??= $this->buscarVitorias($id_treinador);
+        return in_array($g['lider'], $vitorias, true);
+    }
+
+    // mapa1 (e o mapa inicial) sempre liberados; mapaN exige o líder do ginásio N-1 vencido
+    public function podeAcessarMapa($id_treinador, int $numeroMapa, ?array $vitorias = null): bool {
+        if ($numeroMapa <= 1) {
+            return true;
+        }
+        return $this->ginasioConcluido($id_treinador, $numeroMapa - 1, $vitorias);
+    }
+
+    // 'disponivel' | 'derrotado' | 'bloqueado'
+    public function statusAdversario($id_treinador, int $numeroGinasio, string $papel, ?array $vitorias = null): string {
+        $g = self::GINASIOS[$numeroGinasio] ?? null;
+        $idAdv = self::idAdversario($numeroGinasio, $papel);
+        if (!$g || $idAdv === null) {
+            return 'bloqueado';
+        }
+
+        $vitorias ??= $this->buscarVitorias($id_treinador);
+
+        if (!$this->podeAcessarMapa($id_treinador, $numeroGinasio, $vitorias)) {
+            return 'bloqueado';
+        }
+
+        // O treinador de fora do ginásio pode ser enfrentado infinitas vezes
+        if ($papel === 'externo') {
+            return 'disponivel';
+        }
+
+        if (in_array($idAdv, $vitorias, true)) {
+            return 'derrotado';
+        }
+
+        if ($papel === 'lider') {
+            foreach ($g['internos'] as $idInterno) {
+                if (!in_array($idInterno, $vitorias, true)) {
+                    return 'bloqueado';
+                }
+            }
+        }
+
+        return 'disponivel';
+    }
+
+    // Status dos 4 adversários de um ginásio de uma vez (para as views)
+    public function statusAdversariosGinasio($id_treinador, int $numeroGinasio): array {
+        $vitorias = $this->buscarVitorias($id_treinador);
+        $status = [];
+        foreach (['interno1', 'interno2', 'lider', 'externo'] as $papel) {
+            $status[$papel] = $this->statusAdversario($id_treinador, $numeroGinasio, $papel, $vitorias);
+        }
+        return $status;
+    }
 }

@@ -12,8 +12,8 @@ INSERT INTO pokemon (id_pokemon, id_treinador, id_pokedex, nome, hp_atual, sexo,
 (11, 6, 288, 'vigoroth', 80, 'masculino', NULL), -- Pokemon 11; treinador 6 Norman; Pokedex 288 Vigoroth
 (12, 7, 333, 'swablu', 45, 'feminino', NULL), -- Pokemon 12; treinadora 7 Winona; Pokedex 333 Swablu
 (13, 7, 357, 'tropius', 99, 'masculino', NULL), -- Pokemon 13; treinadora 7 Winona; Pokedex 357 Tropius
-(14, 8, 337, 'lunatone', 90, 'desconhecido', NULL), -- Pokemon 14; treinador 8 Tate; Pokedex 337 Lunatone
-(15, 9, 344, 'claydol', 60, 'desconhecido', NULL), -- Pokemon 15; treinadora 9 Liza; Pokedex 344 Claydol
+(14, 8, 337, 'lunatone', 90, 'desconhecido', NULL), -- Pokemon 14; treinador 8 Tate & Liza; Pokedex 337 Lunatone
+(15, 8, 344, 'claydol', 60, 'desconhecido', NULL), -- Pokemon 15; treinador 8 Tate & Liza; Pokedex 344 Claydol
 (16, 10, 370, 'luvdisc', 43, 'masculino', NULL), -- Pokemon 16; treinador 10 Juan; Pokedex 370 Luvdisc
 (17, 10, 364, 'sealeo', 90, 'feminino', NULL), -- Pokemon 17; treinador 10 Juan; Pokedex 364 Sealeo
 -- Elite Four
@@ -77,8 +77,8 @@ INSERT INTO pokemon (id_pokemon, id_treinador, id_pokedex, nome, hp_atual, sexo,
 (66, 7, 279, 'pelipper', 60, 'masculino', NULL), -- Pokemon 66; Winona; Pokedex 279 Pelipper
 (67, 7, 227, 'skarmory', 65, 'feminino', NULL), -- Pokemon 67; Winona; Pokedex 227 Skarmory
 (68, 7, 334, 'altaria', 75, 'feminino', NULL), -- Pokemon 68; Winona; Pokedex 334 Altaria
-(69, 8, 338, 'solrock', 90, 'desconhecido', NULL), -- Pokemon 69; Tate; Pokedex 338 Solrock
-(70, 9, 178, 'xatu', 65, 'desconhecido', NULL), -- Pokemon 70; Liza; Pokedex 178 Xatu
+(69, 8, 338, 'solrock', 90, 'desconhecido', NULL), -- Pokemon 69; Tate & Liza; Pokedex 338 Solrock
+(70, 8, 178, 'xatu', 65, 'desconhecido', NULL), -- Pokemon 70; Tate & Liza; Pokedex 178 Xatu
 (71, 10, 364, 'sealeo', 90, 'feminino', NULL), -- Pokemon 71; Juan; Pokedex 364 Sealeo
 (72, 10, 340, 'whiscash', 110, 'masculino', NULL), -- Pokemon 72; Juan; Pokedex 340 Whiscash
 (73, 10, 230, 'kingdra', 75, 'masculino', NULL), -- Pokemon 73; Juan; Pokedex 230 Kingdra

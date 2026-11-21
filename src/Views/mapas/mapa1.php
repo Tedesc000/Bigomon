@@ -56,8 +56,20 @@
                     alt="Matinho"
                 >
             </a>
+
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=1&treinador=4"
+                id="botaoTreinadorExterno"
+                class="pontoTreinadorPadrao"
+                aria-label="Iniciar batalha contra o treinador da cidade"
+            >
+                <img
+                    src="../public/assets/img/treinadores/trainer_default.png"
+                    alt="Treinador da cidade"
+                >
+            </a>
         </div>
-        <?php if (!empty($_SESSION['ginasio1_visitado'])): ?>
+        <?php if ($ginasioConcluido): ?>
             <a href="?modulo=mapa&acao=mapa2" id="botaoSeta" aria-label="Ir para a próxima cidade">
                 <img
                     id="seta"

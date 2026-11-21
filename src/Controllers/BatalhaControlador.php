@@ -16,6 +16,14 @@ class BatalhaControlador
         'mapa8' => 9,
     ];
 
+    // Parâmetro ?treinador= dos links dos mapas -> papel do adversário no ginásio
+    private const PAPEL_POR_NUMERO = [
+        1 => 'interno1',
+        2 => 'interno2',
+        3 => 'lider',
+        4 => 'externo',
+    ];
+
     public function __construct($pdo)
     {
         $this->pdo = $pdo;
@@ -27,19 +35,111 @@ class BatalhaControlador
 
     public function batalhaTreinador()
     {
-        $numeroGinasio = (int) ($_GET['ginasio'] ?? 1);
-        if ($numeroGinasio < 1 || $numeroGinasio > 8) {
-            $numeroGinasio = 1;
-        }
-
-        $numeroTreinador = (int) ($_GET['treinador'] ?? 1);
-        if (!in_array($numeroTreinador, [1, 2, 3], true)) {
-            $numeroTreinador = 1;
-        }
-
         $_SESSION['batalha'] = 'batalhaTreinador';
-        $_SESSION['ginasio_padrao_atual'] = $numeroGinasio;
-        $_SESSION['treinador_padrao_atual'] = $numeroTreinador;
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        if (!$idTreinador) {
+            header("Location: ?modulo=treinador&acao=cadastroLogin");
+            exit;
+        }
+
+        // Se já existe uma batalha contra treinador em andamento, retoma a mesma luta ao recarregar
+        $batalhaExistente = $this->obterBatalhaAtiva();
+        if (
+            $batalhaExistente
+            && $batalhaExistente['tipo'] === 'treinador'
+            && (int) $batalhaExistente['id_treinador'] === (int) $idTreinador
+        ) {
+            $estadoInicial = $this->montarEstadoPublico($batalhaExistente);
+            require_once __DIR__ . '/../Views/batalha/batalhaTreinador.php';
+            return;
+        }
+
+        $numeroGinasio = (int) ($_GET['ginasio'] ?? 0);
+        $papel = self::PAPEL_POR_NUMERO[(int) ($_GET['treinador'] ?? 0)] ?? null;
+        $ginasio = Treinador::GINASIOS[$numeroGinasio] ?? null;
+        if (!$ginasio || !$papel) {
+            header("Location: ?modulo=mapa&acao=mapaInicio");
+            exit;
+        }
+
+        $mapaRetorno = $papel === 'externo' ? $ginasio['mapa'] : $ginasio['ginasio'];
+
+        // Progressão: só pode desafiar quem está liberado e ainda não foi vencido (exceto o externo)
+        $treinadorModel = new Treinador($this->pdo);
+        if ($treinadorModel->statusAdversario($idTreinador, $numeroGinasio, $papel) !== 'disponivel') {
+            header("Location: ?modulo=mapa&acao=" . urlencode($mapaRetorno));
+            exit;
+        }
+
+        $idAdversario = Treinador::idAdversario($numeroGinasio, $papel);
+        $dadosAdversario = $treinadorModel->buscarPorId($idAdversario);
+        if (!$dadosAdversario) {
+            header("Location: ?modulo=mapa&acao=" . urlencode($mapaRetorno));
+            exit;
+        }
+
+        $equipe = $this->carregarEquipeTreinador((int) $idTreinador);
+        $ativoIdx = empty($equipe) ? null : $this->encontrarPrimeiroVivo($equipe);
+        if ($ativoIdx === null) {
+            header("Location: ?modulo=pokemon&acao=sus");
+            exit;
+        }
+
+        // O time do NPC sempre começa curado e sem status; nunca é gravado no banco
+        $equipeOponente = $this->carregarEquipeTreinador((int) $idAdversario);
+        if (empty($equipeOponente)) {
+            header("Location: ?modulo=mapa&acao=" . urlencode($mapaRetorno));
+            exit;
+        }
+        foreach ($equipeOponente as &$pokeOponente) {
+            $pokeOponente['hp_atual'] = $pokeOponente['hp_maximo'];
+            $pokeOponente['status'] = null;
+            $pokeOponente['turnos_sono'] = 0;
+        }
+        unset($pokeOponente);
+
+        $nomeExibicao = strtoupper($dadosAdversario['nome']);
+        if ($papel === 'lider') {
+            $nomeExibicao = 'LÍDER ' . $nomeExibicao;
+        }
+
+        $batalha = [
+            'tipo' => 'treinador',
+            'id_treinador' => (int) $idTreinador,
+            'mapa_retorno' => $mapaRetorno,
+            'equipe' => $equipe,
+            'ativo_idx' => $ativoIdx,
+            'equipe_oponente' => $equipeOponente,
+            'oponente_idx' => 0,
+            'adversario' => [
+                'id' => (int) $idAdversario,
+                'nome' => $dadosAdversario['nome'],
+                'nome_exibicao' => $nomeExibicao,
+                'recompensa' => max(0, (int) $dadosAdversario['dinheiro']),
+                'ginasio' => $numeroGinasio,
+                'papel' => $papel,
+            ],
+            'tentativas_fuga' => 0,
+            'troca_obrigatoria' => false,
+            'finalizada' => false,
+            'resultado' => null,
+        ];
+        $_SESSION['batalha_atual'] = $batalha;
+
+        $estadoInicial = $this->montarEstadoPublico($batalha);
+        $estadoInicial['eventos_iniciais'] = [
+            [
+                'mensagem' => "{$nomeExibicao} quer batalhar!",
+                'animacao' => null,
+                'hud' => $this->montarSnapshotHud($batalha),
+            ],
+            [
+                'mensagem' => "{$nomeExibicao} enviou " . strtoupper($equipeOponente[0]['nome']) . '!',
+                'animacao' => null,
+                'hud' => $this->montarSnapshotHud($batalha),
+            ],
+        ];
+
         require_once __DIR__ . '/../Views/batalha/batalhaTreinador.php';
     }
 
@@ -56,12 +156,11 @@ class BatalhaControlador
         $idMatinho = self::MAPA_PARA_MATINHO[$mapaAtual] ?? 1;
 
         // Se já existe uma batalha ativa em andamento para este treinador, retoma a mesma luta ao recarregar
-        $batalhaExistente = $_SESSION['batalha_atual'] ?? null;
+        $batalhaExistente = $this->obterBatalhaAtiva();
         if (
-            is_array($batalhaExistente)
-            && empty($batalhaExistente['finalizada'])
-            && ($batalhaExistente['tipo'] ?? null) === 'matinho'
-            && (int) ($batalhaExistente['id_treinador'] ?? 0) === (int) $idTreinador
+            $batalhaExistente
+            && $batalhaExistente['tipo'] === 'matinho'
+            && (int) $batalhaExistente['id_treinador'] === (int) $idTreinador
         ) {
             $estadoInicial = $this->montarEstadoPublico($batalhaExistente);
             require_once __DIR__ . '/../Views/batalha/batalhaMatinho.php';
@@ -93,7 +192,9 @@ class BatalhaControlador
             'id_matinho' => $idMatinho,
             'equipe' => $equipe,
             'ativo_idx' => $ativoIdx,
-            'selvagem' => $selvagem,
+            'equipe_oponente' => [$selvagem],
+            'oponente_idx' => 0,
+            'adversario' => null,
             'tentativas_fuga' => 0,
             'troca_obrigatoria' => false,
             'finalizada' => false,
@@ -114,8 +215,8 @@ class BatalhaControlador
             return;
         }
 
-        $batalha = $_SESSION['batalha_atual'] ?? null;
-        if (!$batalha || !empty($batalha['finalizada'])) {
+        $batalha = $this->obterBatalhaAtiva();
+        if (!$batalha) {
             http_response_code(400);
             echo json_encode(['ok' => false, 'erro' => 'Nenhuma batalha ativa encontrada.']);
             return;
@@ -131,8 +232,8 @@ class BatalhaControlador
         $idMovimento = isset($payload['id_movimento']) ? (int) $payload['id_movimento'] : 0;
 
         $ativoIdx = (int) $batalha['ativo_idx'];
-        $jogador = &$batalha['equipe'][$ativoIdx];
-        $selvagem = &$batalha['selvagem'];
+        $jogador = $batalha['equipe'][$ativoIdx];
+        $oponente = $this->oponenteAtivo($batalha);
 
         $movJogador = null;
         foreach ($jogador['movimentos'] as $mov) {
@@ -148,39 +249,28 @@ class BatalhaControlador
             return;
         }
 
-        $movSelvagem = $selvagem['movimentos'][array_rand($selvagem['movimentos'])];
+        $movOponente = $this->escolherMovimentoOponente($oponente);
 
         $eventos = [];
-        $jogadorPrimeiro = $this->jogadorAgePrimeiro($jogador, $movJogador, $selvagem, $movSelvagem);
+        $jogadorPrimeiro = $this->jogadorAgePrimeiro($jogador, $movJogador, $oponente, $movOponente);
 
         if ($jogadorPrimeiro) {
             $this->executarAtaque($batalha, 'jogador', $movJogador, $eventos);
-            if ($batalha['selvagem']['hp_atual'] > 0 && $batalha['equipe'][$ativoIdx]['hp_atual'] > 0) {
-                $this->executarAtaque($batalha, 'selvagem', $movSelvagem, $eventos);
+            if ($this->ambosVivos($batalha)) {
+                $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
             }
         } else {
-            $this->executarAtaque($batalha, 'selvagem', $movSelvagem, $eventos);
-            if ($batalha['equipe'][$ativoIdx]['hp_atual'] > 0 && $batalha['selvagem']['hp_atual'] > 0) {
+            $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
+            if ($this->ambosVivos($batalha)) {
                 $this->executarAtaque($batalha, 'jogador', $movJogador, $eventos);
             }
         }
 
-        // Danos de status no fim do turno (veneno e queimadura)
-        if ($batalha['equipe'][$ativoIdx]['hp_atual'] > 0 && $batalha['selvagem']['hp_atual'] > 0) {
-            $this->aplicarDanoFimDeTurno($batalha, 'jogador', $eventos);
-        }
-        if ($batalha['equipe'][$ativoIdx]['hp_atual'] > 0 && $batalha['selvagem']['hp_atual'] > 0) {
-            $this->aplicarDanoFimDeTurno($batalha, 'selvagem', $eventos);
-        }
+        $this->aplicarFimDeTurno($batalha, $eventos);
 
         $redirect = $this->finalizarVerificacoesTurno($batalha, $eventos);
         $this->sincronizarEquipeNoBanco($batalha['equipe']);
-
-        if (!empty($batalha['finalizada'])) {
-            unset($_SESSION['batalha_atual']);
-        } else {
-            $_SESSION['batalha_atual'] = $batalha;
-        }
+        $this->salvarBatalha($batalha);
 
         echo json_encode([
             'ok' => true,
@@ -200,8 +290,8 @@ class BatalhaControlador
             return;
         }
 
-        $batalha = $_SESSION['batalha_atual'] ?? null;
-        if (!$batalha || !empty($batalha['finalizada'])) {
+        $batalha = $this->obterBatalhaAtiva();
+        if (!$batalha) {
             http_response_code(400);
             echo json_encode(['ok' => false, 'erro' => 'Nenhuma batalha ativa encontrada.']);
             return;
@@ -260,27 +350,17 @@ class BatalhaControlador
 
         $redirect = null;
 
-        // Troca voluntária consome o turno: o selvagem ataca
-        if (!$eraTrocaObrigatoria && $batalha['selvagem']['hp_atual'] > 0) {
-            $movSelvagem = $batalha['selvagem']['movimentos'][array_rand($batalha['selvagem']['movimentos'])];
-            $this->executarAtaque($batalha, 'selvagem', $movSelvagem, $eventos);
-
-            if ($batalha['equipe'][$novoIdx]['hp_atual'] > 0 && $batalha['selvagem']['hp_atual'] > 0) {
-                $this->aplicarDanoFimDeTurno($batalha, 'jogador', $eventos);
-            }
-            if ($batalha['equipe'][$novoIdx]['hp_atual'] > 0 && $batalha['selvagem']['hp_atual'] > 0) {
-                $this->aplicarDanoFimDeTurno($batalha, 'selvagem', $eventos);
-            }
+        // Troca voluntária consome o turno: o oponente ataca
+        if (!$eraTrocaObrigatoria && $this->oponenteAtivo($batalha)['hp_atual'] > 0) {
+            $movOponente = $this->escolherMovimentoOponente($this->oponenteAtivo($batalha));
+            $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
+            $this->aplicarFimDeTurno($batalha, $eventos);
 
             $redirect = $this->finalizarVerificacoesTurno($batalha, $eventos);
             $this->sincronizarEquipeNoBanco($batalha['equipe']);
         }
 
-        if (!empty($batalha['finalizada'])) {
-            unset($_SESSION['batalha_atual']);
-        } else {
-            $_SESSION['batalha_atual'] = $batalha;
-        }
+        $this->salvarBatalha($batalha);
 
         echo json_encode([
             'ok' => true,
@@ -300,10 +380,25 @@ class BatalhaControlador
             return;
         }
 
-        $batalha = $_SESSION['batalha_atual'] ?? null;
-        if (!$batalha || !empty($batalha['finalizada'])) {
+        $batalha = $this->obterBatalhaAtiva();
+        if (!$batalha) {
             http_response_code(400);
             echo json_encode(['ok' => false, 'erro' => 'Nenhuma batalha ativa encontrada.']);
+            return;
+        }
+
+        // Não existe fuga em batalha contra treinador (e não gasta o turno)
+        if ($batalha['tipo'] === 'treinador') {
+            echo json_encode([
+                'ok' => true,
+                'eventos' => [[
+                    'mensagem' => 'Não dá pra fugir de uma batalha contra treinador!',
+                    'animacao' => null,
+                    'hud' => $this->montarSnapshotHud($batalha),
+                ]],
+                'estado' => $this->montarEstadoPublico($batalha),
+                'redirect' => null,
+            ]);
             return;
         }
 
@@ -314,18 +409,17 @@ class BatalhaControlador
         }
 
         $batalha['tentativas_fuga'] = (int) ($batalha['tentativas_fuga'] ?? 0) + 1;
-        $ativoIdx = (int) $batalha['ativo_idx'];
-        $jogador = $batalha['equipe'][$ativoIdx];
-        $selvagem = $batalha['selvagem'];
+        $jogador = $batalha['equipe'][(int) $batalha['ativo_idx']];
+        $oponente = $this->oponenteAtivo($batalha);
 
         $speJogador = $this->calcularVelocidadeEfetiva($jogador);
-        $speSelvagem = $this->calcularVelocidadeEfetiva($selvagem);
+        $speOponente = $this->calcularVelocidadeEfetiva($oponente);
 
         // Fórmula oficial de fuga do Pokémon Emerald (Gen 3)
-        if ($speJogador >= $speSelvagem) {
+        if ($speJogador >= $speOponente) {
             $conseguiuFugir = true;
         } else {
-            $chance = intdiv($speJogador * 128, max(1, $speSelvagem)) + (30 * $batalha['tentativas_fuga']);
+            $chance = intdiv($speJogador * 128, max(1, $speOponente)) + (30 * $batalha['tentativas_fuga']);
             $conseguiuFugir = ($chance >= 256) || (random_int(0, 255) < $chance);
         }
 
@@ -345,7 +439,6 @@ class BatalhaControlador
             ];
 
             $this->sincronizarEquipeNoBanco($batalha['equipe']);
-            unset($_SESSION['batalha_atual']);
         } else {
             $eventos[] = [
                 'mensagem' => 'Não conseguiu fugir!',
@@ -353,25 +446,14 @@ class BatalhaControlador
                 'hud' => $this->montarSnapshotHud($batalha),
             ];
 
-            $movSelvagem = $selvagem['movimentos'][array_rand($selvagem['movimentos'])];
-            $this->executarAtaque($batalha, 'selvagem', $movSelvagem, $eventos);
-
-            if ($batalha['equipe'][$ativoIdx]['hp_atual'] > 0 && $batalha['selvagem']['hp_atual'] > 0) {
-                $this->aplicarDanoFimDeTurno($batalha, 'jogador', $eventos);
-            }
-            if ($batalha['equipe'][$ativoIdx]['hp_atual'] > 0 && $batalha['selvagem']['hp_atual'] > 0) {
-                $this->aplicarDanoFimDeTurno($batalha, 'selvagem', $eventos);
-            }
+            $this->executarAtaque($batalha, 'oponente', $this->escolherMovimentoOponente($oponente), $eventos);
+            $this->aplicarFimDeTurno($batalha, $eventos);
 
             $redirect = $this->finalizarVerificacoesTurno($batalha, $eventos);
             $this->sincronizarEquipeNoBanco($batalha['equipe']);
-
-            if (!empty($batalha['finalizada'])) {
-                unset($_SESSION['batalha_atual']);
-            } else {
-                $_SESSION['batalha_atual'] = $batalha;
-            }
         }
+
+        $this->salvarBatalha($batalha);
 
         echo json_encode([
             'ok' => true,
@@ -379,6 +461,70 @@ class BatalhaControlador
             'estado' => $this->montarEstadoPublico($batalha),
             'redirect' => $redirect,
         ]);
+    }
+
+    // ------------------------------------------------------------------
+    // Estado da batalha
+    // ------------------------------------------------------------------
+
+    // Retorna a batalha em andamento da sessão (ou null). Batalhas salvas no formato antigo são descartadas.
+    private function obterBatalhaAtiva(): ?array
+    {
+        $batalha = $_SESSION['batalha_atual'] ?? null;
+        if (
+            !is_array($batalha)
+            || !empty($batalha['finalizada'])
+            || empty($batalha['equipe_oponente'])
+            || !isset($batalha['tipo'])
+        ) {
+            return null;
+        }
+        return $batalha;
+    }
+
+    private function salvarBatalha(array $batalha): void
+    {
+        if (!empty($batalha['finalizada'])) {
+            unset($_SESSION['batalha_atual']);
+        } else {
+            $_SESSION['batalha_atual'] = $batalha;
+        }
+    }
+
+    // Pokémon do oponente que está em campo (por referência, para poder alterar HP/status)
+    private function &oponenteAtivo(array &$batalha): array
+    {
+        $idx = (int) $batalha['oponente_idx'];
+        return $batalha['equipe_oponente'][$idx];
+    }
+
+    // "MUDKIP selvagem" no matinho, "MUDKIP inimigo" contra treinador
+    private function nomeOponente(array $batalha): string
+    {
+        $nome = strtoupper($batalha['equipe_oponente'][(int) $batalha['oponente_idx']]['nome']);
+        return $batalha['tipo'] === 'treinador' ? "{$nome} inimigo" : "{$nome} selvagem";
+    }
+
+    private function ambosVivos(array $batalha): bool
+    {
+        return (int) $batalha['equipe'][(int) $batalha['ativo_idx']]['hp_atual'] > 0
+            && (int) $batalha['equipe_oponente'][(int) $batalha['oponente_idx']]['hp_atual'] > 0;
+    }
+
+    private function contarVivos(array $equipe): int
+    {
+        $vivos = 0;
+        foreach ($equipe as $poke) {
+            if ((int) $poke['hp_atual'] > 0) {
+                $vivos++;
+            }
+        }
+        return $vivos;
+    }
+
+    private function escolherMovimentoOponente(array $oponente): array
+    {
+        return $oponente['movimentos'][array_rand($oponente['movimentos'])];
     }
 
     private function lerJsonBody(): array
@@ -393,6 +539,11 @@ class BatalhaControlador
         return $_POST;
     }
 
+    // ------------------------------------------------------------------
+    // Carregamento de dados
+    // ------------------------------------------------------------------
+
+    // Serve tanto para o jogador quanto para os NPCs (o time vem dos slots do treinador)
     private function carregarEquipeTreinador(int $idTreinador): array
     {
         $stmtTreinador = $this->pdo->prepare(
@@ -647,6 +798,10 @@ class BatalhaControlador
         return null;
     }
 
+    // ------------------------------------------------------------------
+    // Combate
+    // ------------------------------------------------------------------
+
     private function calcularVelocidadeEfetiva(array $poke): int
     {
         $spe = max(1, (int) $poke['spe']);
@@ -656,17 +811,17 @@ class BatalhaControlador
         return $spe;
     }
 
-    private function jogadorAgePrimeiro(array $jogador, array $movJ, array $selvagem, array $movS): bool
+    private function jogadorAgePrimeiro(array $jogador, array $movJ, array $oponente, array $movO): bool
     {
-        if ((int) $movJ['prioridade'] !== (int) $movS['prioridade']) {
-            return (int) $movJ['prioridade'] > (int) $movS['prioridade'];
+        if ((int) $movJ['prioridade'] !== (int) $movO['prioridade']) {
+            return (int) $movJ['prioridade'] > (int) $movO['prioridade'];
         }
 
         $speJ = $this->calcularVelocidadeEfetiva($jogador);
-        $speS = $this->calcularVelocidadeEfetiva($selvagem);
+        $speO = $this->calcularVelocidadeEfetiva($oponente);
 
-        if ($speJ !== $speS) {
-            return $speJ > $speS;
+        if ($speJ !== $speO) {
+            return $speJ > $speO;
         }
 
         return random_int(0, 1) === 1;
@@ -677,15 +832,15 @@ class BatalhaControlador
         $ativoIdx = (int) $batalha['ativo_idx'];
         if ($ladoAtacante === 'jogador') {
             $atacante = &$batalha['equipe'][$ativoIdx];
-            $defensor = &$batalha['selvagem'];
+            $defensor = &$this->oponenteAtivo($batalha);
             $nomeAtacante = strtoupper($atacante['nome']);
-            $nomeDefensor = strtoupper($defensor['nome']) . ' selvagem';
+            $nomeDefensor = $this->nomeOponente($batalha);
             $animAtaque = 'player-attack';
             $animHit = 'wild-hit';
         } else {
-            $atacante = &$batalha['selvagem'];
+            $atacante = &$this->oponenteAtivo($batalha);
             $defensor = &$batalha['equipe'][$ativoIdx];
-            $nomeAtacante = strtoupper($atacante['nome']) . ' selvagem';
+            $nomeAtacante = $this->nomeOponente($batalha);
             $nomeDefensor = strtoupper($defensor['nome']);
             $animAtaque = 'wild-attack';
             $animHit = 'player-hit';
@@ -821,22 +976,13 @@ class BatalhaControlador
             $mensagensDano[] = 'Não é muito efetivo...';
         }
 
-        if (!empty($mensagensDano)) {
-            $eventos[] = [
-                'mensagem' => implode(' ', $mensagensDano),
-                'animacao' => $animHit,
-                'tipo_efeito' => $movimento['tipo_nome'] ?? null,
-                'hud' => $this->montarSnapshotHud($batalha),
-            ];
-        } else {
-            // Evento visual de dano sem mensagem extra (atualiza barra de HP e pisca o sprite)
-            $eventos[] = [
-                'mensagem' => null,
-                'animacao' => $animHit,
-                'tipo_efeito' => $movimento['tipo_nome'] ?? null,
-                'hud' => $this->montarSnapshotHud($batalha),
-            ];
-        }
+        // Evento visual de dano (atualiza barra de HP e pisca o sprite), com mensagem extra se houver
+        $eventos[] = [
+            'mensagem' => !empty($mensagensDano) ? implode(' ', $mensagensDano) : null,
+            'animacao' => $animHit,
+            'tipo_efeito' => $movimento['tipo_nome'] ?? null,
+            'hud' => $this->montarSnapshotHud($batalha),
+        ];
 
         if ($descongelouPorFogo) {
             $eventos[] = [
@@ -878,6 +1024,17 @@ class BatalhaControlador
         }
     }
 
+    // Danos de status no fim do turno (veneno e queimadura), primeiro jogador e depois oponente
+    private function aplicarFimDeTurno(array &$batalha, array &$eventos): void
+    {
+        if ($this->ambosVivos($batalha)) {
+            $this->aplicarDanoFimDeTurno($batalha, 'jogador', $eventos);
+        }
+        if ($this->ambosVivos($batalha)) {
+            $this->aplicarDanoFimDeTurno($batalha, 'oponente', $eventos);
+        }
+    }
+
     private function aplicarDanoFimDeTurno(array &$batalha, string $lado, array &$eventos): void
     {
         $ativoIdx = (int) $batalha['ativo_idx'];
@@ -886,8 +1043,8 @@ class BatalhaControlador
             $nome = strtoupper($poke['nome']);
             $anim = 'player-hit';
         } else {
-            $poke = &$batalha['selvagem'];
-            $nome = strtoupper($poke['nome']) . ' selvagem';
+            $poke = &$this->oponenteAtivo($batalha);
+            $nome = $this->nomeOponente($batalha);
             $anim = 'wild-hit';
         }
 
@@ -914,37 +1071,39 @@ class BatalhaControlador
         ];
     }
 
+    // Verifica desmaios dos dois lados ao fim da ação; retorna a URL de redirect se a batalha acabou
     private function finalizarVerificacoesTurno(array &$batalha, array &$eventos): ?string
     {
         $ativoIdx = (int) $batalha['ativo_idx'];
-        $jogador = &$batalha['equipe'][$ativoIdx];
-        $selvagem = &$batalha['selvagem'];
+        $ehTreinador = $batalha['tipo'] === 'treinador';
+        $proximoOponente = null;
 
-        if ((int) $selvagem['hp_atual'] <= 0) {
-            $batalha['finalizada'] = true;
-            $batalha['resultado'] = 'vitoria';
-            $nomeSelvagem = strtoupper($selvagem['nome']);
+        // 1) Pokémon do oponente desmaiou
+        if ((int) $this->oponenteAtivo($batalha)['hp_atual'] <= 0) {
             $eventos[] = [
-                'mensagem' => "{$nomeSelvagem} selvagem desmaiou!",
+                'mensagem' => $this->nomeOponente($batalha) . ' desmaiou!',
                 'animacao' => 'wild-faint',
                 'hud' => $this->montarSnapshotHud($batalha),
             ];
-            $mapaRetorno = $batalha['mapa_retorno'] ?? 'mapaInicio';
-            return '?modulo=mapa&acao=' . urlencode($mapaRetorno);
+
+            $proximoOponente = $ehTreinador ? $this->encontrarPrimeiroVivo($batalha['equipe_oponente']) : null;
+            if ($proximoOponente === null) {
+                return $this->concluirVitoria($batalha, $eventos);
+            }
         }
 
-        if ((int) $jogador['hp_atual'] <= 0) {
-            $jogador['status'] = null;
-            $jogador['turnos_sono'] = 0;
-            $nomeJogador = strtoupper($jogador['nome']);
+        // 2) Pokémon do jogador desmaiou
+        if ((int) $batalha['equipe'][$ativoIdx]['hp_atual'] <= 0) {
+            $batalha['equipe'][$ativoIdx]['status'] = null;
+            $batalha['equipe'][$ativoIdx]['turnos_sono'] = 0;
+            $nomeJogador = strtoupper($batalha['equipe'][$ativoIdx]['nome']);
             $eventos[] = [
                 'mensagem' => "{$nomeJogador} desmaiou!",
                 'animacao' => 'player-faint',
                 'hud' => $this->montarSnapshotHud($batalha),
             ];
 
-            $proximoVivo = $this->encontrarPrimeiroVivo($batalha['equipe']);
-            if ($proximoVivo === null) {
+            if ($this->encontrarPrimeiroVivo($batalha['equipe']) === null) {
                 $batalha['finalizada'] = true;
                 $batalha['resultado'] = 'derrota';
                 $eventos[] = [
@@ -958,7 +1117,63 @@ class BatalhaControlador
             $batalha['troca_obrigatoria'] = true;
         }
 
+        // 3) Treinador manda o próximo Pokémon
+        if ($proximoOponente !== null) {
+            $batalha['oponente_idx'] = $proximoOponente;
+            $nomeNovo = strtoupper($batalha['equipe_oponente'][$proximoOponente]['nome']);
+            $eventos[] = [
+                'mensagem' => "{$batalha['adversario']['nome_exibicao']} enviou {$nomeNovo}!",
+                'animacao' => null,
+                'hud' => $this->montarSnapshotHud($batalha),
+            ];
+        }
+
         return null;
+    }
+
+    private function concluirVitoria(array &$batalha, array &$eventos): string
+    {
+        $batalha['finalizada'] = true;
+        $batalha['resultado'] = 'vitoria';
+        $redirect = '?modulo=mapa&acao=' . urlencode($batalha['mapa_retorno'] ?? 'mapaInicio');
+
+        if ($batalha['tipo'] !== 'treinador') {
+            return $redirect;
+        }
+
+        $adversario = $batalha['adversario'];
+        $idTreinador = (int) $batalha['id_treinador'];
+        $treinadorModel = new Treinador($this->pdo);
+
+        $treinadorModel->registrarVitoria($idTreinador, (int) $adversario['id'], (string) $adversario['nome']);
+        $treinadorModel->adicionarDinheiro($idTreinador, (int) $adversario['recompensa']);
+        $treinadorModel->recarregarSessao($idTreinador);
+
+        $eventos[] = [
+            'mensagem' => "Você derrotou {$adversario['nome_exibicao']}!",
+            'animacao' => null,
+            'hud' => $this->montarSnapshotHud($batalha),
+        ];
+
+        if ((int) $adversario['recompensa'] > 0) {
+            $valor = number_format((int) $adversario['recompensa'], 0, ',', '.');
+            $eventos[] = [
+                'mensagem' => "Você ganhou R$ {$valor} pela vitória!",
+                'animacao' => null,
+                'hud' => $this->montarSnapshotHud($batalha),
+            ];
+        }
+
+        if ($adversario['papel'] === 'lider') {
+            $insignia = Treinador::GINASIOS[$adversario['ginasio']]['insignia'] ?? '';
+            $eventos[] = [
+                'mensagem' => "Você recebeu a Insígnia {$insignia}! O caminho para a próxima cidade está livre!",
+                'animacao' => null,
+                'hud' => $this->montarSnapshotHud($batalha),
+            ];
+        }
+
+        return $redirect;
     }
 
     private function calcularEficaciaTipo(int $idTipoAtaque, array $tiposDefensor): float
@@ -983,6 +1198,7 @@ class BatalhaControlador
         return $multiplicador;
     }
 
+    // Só a equipe do jogador é persistida; o time do NPC nunca é gravado
     private function sincronizarEquipeNoBanco(array $equipe): void
     {
         $stmt = $this->pdo->prepare(
@@ -997,10 +1213,14 @@ class BatalhaControlador
         }
     }
 
+    // ------------------------------------------------------------------
+    // Saída para o front
+    // ------------------------------------------------------------------
+
     private function montarSnapshotHud(array $batalha): array
     {
         $ativo = $batalha['equipe'][$batalha['ativo_idx']];
-        $selvagem = $batalha['selvagem'];
+        $oponente = $batalha['equipe_oponente'][(int) $batalha['oponente_idx']];
 
         return [
             'jogador' => [
@@ -1011,13 +1231,14 @@ class BatalhaControlador
                 'hp_maximo' => $ativo['hp_maximo'],
                 'status' => $ativo['status'],
             ],
-            'selvagem' => [
-                'id_pokedex' => $selvagem['id_pokedex'],
-                'nome' => strtoupper($selvagem['nome']),
-                'hp_atual' => $selvagem['hp_atual'],
-                'hp_maximo' => $selvagem['hp_maximo'],
-                'status' => $selvagem['status'],
+            'oponente' => [
+                'id_pokedex' => $oponente['id_pokedex'],
+                'nome' => strtoupper($oponente['nome']),
+                'hp_atual' => $oponente['hp_atual'],
+                'hp_maximo' => $oponente['hp_maximo'],
+                'status' => $oponente['status'],
             ],
+            'oponente_restantes' => $this->contarVivos($batalha['equipe_oponente']),
         ];
     }
 
@@ -1025,7 +1246,7 @@ class BatalhaControlador
     {
         $ativoIdx = (int) $batalha['ativo_idx'];
         $ativo = $batalha['equipe'][$ativoIdx];
-        $selvagem = $batalha['selvagem'];
+        $oponente = $batalha['equipe_oponente'][(int) $batalha['oponente_idx']];
 
         $equipePublica = [];
         foreach ($batalha['equipe'] as $idx => $poke) {
@@ -1040,11 +1261,23 @@ class BatalhaControlador
             ];
         }
 
+        $adversario = null;
+        if ($batalha['tipo'] === 'treinador' && !empty($batalha['adversario'])) {
+            $adversario = [
+                'nome' => $batalha['adversario']['nome_exibicao'],
+                'total' => count($batalha['equipe_oponente']),
+                'restantes' => $this->contarVivos($batalha['equipe_oponente']),
+            ];
+        }
+
         return [
+            'tipo' => $batalha['tipo'],
             'mapa_retorno' => $batalha['mapa_retorno'] ?? 'mapaInicio',
             'troca_obrigatoria' => !empty($batalha['troca_obrigatoria']),
             'finalizada' => !empty($batalha['finalizada']),
             'resultado' => $batalha['resultado'] ?? null,
+            'adversario' => $adversario,
+            'eventos_iniciais' => [],
             'jogador' => [
                 'id_pokemon' => $ativo['id_pokemon'],
                 'id_pokedex' => $ativo['id_pokedex'],
@@ -1054,12 +1287,12 @@ class BatalhaControlador
                 'status' => $ativo['status'],
                 'movimentos' => $ativo['movimentos'],
             ],
-            'selvagem' => [
-                'id_pokedex' => $selvagem['id_pokedex'],
-                'nome' => strtoupper($selvagem['nome']),
-                'hp_atual' => $selvagem['hp_atual'],
-                'hp_maximo' => $selvagem['hp_maximo'],
-                'status' => $selvagem['status'],
+            'oponente' => [
+                'id_pokedex' => $oponente['id_pokedex'],
+                'nome' => strtoupper($oponente['nome']),
+                'hp_atual' => $oponente['hp_atual'],
+                'hp_maximo' => $oponente['hp_maximo'],
+                'status' => $oponente['status'],
             ],
             'equipe' => $equipePublica,
         ];

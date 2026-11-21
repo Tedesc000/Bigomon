@@ -181,6 +181,32 @@ main#paginaLoja {
     top: var(--treinador-padrao2-y, 50%);
 }
 
+#botaoTreinadorExterno {
+    left: var(--treinador-externo-x, 50%);
+    top: var(--treinador-externo-y, 50%);
+    transition: transform 0.2s ease;
+}
+
+#botaoTreinadorExterno:hover,
+#botaoTreinadorExterno:focus-visible {
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* Adversários já vencidos ou ainda não liberados (sem href, não clicáveis) */
+.pontoTreinadorPadrao.derrotado,
+.pontoTreinadorPadrao.bloqueado,
+.pontoLiderGinasio.derrotado,
+.pontoLiderGinasio.bloqueado {
+    filter: grayscale(1);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pontoLiderGinasio.derrotado:hover,
+.pontoLiderGinasio.bloqueado:hover {
+    transform: translate(-50%, -50%);
+}
+
 #corpoGinasio1 {
     --lider-x: 50%;
     --lider-y: 18%;
@@ -292,6 +318,8 @@ main#paginaLoja {
     --loja-y: 92%;
     --batalha-x: 30%;
     --batalha-y: 62%;
+    --treinador-externo-x: 31%;
+    --treinador-externo-y: 29%;
 
     /* Coordenadas e Escala Front Jogo */
     --hud-escala: 1;
@@ -316,28 +344,34 @@ main#paginaLoja {
     --loja-y: 72%;
     --batalha-x: 50%;
     --batalha-y: 10%;
+    --treinador-externo-x: 43%;
+    --treinador-externo-y: 43%;
 }
 
 #corpoMapa3 {
     --ginasio-x: 20%;
     --ginasio-y: 17%;
-    --centro-x: 58%;
-    --centro-y: 29%;
+    --centro-x: 57%;
+    --centro-y: 28%;
     --loja-x: 60%;
     --loja-y: 72%;
     --batalha-x: 23%;
     --batalha-y: 85%;
+    --treinador-externo-x: 23%;
+    --treinador-externo-y: 70%;
 }
 
 #corpoMapa4 {
     --ginasio-x: 25%;
     --ginasio-y: 62%;
-    --centro-x: 50%;
+    --centro-x: 48%;
     --centro-y: 33%;
     --loja-x: 78%;
     --loja-y: 28%;
     --batalha-x: 80%;
     --batalha-y: 90%;
+    --treinador-externo-x: 25%;
+    --treinador-externo-y: 22%;
 }
 
 #corpoMapa5 {
@@ -349,6 +383,8 @@ main#paginaLoja {
     --loja-y: 41%;
     --batalha-x: 30%;
     --batalha-y: 72%;
+    --treinador-externo-x: 25%;
+    --treinador-externo-y: 20%;
 }
 
 #corpoMapa6 {
@@ -360,28 +396,34 @@ main#paginaLoja {
     --loja-y: 72%;
     --batalha-x: 50%;
     --batalha-y: 62%;
+    --treinador-externo-x: 64%;
+    --treinador-externo-y: 20%;
 }
 
 #corpoMapa7 {
     --ginasio-x: 84%;
     --ginasio-y: 19%;
-    --centro-x: 63%;
-    --centro-y: 54%;
+    --centro-x: 62%;
+    --centro-y: 53%;
     --loja-x: 83%;
     --loja-y: 60%;
     --batalha-x: 80%;
     --batalha-y: 87%;
+    --treinador-externo-x: 41%;
+    --treinador-externo-y: 32%;
 }
 
 #corpoMapa8 {
     --ginasio-x: 56%;
     --ginasio-y: 66%;
-    --centro-x: 86%;
-    --centro-y: 75%;
+    --centro-x: 85%;
+    --centro-y: 74%;
     --loja-x: 25%;
     --loja-y: 66%;
     --batalha-x: 26%;
     --batalha-y: 24%;
+    --treinador-externo-x: 57%;
+    --treinador-externo-y: 15%;
 }
 
 #botaoSeta {
