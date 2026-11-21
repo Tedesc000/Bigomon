@@ -15,6 +15,17 @@
         session_start();
     }
 
+    $origem = $_GET['origem'] ?? '';
+    $emBatalha = ($origem === 'batalha');
+    $tipoBatalha = $_GET['tipo'] ?? ($_SESSION['batalha_atual']['tipo'] ?? ($_SESSION['batalha'] === 'batalhaTreinador' ? 'treinador' : 'matinho'));
+
+    $linkVoltar = '?modulo=mapa&acao=' . htmlspecialchars($_SESSION['mapa'] ?? 'mapaInicio');
+    if ($emBatalha) {
+        $linkVoltar = ($tipoBatalha === 'treinador')
+            ? '?modulo=batalha&acao=batalhaTreinador'
+            : '?modulo=batalha&acao=batalhaMatinho';
+    }
+
     // Mapa de itens pelo ID oficial da PokeAPI (ex: 814 = Key Stone / Pedra de Megaevolução)
     $mapaPorId = [
         814 => 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key-stone.png'
@@ -91,6 +102,26 @@
                                 </div>
                                 <div class="quantidadeItemLoja">
                                     <span class="precoItem">x<?= $qtd ?></span>
+                                    <?php if ($emBatalha): ?>
+                                        <?php
+                                            $ehPokebola = ((int)($item['id_categoria'] ?? 0) === 2) || (stripos($item['nome'] ?? '', 'ball') !== false);
+                                            $podeUsar = !($tipoBatalha === 'treinador' && $ehPokebola);
+                                        ?>
+                                        <?php if ($podeUsar): ?>
+                                            <form method="POST" action="?modulo=batalha&acao=usarItem" class="formUsarItem">
+                                                <input type="hidden" name="id_item" value="<?= $idItem ?>">
+                                                <input type="hidden" name="tipo_batalha" value="<?= htmlspecialchars($tipoBatalha) ?>">
+                                                <button type="submit" class="botaoUsarItem">
+                                                    <span class="hoverText">▸</span>
+                                                    <span class="defaultText">USAR</span>
+                                                </button>
+                                            </form>
+                                        <?php else: ?>
+                                            <button type="button" class="botaoUsarItem" disabled title="Não é possível usar Pokébola em batalha contra treinador!">
+                                                <span class="defaultText">USAR</span>
+                                            </button>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 </div>
                             </li>
                         <?php endforeach; ?>
@@ -101,7 +132,7 @@
             </div>
         </div>
 
-        <a href="?modulo=mapa&acao=<?= htmlspecialchars($_SESSION['mapa'] ?? 'mapaInicio') ?>" id="botaoSeta" class="setaVoltar" aria-label="Voltar para o mapa">
+        <a href="<?= $linkVoltar ?>" id="botaoSeta" class="setaVoltar" aria-label="Voltar">
             <img
                 id="seta"
                 src="../public/assets/img/icons/seta.png"
