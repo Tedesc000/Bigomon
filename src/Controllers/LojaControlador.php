@@ -19,6 +19,14 @@ class LojaControlador {
         $lojaItem = new LojaItem($this->pdo);
         $itensLoja = $lojaItem->getItensLoja($idLoja);
 
+        // Ids dos itens que o treinador já tem (para marcar TMs já adquiridos)
+        $idsPossuidos = [];
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        if ($idTreinador) {
+            $itensTreinador = (new TreinadorItem($this->pdo))->buscarItensTreinador($idTreinador);
+            $idsPossuidos = array_map(fn($i) => (int) $i['id_item'], $itensTreinador);
+        }
+
         require_once __DIR__ . '/../Views/loja/loja.php';
     }
 
@@ -43,6 +51,13 @@ class LojaControlador {
             exit;
         }
 
+        // TM é reutilizável: não deixa comprar o mesmo duas vezes
+        $treinadorItem = new TreinadorItem($this->pdo);
+        if (ItemEfeito::ehTM((int) $idItem) && $treinadorItem->itemExiste($idTreinador, $idItem)) {
+            header("Location: ?modulo=loja&acao=verLoja");
+            exit;
+        }
+
         $preco = (int)($dadosItem['preco'] ?? 0);
         $saldoAtual = (int)($_SESSION['usuario_logado']['dinheiro'] ?? 0);
 
@@ -56,7 +71,6 @@ class LojaControlador {
             $treinador->recarregarSessao($idTreinador);
 
             // adiciona o item ao inventário
-            $treinadorItem = new TreinadorItem($this->pdo);
             $treinadorItem->adicionarItem($idTreinador, $idItem, 1);
         }
 
