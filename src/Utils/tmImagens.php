@@ -122,3 +122,21 @@ function urlImagemTM(int $idItem): ?string {
     }
     return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-' . TIPOS_TM_SLUG[$idTipo] . '.png';
 }
+
+// URL do sprite de qualquer item: TMs pelo tipo, mapa especial por id e o resto pelo nome (slug da PokeAPI)
+function urlImagemItem(int $idItem, string $nome): string {
+    $mapaPorId = [
+        814 => 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key-stone.png',
+    ];
+    if (isset($mapaPorId[$idItem])) {
+        return $mapaPorId[$idItem];
+    }
+    if ($urlTM = urlImagemTM($idItem)) {
+        return $urlTM;
+    }
+    $slug = strtolower(trim($nome));
+    $slug = str_replace(['é', 'è', 'ê'], 'e', $slug);
+    $slug = preg_replace('/[^a-z0-9]+/i', '-', $slug);
+    $slug = trim($slug, '-');
+    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{$slug}.png";
+}
