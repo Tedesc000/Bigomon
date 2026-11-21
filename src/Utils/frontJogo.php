@@ -36,7 +36,7 @@ if (!isset($slotsEquipe) || !is_array($slotsEquipe)) {
         <span class="hudTextoFront">ITENS</span>
     </a>
 
-    <a href="?modulo=bolsa&acao=listarPokemons" id="hudBolsaPokemons" class="pontoFront hudBotaoFront" title="Equipe de Pokémons" aria-label="Ver Pokémons">
+    <a href="?modulo=bolsa&acao=listarTodosPokemons" id="hudBolsaPokemons" class="pontoFront hudBotaoFront" title="Equipe de Pokémons" aria-label="Ver Pokémons">
         <span class="hudIconeFront" aria-hidden="true">
             <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Pokemons" class="iconPokebola">
         </span>
