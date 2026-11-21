@@ -17,9 +17,8 @@ INSERT INTO pokemon_movimento (id_pokemon, id_movimento) VALUES
 -- Winona: Pokemon 12 Swablu, 13 Tropius, 66 Pelipper, 67 Skarmory, 68 Altaria
 (12, 9), (12, 10), (12, 11), (12, 12),
 (13, 45), (13, 46), (13, 47), (13, 48),
--- Tate: Pokemon 14 Lunatone e 69 Solrock
+-- Tate & Liza: Pokemon 14 Lunatone, 69 Solrock, 15 Claydol e 70 Xatu
 (14, 53), (14, 54), (14, 21), (14, 23),
--- Liza: Pokemon 15 Claydol e 70 Xatu
 (15, 17), (15, 18), (15, 53), (15, 54),
 -- Juan: Pokemon 16 Luvdisc, 17 Sealeo, 71 Sealeo, 72 Whiscash e 73 Kingdra
 (16, 57), (16, 58), (16, 41), (16, 43),
