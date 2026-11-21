@@ -72,7 +72,6 @@ INSERT INTO loja_item (id_loja, id_item) VALUES
 (6, 26), -- Super Potion
 (6, 25), -- Hyper Potion
 (6, 28), -- Revive
-(6, 50), -- Rare Candy
 (6, 814), -- Evolution Stone
 (6, 4),  -- Poké Ball
 (6, 3),  -- Great Ball
@@ -90,7 +89,6 @@ INSERT INTO loja_item (id_loja, id_item) VALUES
 (7, 26), -- Super Potion
 (7, 25), -- Hyper Potion
 (7, 28), -- Revive
-(7, 50), -- Rare Candy
 (7, 814), -- Evolution Stone
 (7, 4),  -- Poké Ball
 (7, 3),  -- Great Ball
@@ -111,7 +109,6 @@ INSERT INTO loja_item (id_loja, id_item) VALUES
 (8, 23), -- Full Restore
 (8, 28), -- Revive
 (8, 29), -- Max Revive
-(8, 50), -- Rare Candy
 (8, 814), -- Evolution Stone
 (8, 4),  -- Poké Ball
 (8, 3),  -- Great Ball
@@ -132,7 +129,6 @@ INSERT INTO loja_item (id_loja, id_item) VALUES
 (9, 23), -- Full Restore
 (9, 28), -- Revive
 (9, 29), -- Max Revive
-(9, 50), -- Rare Candy
 (9, 814), -- Evolution Stone
 (9, 4),  -- Poké Ball
 (9, 3),  -- Great Ball
@@ -153,7 +149,6 @@ INSERT INTO loja_item (id_loja, id_item) VALUES
 (10, 23), -- Full Restore
 (10, 28), -- Revive
 (10, 29), -- Max Revive
-(10, 50), -- Rare Candy
 (10, 814), -- Evolution Stone
 (10, 4),  -- Poké Ball
 (10, 3),  -- Great Ball

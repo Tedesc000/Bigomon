@@ -16,6 +16,5 @@ INSERT INTO item (id_item, id_categoria, nome, descricao, preco) VALUES
 (27, 1, 'Full Heal', 'Cura qualquer condição de status.', 600),
 (28, 1, 'Revive', 'Revive um Pokémon com metade do HP.', 1500),
 (29, 1, 'Max Revive', 'Revive um Pokémon com todo o HP.', 4000),
-(50, 1, 'Rare Candy', 'Aumenta o nível de um Pokémon em 1.', 4800),
 (814, 5, 'Evolution Stone', 'Evolui qualquer Pokémon compatível.', 5000);
 
