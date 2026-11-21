@@ -397,33 +397,33 @@ main#paginaLoja {
     --batalha-x: 50%;
     --batalha-y: 62%;
     --treinador-externo-x: 64%;
-    --treinador-externo-y: 47%;
+    --treinador-externo-y: 20%;
 }
 
 #corpoMapa7 {
     --ginasio-x: 84%;
     --ginasio-y: 19%;
-    --centro-x: 63%;
-    --centro-y: 54%;
+    --centro-x: 62%;
+    --centro-y: 53%;
     --loja-x: 83%;
     --loja-y: 60%;
     --batalha-x: 80%;
     --batalha-y: 87%;
-    --treinador-externo-x: 76%;
-    --treinador-externo-y: 19%;
+    --treinador-externo-x: 41%;
+    --treinador-externo-y: 32%;
 }
 
 #corpoMapa8 {
     --ginasio-x: 56%;
     --ginasio-y: 66%;
-    --centro-x: 86%;
-    --centro-y: 75%;
+    --centro-x: 85%;
+    --centro-y: 74%;
     --loja-x: 25%;
     --loja-y: 66%;
     --batalha-x: 26%;
     --batalha-y: 24%;
-    --treinador-externo-x: 64%;
-    --treinador-externo-y: 66%;
+    --treinador-externo-x: 57%;
+    --treinador-externo-y: 15%;
 }
 
 #botaoSeta {
