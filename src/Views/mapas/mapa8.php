@@ -55,6 +55,18 @@
                     alt="Matinho"
                 >
             </a>
+
+            <a
+                href="?modulo=batalha&acao=batalhaTreinador&ginasio=8&treinador=4"
+                id="botaoTreinadorExterno"
+                class="pontoTreinadorPadrao"
+                aria-label="Iniciar batalha contra o treinador da cidade"
+            >
+                <img
+                    src="../public/assets/img/treinadores/trainer_default.png"
+                    alt="Treinador da cidade"
+                >
+            </a>
         </div>
 
         <!-- FRONT DO JOGO: posicionado fora da imagem do mapa -->

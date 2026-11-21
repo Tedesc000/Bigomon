@@ -181,6 +181,33 @@ main#paginaLoja {
     top: var(--treinador-padrao2-y, 50%);
 }
 
+/* Treinador fora do ginásio (no mapa da cidade), pode ser enfrentado infinitas vezes */
+#botaoTreinadorExterno {
+    left: var(--treinador-externo-x, 50%);
+    top: var(--treinador-externo-y, 50%);
+    transition: transform 0.2s ease;
+}
+
+#botaoTreinadorExterno:hover,
+#botaoTreinadorExterno:focus-visible {
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* Adversários já vencidos ou ainda não liberados (sem href, não clicáveis) */
+.pontoTreinadorPadrao.derrotado,
+.pontoTreinadorPadrao.bloqueado,
+.pontoLiderGinasio.derrotado,
+.pontoLiderGinasio.bloqueado {
+    filter: grayscale(1);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pontoLiderGinasio.derrotado:hover,
+.pontoLiderGinasio.bloqueado:hover {
+    transform: translate(-50%, -50%);
+}
+
 #corpoGinasio1 {
     --lider-x: 50%;
     --lider-y: 18%;
@@ -292,6 +319,8 @@ main#paginaLoja {
     --loja-y: 92%;
     --batalha-x: 30%;
     --batalha-y: 62%;
+    --treinador-externo-x: 76%;
+    --treinador-externo-y: 29%;
 
     /* Coordenadas e Escala Front Jogo */
     --hud-escala: 1;
@@ -316,6 +345,8 @@ main#paginaLoja {
     --loja-y: 72%;
     --batalha-x: 50%;
     --batalha-y: 10%;
+    --treinador-externo-x: 48%;
+    --treinador-externo-y: 78%;
 }
 
 #corpoMapa3 {
@@ -327,6 +358,8 @@ main#paginaLoja {
     --loja-y: 72%;
     --batalha-x: 23%;
     --batalha-y: 85%;
+    --treinador-externo-x: 28%;
+    --treinador-externo-y: 17%;
 }
 
 #corpoMapa4 {
@@ -338,6 +371,8 @@ main#paginaLoja {
     --loja-y: 28%;
     --batalha-x: 80%;
     --batalha-y: 90%;
+    --treinador-externo-x: 33%;
+    --treinador-externo-y: 62%;
 }
 
 #corpoMapa5 {
@@ -349,6 +384,8 @@ main#paginaLoja {
     --loja-y: 41%;
     --batalha-x: 30%;
     --batalha-y: 72%;
+    --treinador-externo-x: 58%;
+    --treinador-externo-y: 22%;
 }
 
 #corpoMapa6 {
@@ -360,6 +397,8 @@ main#paginaLoja {
     --loja-y: 72%;
     --batalha-x: 50%;
     --batalha-y: 62%;
+    --treinador-externo-x: 64%;
+    --treinador-externo-y: 47%;
 }
 
 #corpoMapa7 {
@@ -371,6 +410,8 @@ main#paginaLoja {
     --loja-y: 60%;
     --batalha-x: 80%;
     --batalha-y: 87%;
+    --treinador-externo-x: 76%;
+    --treinador-externo-y: 19%;
 }
 
 #corpoMapa8 {
@@ -382,6 +423,8 @@ main#paginaLoja {
     --loja-y: 66%;
     --batalha-x: 26%;
     --batalha-y: 24%;
+    --treinador-externo-x: 64%;
+    --treinador-externo-y: 66%;
 }
 
 #botaoSeta {

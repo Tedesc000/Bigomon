@@ -17,9 +17,9 @@
                 alt="Ginásio 5"
             >
             <a
-                href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=1"
+                <?php if ($statusAdversarios['interno1'] === 'disponivel'): ?>href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=1"<?php else: ?>aria-disabled="true"<?php endif; ?>
                 id="botaoTreinadorPadrao1"
-                class="pontoTreinadorPadrao"
+                class="pontoTreinadorPadrao <?= $statusAdversarios['interno1'] ?>"
                 aria-label="Iniciar batalha contra o treinador padrão 1"
             >
                 <img
@@ -29,9 +29,9 @@
                 >
             </a>
             <a
-                href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=2"
+                <?php if ($statusAdversarios['interno2'] === 'disponivel'): ?>href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=2"<?php else: ?>aria-disabled="true"<?php endif; ?>
                 id="botaoTreinadorPadrao2"
-                class="pontoTreinadorPadrao"
+                class="pontoTreinadorPadrao <?= $statusAdversarios['interno2'] ?>"
                 aria-label="Iniciar batalha contra o treinador padrão 2"
             >
                 <img
@@ -41,9 +41,9 @@
                 >
             </a>
             <a
-                href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=3"
+                <?php if ($statusAdversarios['lider'] === 'disponivel'): ?>href="?modulo=batalha&acao=batalhaTreinador&ginasio=5&treinador=3"<?php else: ?>aria-disabled="true"<?php endif; ?>
                 id="botaoLiderGinasio"
-                class="pontoLiderGinasio"
+                class="pontoLiderGinasio <?= $statusAdversarios['lider'] ?>"
                 aria-label="Iniciar batalha contra Norman"
             >
                 <img
