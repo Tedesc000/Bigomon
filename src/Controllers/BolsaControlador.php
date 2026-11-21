@@ -54,13 +54,128 @@ class BolsaControlador
 
         $mapaRetorno = $_SESSION['mapa'] ?? 'mapaInicio';
         $slots = $this->carregarSlotsDetalhados((int) $idTreinador);
-        $pokemons = $this->carregarPokemonsTreinador((int) $idTreinador);
+        $pokemons = $this->carregarPokemonsTreinador((int) $idTreinador, $slots);
 
         require_once __DIR__ . '/../Views/bolsa/pokemons.php';
     }
 
-    public function carregarPokemonsTreinador($id_treinador){
+    public function carregarPokemonsTreinador($id_treinador, array $slots = []){
+        // Coleta os IDs de pokemons que já estão nos slots para excluí-los do box
+        $idsNosSlots = [];
+        foreach ($slots as $s) {
+            if (!empty($s['id_pokemon'])) {
+                $idsNosSlots[] = (int) $s['id_pokemon'];
+            }
+        }
 
+        $stmt = $this->pdo->prepare(
+            "SELECT
+                p.id_pokemon,
+                p.id_pokedex,
+                p.nome,
+                p.hp_atual,
+                p.sexo,
+                p.status,
+                pd.hp AS hp_maximo,
+                pd.atk,
+                pd.def,
+                pd.spa,
+                pd.spd,
+                pd.spe,
+                pd.fase
+             FROM pokemon p
+             INNER JOIN pokedex pd ON pd.id_pokedex = p.id_pokedex
+             WHERE p.id_treinador = :id_treinador
+             ORDER BY p.id_pokemon ASC"
+        );
+        $stmt->execute(['id_treinador' => $id_treinador]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $foraDosSlots = [];
+        foreach ($rows as $p) {
+            if (!in_array((int) $p['id_pokemon'], $idsNosSlots, true)) {
+                $foraDosSlots[] = $this->enriquecerPokemon($p);
+            }
+        }
+
+        return array_values($foraDosSlots);
+    }
+
+    public function atribuirSlot()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['ok' => false, 'erro' => 'Método não permitido.']);
+            return;
+        }
+
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        if (!$idTreinador) {
+            http_response_code(401);
+            echo json_encode(['ok' => false, 'erro' => 'Treinador não autenticado.']);
+            return;
+        }
+
+        $raw = file_get_contents('php://input');
+        $payload = $raw ? json_decode($raw, true) : [];
+        if (!is_array($payload)) $payload = [];
+
+        $slotNum  = (int)($payload['slot']       ?? 0);
+        $idPokemon = (int)($payload['id_pokemon'] ?? 0);
+
+        if ($slotNum < 1 || $slotNum > 6 || !$idPokemon) {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => 'Parâmetros inválidos.']);
+            return;
+        }
+
+        // Verifica que o pokémon pertence ao treinador
+        $stmtCheck = $this->pdo->prepare(
+            "SELECT id_pokemon FROM pokemon WHERE id_pokemon = :id AND id_treinador = :tr"
+        );
+        $stmtCheck->execute(['id' => $idPokemon, 'tr' => $idTreinador]);
+        if (!$stmtCheck->fetch()) {
+            http_response_code(403);
+            echo json_encode(['ok' => false, 'erro' => 'Pokémon não encontrado.']);
+            return;
+        }
+
+        // Busca slots atuais e substitui apenas o slot desejado
+        $slotsAtuais = $this->carregarSlotsDetalhados((int)$idTreinador);
+        $ids = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $ids[$i] = $slotsAtuais[$i - 1]['id_pokemon'] ?? null;
+        }
+        // Se o pokémon já estava em outro slot, limpa o slot anterior
+        for ($i = 1; $i <= 6; $i++) {
+            if ($ids[$i] === $idPokemon) {
+                $ids[$i] = null;
+            }
+        }
+        $ids[$slotNum] = $idPokemon;
+
+        $stmt = $this->pdo->prepare(
+            "UPDATE treinador
+             SET slot1 = :slot1, slot2 = :slot2, slot3 = :slot3,
+                 slot4 = :slot4, slot5 = :slot5, slot6 = :slot6
+             WHERE id_treinador = :id_treinador"
+        );
+        $stmt->execute([
+            'slot1' => $ids[1], 'slot2' => $ids[2], 'slot3' => $ids[3],
+            'slot4' => $ids[4], 'slot5' => $ids[5], 'slot6' => $ids[6],
+            'id_treinador' => (int)$idTreinador,
+        ]);
+
+        require_once __DIR__ . '/../Models/Treinador.php';
+        $treinador = new Treinador($this->pdo);
+        $treinador->recarregarSessao((int)$idTreinador);
+
+        echo json_encode([
+            'ok'    => true,
+            'slots' => $this->carregarSlotsDetalhados((int)$idTreinador),
+        ]);
     }
 
     public function trocarSlot()

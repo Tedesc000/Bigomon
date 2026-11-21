@@ -16,11 +16,19 @@ class PokemonControlador {
 
         if ($idTreinador !== null) {
             $stmt = $this->pdo->prepare(
-                "SELECT pokemon.id_pokemon, pokemon.id_pokedex, pokemon.nome, pokemon.hp_atual, pokedex.hp AS hp_maximo
-                FROM pokemon
-                INNER JOIN pokedex ON pokedex.id_pokedex = pokemon.id_pokedex
-                WHERE pokemon.id_treinador = :id_treinador
-                ORDER BY pokemon.id_pokemon"
+                "SELECT p.id_pokemon, p.id_pokedex, p.nome, p.hp_atual, pd.hp AS hp_maximo
+                FROM treinador t
+                INNER JOIN pokemon p ON p.id_pokemon IN (
+                    COALESCE(t.slot1, -1),
+                    COALESCE(t.slot2, -1),
+                    COALESCE(t.slot3, -1),
+                    COALESCE(t.slot4, -1),
+                    COALESCE(t.slot5, -1),
+                    COALESCE(t.slot6, -1)
+                )
+                INNER JOIN pokedex pd ON pd.id_pokedex = p.id_pokedex
+                WHERE t.id_treinador = :id_treinador
+                ORDER BY FIELD(p.id_pokemon, t.slot1, t.slot2, t.slot3, t.slot4, t.slot5, t.slot6)"
             );
             $stmt->execute(['id_treinador' => $idTreinador]);
             $pokemons = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -42,11 +50,20 @@ class PokemonControlador {
         }
 
         $stmt = $this->pdo->prepare(
-            "UPDATE pokemon
-            INNER JOIN pokedex ON pokedex.id_pokedex = pokemon.id_pokedex
-            SET pokemon.hp_atual = pokedex.hp,
-                pokemon.status = NULL
-            WHERE pokemon.id_treinador = :id_treinador"
+            "UPDATE pokemon p
+            INNER JOIN pokedex pd ON pd.id_pokedex = p.id_pokedex
+            INNER JOIN treinador t ON t.id_treinador = p.id_treinador
+            SET p.hp_atual = pd.hp,
+                p.status = NULL
+            WHERE p.id_treinador = :id_treinador
+              AND p.id_pokemon IN (
+                    COALESCE(t.slot1, -1),
+                    COALESCE(t.slot2, -1),
+                    COALESCE(t.slot3, -1),
+                    COALESCE(t.slot4, -1),
+                    COALESCE(t.slot5, -1),
+                    COALESCE(t.slot6, -1)
+              )"
         );
         $stmt->execute(['id_treinador' => $idTreinador]);
 
