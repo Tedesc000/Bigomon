@@ -14,6 +14,7 @@
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
+    require_once __DIR__ . '/../../Utils/tmImagens.php';
 
     // Mapa de itens pelo ID oficial da PokeAPI (ex: 814 = Key Stone / Pedra de Megaevolução)
     $mapaPorId = [
@@ -29,6 +30,13 @@
                 $urlItem = $mapaPorId[$idItem];
                 $_SESSION[$idItem]['urlItem'] = $urlItem;
                 $_SESSION['itens'][$idItem]['urlItem'] = $urlItem;
+                continue;
+            }
+
+            // TMs: sprite da PokeAPI pelo tipo do ataque (tm-fire.png, tm-water.png...)
+            if ($urlTM = urlImagemTM($idItem)) {
+                $_SESSION[$idItem]['urlItem'] = $urlTM;
+                $_SESSION['itens'][$idItem]['urlItem'] = $urlTM;
                 continue;
             }
 
