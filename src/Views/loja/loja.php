@@ -1,3 +1,10 @@
+<?php
+// Versão dos assets pela data de modificação: força o navegador a baixar de novo quando o arquivo muda
+$versaoAsset = static function (string $caminho): int {
+    $arquivo = __DIR__ . '/../../../public/' . $caminho;
+    return is_file($arquivo) ? filemtime($arquivo) : 0;
+};
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,55 +12,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($nomeLoja ?? 'Loja') ?></title>
-    <link rel="stylesheet" href="assets/css/mapas.css">
-    <link rel="stylesheet" href="assets/css/loja.css">
-    <link rel="stylesheet" href="assets/css/inicioLogin.css">
-    <script src="../public/assets/js/pop.js"></script>
+    <link rel="stylesheet" href="assets/css/mapas.css?v=<?= $versaoAsset('assets/css/mapas.css') ?>">
+    <link rel="stylesheet" href="assets/css/loja.css?v=<?= $versaoAsset('assets/css/loja.css') ?>">
+    <link rel="stylesheet" href="assets/css/inicioLogin.css?v=<?= $versaoAsset('assets/css/inicioLogin.css') ?>">
+    <script src="../public/assets/js/pop.js?v=<?= $versaoAsset('assets/js/pop.js') ?>"></script>
 </head>
 
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Mapa de itens pelo ID oficial da PokeAPI (ex: 814 = Key Stone / Pedra de Megaevolução)
-$mapaPorId = [
-    814 => 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key-stone.png'
-];
+require_once __DIR__ . '/../../Utils/tmImagens.php';
 
-// Carrega e salva as URLs oficiais da PokeAPI na sessão sem travar a página
-if (!empty($itensLoja)) {
-    foreach ($itensLoja as $item) {
-        $idItem = (int) ($item['id_item'] ?? 0);
-        if (!$idItem) {
-            continue;
-        }
-
-        // Para o ID 814 (Pedra de Megaevolução), define o sprite oficial
-        if (isset($mapaPorId[$idItem])) {
-            $urlItem = $mapaPorId[$idItem];
-            $_SESSION[$idItem]['urlItem'] = $urlItem;
-            $_SESSION['itens'][$idItem]['urlItem'] = $urlItem;
-            continue;
-        }
-
-        // Se já está na sessão, não processa novamente
-        if (!empty($_SESSION[$idItem]['urlItem'])) {
-            continue;
-        }
-
-        $nomeItem = strtolower(trim($item['nome'] ?? ''));
-        // Gera a URL oficial direta da CDN de sprites da PokeAPI
-        $slug = $nomeItem;
-        $slug = str_replace(['é', 'è', 'ê'], 'e', $slug);
-        $slug = preg_replace('/[^a-z0-9]+/i', '-', $slug);
-        $slug = trim($slug, '-');
-        $urlItem = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/{$slug}.png";
-
-        // Salva na sessão conforme solicitado
-        $_SESSION[$idItem]['urlItem'] = $urlItem;
-        $_SESSION['itens'][$idItem]['urlItem'] = $urlItem;
-    }
-}
+$idsPossuidos = $idsPossuidos ?? [];
 ?>
 
 <body id="corpoLoja">
@@ -84,7 +55,9 @@ if (!empty($itensLoja)) {
                             $preco = $item['preco'] ?? 0;
                             $semSaldo = $preco > $saldoTreinador;
                             $idItem = $item['id_item'] ?? 0;
-                            $urlImagem = $_SESSION[$idItem]['urlItem'] ?? ($_SESSION['itens'][$idItem]['urlItem'] ?? '');
+                            $urlImagem = urlImagemItem((int) $idItem, (string) ($item['nome'] ?? ''));
+                            // TM é reutilizável: quem já tem não compra de novo
+                            $tmAdquirido = ItemEfeito::ehTM((int) $idItem) && in_array((int) $idItem, $idsPossuidos, true);
                             ?>
                             <li class="cardItemLoja">
                                 <div class="infoItemLoja">
@@ -112,10 +85,16 @@ if (!empty($itensLoja)) {
                             </div>
                             <form action="?modulo=loja&acao=comprar" method="POST" class="formComprarItem">
                                 <input type="hidden" name="id_item" value="<?= htmlspecialchars($item['id_item'] ?? '') ?>">
-                                <button type="submit" class="botaoComprarItem" <?= $semSaldo ? 'disabled' : '' ?> title="<?= $semSaldo ? 'Saldo insuficiente' : 'Comprar item' ?>">
-                                    <span class="hoverText">▸</span>
-                                    <span class="defaultText">COMPRAR</span>
-                                </button>
+                                <?php if ($tmAdquirido): ?>
+                                    <button type="button" class="botaoComprarItem" disabled title="Você já tem esse TM">
+                                        <span class="defaultText">ADQUIRIDO</span>
+                                    </button>
+                                <?php else: ?>
+                                    <button type="submit" class="botaoComprarItem" <?= $semSaldo ? 'disabled' : '' ?> title="<?= $semSaldo ? 'Saldo insuficiente' : 'Comprar item' ?>">
+                                        <span class="hoverText">▸</span>
+                                        <span class="defaultText">COMPRAR</span>
+                                    </button>
+                                <?php endif; ?>
                             </form>
                         </li>
                     <?php endforeach; ?>

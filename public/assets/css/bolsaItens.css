@@ -1,0 +1,554 @@
+/* Bolsa de itens fora da batalha: mesmo visual da bolsa e da tela de POKEMON da batalha */
+
+.hidden {
+    display: none !important;
+}
+
+#painelBolsa,
+.bolsaParty,
+.bolsaMensagemFundo {
+    font-family: 'PokemonEmerald', monospace;
+    box-sizing: border-box;
+}
+
+#painelBolsa *,
+.bolsaParty *,
+.bolsaMensagemFundo * {
+    box-sizing: border-box;
+}
+
+.cursor {
+    visibility: hidden;
+}
+
+/* ---------- Painel principal ---------- */
+#painelBolsa {
+    position: absolute;
+    top: 17%;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1vw, 14px);
+    padding: clamp(10px, 1.4vw, 18px);
+    border: 5px solid #4a2a10;
+    border-radius: 12px;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.05) 0px,
+            rgba(255, 255, 255, 0.05) 6px,
+            transparent 6px,
+            transparent 12px
+        ),
+        linear-gradient(180deg, #b0682b 0%, #d18a3e 55%, #a35e26 100%);
+    box-shadow: inset 0 0 0 3px rgba(255, 226, 170, 0.35), 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Abas (bolsos) ---------- */
+.bolsaAbas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.bolsaAba {
+    flex: 1 1 auto;
+    border: 3px solid #4a2a10;
+    border-radius: 8px;
+    background: #8a4c1c;
+    color: #fbe3bd;
+    font-family: inherit;
+    font-size: clamp(0.95rem, 1.3vw, 1.3rem);
+    padding: 4px 10px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45);
+    transition: background 0.12s ease, transform 0.12s ease;
+}
+
+.bolsaAba:hover,
+.bolsaAba:focus-visible {
+    background: #9c5a24;
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.bolsaAba.ativa {
+    background: #fdfcde;
+    color: #4a2a10;
+    text-shadow: none;
+    box-shadow: inset 0 -4px 0 #f46d43;
+}
+
+/* ---------- Lista + detalhe ---------- */
+.bolsaCorpo {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 62% 1fr;
+    gap: clamp(10px, 1.4vw, 18px);
+}
+
+.bolsaLista {
+    list-style: none;
+    margin: 0;
+    padding: 2px 6px 6px 2px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 0.8vw, 10px);
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.bolsaItem {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(10px, 1.2vw, 16px);
+    border: 4px solid #4a2a10;
+    border-radius: 10px;
+    background: #fdfcde;
+    color: #252525;
+    font-family: inherit;
+    font-size: clamp(1rem, 1.6vw, 1.5rem);
+    padding: clamp(4px, 0.6vw, 8px) clamp(10px, 1.4vw, 18px);
+    text-align: left;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 2px #e6d9a8, 0 4px 0 rgba(0, 0, 0, 0.25);
+    transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+
+.bolsaItem:hover,
+.bolsaItem:focus-visible {
+    border-color: #f46d43;
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.bolsaItem.selecionado {
+    border-color: #f46d43;
+    background: #fff4c4;
+}
+
+.bolsaItemImg {
+    width: clamp(28px, 3vw, 44px);
+    height: clamp(28px, 3vw, 44px);
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.bolsaItemNome {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bolsaItemQtd {
+    color: #7a5a3a;
+}
+
+.bolsaVazia {
+    color: #fdfcde;
+    font-size: clamp(1rem, 1.6vw, 1.5rem);
+    text-align: center;
+    padding: 24px 8px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.bolsaDetalhe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(8px, 1vw, 14px);
+    min-height: 0;
+    overflow-y: auto;
+    border: 4px solid #4a2a10;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: clamp(12px, 1.6vw, 22px);
+    color: #ffffff;
+    text-align: center;
+}
+
+.bolsaDetalheImgWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(70px, 8vw, 120px);
+    height: clamp(70px, 8vw, 120px);
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 244, 196, 0.45) 0%, rgba(255, 244, 196, 0) 70%);
+}
+
+.bolsaDetalheImg {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.bolsaDetalheNome {
+    margin: 0;
+    font-size: clamp(1.1rem, 1.8vw, 1.7rem);
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45);
+}
+
+.bolsaDetalheTexto {
+    margin: 0;
+    font-size: clamp(0.95rem, 1.4vw, 1.3rem);
+    line-height: 1.35;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45);
+}
+
+.bolsaBotaoUsar {
+    margin-top: auto;
+    width: 100%;
+    border: 4px solid #253711;
+    border-radius: 10px;
+    background: #fdfcde;
+    color: #252525;
+    font-family: inherit;
+    font-size: clamp(1.1rem, 1.8vw, 1.7rem);
+    padding: 6px 12px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 3px #a8b8c0, 0 4px 0 rgba(0, 0, 0, 0.25);
+    transition: background 0.12s ease, transform 0.12s ease;
+}
+
+.bolsaBotaoUsar:hover,
+.bolsaBotaoUsar:focus-visible {
+    background: #efeab4;
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.bolsaBotaoUsar:hover .cursor,
+.bolsaBotaoUsar:focus-visible .cursor {
+    visibility: visible;
+}
+
+/* ---------- Escolha do Pokémon (igual à tela de POKEMON da batalha) ---------- */
+.bolsaParty {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    padding: clamp(14px, 3vw, 40px) clamp(14px, 6vw, 120px);
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.04) 0px,
+            rgba(255, 255, 255, 0.04) 6px,
+            transparent 6px,
+            transparent 12px
+        ),
+        linear-gradient(180deg, #2b6e68 0%, #3d8e84 55%, #2a635e 100%);
+}
+
+.bolsaPartyLista {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: clamp(10px, 1.4vw, 18px);
+    overflow-y: auto;
+    padding: 4px;
+}
+
+.bolsaCard {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: clamp(10px, 1.2vw, 18px);
+    width: 100%;
+    border: 4px solid #1e3b38;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #4b9fd4 0%, #3880b2 100%);
+    padding: clamp(8px, 1vw, 14px) clamp(12px, 1.5vw, 20px);
+    color: #ffffff;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35), 0 4px 0 rgba(0, 0, 0, 0.25);
+    transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.bolsaCard:hover,
+.bolsaCard:focus-visible {
+    border-color: #f46d43;
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.bolsaCard.desmaiado {
+    background: linear-gradient(180deg, #a84848 0%, #803232 100%);
+}
+
+.bolsaCardSprite {
+    width: clamp(54px, 5.5vw, 84px);
+    height: clamp(54px, 5.5vw, 84px);
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.bolsaCardInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.bolsaCardTopo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.bolsaCardNome {
+    font-size: clamp(1.1rem, 1.8vw, 1.8rem);
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bolsaTag {
+    font-size: clamp(0.75rem, 1vw, 1rem);
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+}
+
+.bolsaTagOk {
+    background: #45c94a;
+    color: #10300f;
+}
+
+.bolsaTagDesmaiado {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border: 2px solid #253711;
+    border-radius: 5px;
+    font-size: clamp(0.75rem, 1vw, 1rem);
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45);
+}
+
+.status-badge.status-veneno { background: #a040a0; }
+.status-badge.status-paralisia { background: #e0b020; color: #252525; text-shadow: none; }
+.status-badge.status-queimadura { background: #e05030; }
+.status-badge.status-sono { background: #8c8c9c; }
+.status-badge.status-congelamento { background: #58b8d8; }
+
+.bolsaHpLinha {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    align-items: center;
+    gap: 6px;
+    background: #2b3c3a;
+    border: 2px solid #182524;
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+
+.bolsaHpRotulo {
+    color: #f49a78;
+    font-size: clamp(0.8rem, 1.1vw, 1.1rem);
+    font-weight: bold;
+}
+
+.bolsaHpTrilho {
+    display: block;
+    height: clamp(8px, 0.8vw, 12px);
+    border: 2px solid #253711;
+    border-radius: 2px;
+    background: #fffef1;
+    overflow: hidden;
+}
+
+.bolsaHpBarra {
+    display: block;
+    height: 100%;
+    background: #45c94a;
+}
+
+.bolsaHpBarra.hp-high { background: #45c94a; }
+.bolsaHpBarra.hp-mid { background: #f2c94c; }
+.bolsaHpBarra.hp-low { background: #e64c3c; }
+
+.bolsaHpNumeros {
+    text-align: right;
+    font-size: clamp(0.9rem, 1.3vw, 1.3rem);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Ataques do TM (qual esquecer) */
+.bolsaCardMov {
+    grid-template-columns: 1fr auto auto;
+}
+
+.bolsaMovTipo {
+    padding: 2px 10px;
+    border: 2px solid #253711;
+    border-radius: 5px;
+    font-size: clamp(0.8rem, 1.1vw, 1.1rem);
+    color: #ffffff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45);
+}
+
+.bolsaMovPoder {
+    font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.type-normal { background: #a8a878; }
+.type-lutador { background: #c03028; }
+.type-voador { background: #9098f0; }
+.type-veneno { background: #a040a0; }
+.type-terra { background: #d0b058; }
+.type-pedra { background: #b8a038; }
+.type-inseto { background: #a0b020; }
+.type-fantasma { background: #705898; }
+.type-aco { background: #9898b0; }
+.type-fogo { background: #e87030; }
+.type-agua { background: #5888e8; }
+.type-planta { background: #68b848; }
+.type-eletrico { background: #e8c028; color: #252525; text-shadow: none; }
+.type-psiquico { background: #e85888; }
+.type-gelo { background: #78c8c8; }
+.type-dragao { background: #7038f8; }
+.type-sombrio { background: #685040; }
+
+.bolsaPartyRodape {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+}
+
+.bolsaPrompt {
+    display: flex;
+    align-items: center;
+    padding: clamp(10px, 1.2vw, 18px) clamp(16px, 2vw, 28px);
+    border: 4px solid #253711;
+    border-radius: 10px;
+    background: #fdfcde;
+    color: #252525;
+    font-size: clamp(1.1rem, 2vw, 1.9rem);
+    box-shadow: inset 0 0 0 3px #a8b8c0;
+}
+
+.bolsaCancelar {
+    border: 4px solid #253711;
+    border-radius: 10px;
+    background: #4b8ec4;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: clamp(1.1rem, 2vw, 1.8rem);
+    padding: 0 clamp(20px, 2.5vw, 36px);
+    cursor: pointer;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.bolsaCancelar:hover,
+.bolsaCancelar:focus-visible {
+    background: #3b7ab0;
+    outline: none;
+}
+
+/* ---------- Mensagem de resultado (caixa de texto da batalha) ---------- */
+.bolsaMensagemFundo {
+    position: fixed;
+    inset: 0;
+    z-index: 9500;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: clamp(14px, 3vw, 40px);
+    background: rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+}
+
+.bolsaMensagem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 1.6vw, 22px);
+    width: min(1000px, 100%);
+    min-height: clamp(90px, 14vh, 150px);
+    padding: clamp(14px, 1.8vw, 26px) clamp(18px, 2.8vw, 44px);
+    border: 4px solid #d1473c;
+    border-left-width: 32px;
+    border-right: 6px solid #253711;
+    border-radius: 14px;
+    background: #6ba2a5;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: bolsaMensagemEntra 0.2s ease-out;
+    outline: none;
+}
+
+.bolsaMensagemImg {
+    width: clamp(56px, 6vw, 96px);
+    height: clamp(56px, 6vw, 96px);
+    flex-shrink: 0;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.bolsaMensagemTexto {
+    flex: 1;
+    margin: 0;
+    font-size: clamp(1.2rem, 2.4vw, 2.2rem);
+    line-height: 1.3;
+    white-space: pre-line;
+}
+
+.bolsaMensagemSeta {
+    position: absolute;
+    right: 18px;
+    bottom: 10px;
+    font-size: clamp(0.9rem, 1.4vw, 1.3rem);
+    color: #f4d06f;
+    animation: bolsaSeta 0.8s infinite;
+}
+
+@keyframes bolsaMensagemEntra {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes bolsaSeta {
+    0%, 49% { opacity: 1; transform: translateY(0); }
+    50%, 100% { opacity: 0.25; transform: translateY(4px); }
+}
+
+@media (max-width: 768px) {
+    .bolsaCorpo {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+    }
+    .bolsaPartyLista {
+        grid-template-columns: 1fr;
+    }
+    .bolsaMensagem {
+        border-left-width: 14px;
+    }
+}
