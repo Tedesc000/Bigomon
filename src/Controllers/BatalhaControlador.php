@@ -205,6 +205,26 @@ class BatalhaControlador
         require_once __DIR__ . '/../Views/batalha/batalhaMatinho.php';
     }
 
+    public function usarItem()
+    {
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        if (!$idTreinador) {
+            header("Location: ?modulo=treinador&acao=cadastroLogin");
+            exit;
+        }
+
+        $idItem = (int)($_POST['id_item'] ?? 0);
+        $tipoBatalha = $_POST['tipo_batalha'] ?? ($_SESSION['batalha_atual']['tipo'] ?? 'matinho');
+        $destino = ($tipoBatalha === 'treinador') ? 'batalhaTreinador' : 'batalhaMatinho';
+
+        if ($idItem > 0) {
+            $_SESSION['item_usado_batalha'] = $idItem;
+        }
+
+        header("Location: ?modulo=batalha&acao={$destino}");
+        exit;
+    }
+
     public function atacar()
     {
         header('Content-Type: application/json; charset=utf-8');

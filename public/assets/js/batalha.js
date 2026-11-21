@@ -617,14 +617,10 @@
         enviarAcao('fugir');
     });
 
-    els.btnBag.addEventListener('click', async () => {
+    els.btnBag.addEventListener('click', () => {
         if (ocupado) return;
-        ocupado = true;
-        definirModoMenu('message');
-        els.battleMessageText.textContent = 'A mochila ainda não está disponível em batalha!';
-        await aguardarAvancoMensagem(1400);
-        ocupado = false;
-        definirModoMenu('main');
+        const tipoBatalha = estado.tipo === 'treinador' ? 'treinador' : 'matinho';
+        window.location.href = `?modulo=bolsa&acao=listarItens&origem=batalha&tipo=${tipoBatalha}`;
     });
 
     els.btnPartyCancel.addEventListener('click', fecharTelaPokemon);
