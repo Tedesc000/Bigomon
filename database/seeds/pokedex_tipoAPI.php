@@ -29,11 +29,12 @@ for($i=$inicio; $i<=$fim; $i++){
 
     $id = $dados->id;
     $tipo1 = (int) basename(rtrim($dados->types[0]->type->url, '/'));
+    $tipo2 = null;
     if(isset($dados->types[1])){
         $tipo2 = (int) basename(rtrim($dados->types[1]->type->url, '/'));
     } 
-    if(isset($tipo2)){
-        $sql.="INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES ({$id}, {$tipo1})
+    if($tipo2 !== null){
+        $sql.="INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES ({$id}, {$tipo1});
             INSERT INTO pokedex_tipo (id_pokedex, id_tipo) VALUES ({$id}, {$tipo2});";
     }
     else{
