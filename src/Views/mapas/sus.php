@@ -29,15 +29,20 @@
                     src="../public/assets/img/icons/healing_machine.png"
                     alt="Máquina de cura Pokémon"
                 >
-                <button type="submit" class="botaoCurar">
-                    <span class="hoverText">▸</span>
-                    <span class="defaultText">CURAR</span>
-                </button>
+                <form action="?modulo=pokemon&acao=curar" method="POST">
+                    <button type="submit" class="botaoCurar">
+                        <span class="hoverText">▸</span>
+                        <span class="defaultText">CURAR</span>
+                    </button>
+                </form>
             </div>
         </div>
         <aside id="barraPokemons" aria-label="Pokémons do treinador">
             <?php if (!empty($pokemons)): ?>
                 <div id="listaPokemons">
+                    <div class="hudSlotsCabecalho">
+                        <span class="hudSlotsTitulo">EQUIPE</span>
+                    </div>
                     <?php foreach ($pokemons as $pokemon): ?>
                         <?php
                         $hpMaximo = max(1, (int) $pokemon['hp_maximo']);
