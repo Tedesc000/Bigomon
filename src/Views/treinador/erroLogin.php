@@ -14,8 +14,8 @@
         </div>
     </div>
     <div class="containerErro">
-        <span class="textoErro">E-MAIL OU SENHA INCORRETOS!</span>
-        <span class="descricaoErro">VERIFIQUE SUAS CREDENCIAIS E TENTE NOVAMENTE.</span>
+        <span class="textoErro"><?= htmlspecialchars($tituloErro ?? 'E-MAIL OU SENHA INCORRETOS!') ?></span>
+        <span class="descricaoErro"><?= htmlspecialchars($mensagemErro ?? 'VERIFIQUE SUAS CREDENCIAIS E TENTE NOVAMENTE.') ?></span>
     </div>
     <div id="botoes">
         <a href="?modulo=treinador&acao=login" class="botaoInicio">

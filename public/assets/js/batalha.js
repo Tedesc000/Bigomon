@@ -428,9 +428,25 @@
         });
     }
 
+    async function registrarLogBatalha(dados) {
+        try {
+            await fetch('?modulo=batalha&acao=registrarLogBatalha', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados),
+            });
+        } catch (e) {
+            // Silencioso para não interromper a animação da batalha
+        }
+    }
+
     async function reproduzirEventos(eventos) {
         definirModoMenu('message');
         for (const ev of eventos) {
+            if (ev.tipo_evento === 'log_ataque' && ev.log_dados) {
+                registrarLogBatalha(ev.log_dados);
+                continue;
+            }
             if (ev.hud) {
                 atualizarHud(ev.hud);
             }

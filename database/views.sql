@@ -29,6 +29,12 @@ SELECT id_log, id_treinador, texto, data
 FROM log
 WHERE texto LIKE '%registrado no sistema%';
 
+-- View por Categoria: Batalhas
+CREATE OR REPLACE VIEW view_logs_batalha AS
+SELECT id_log, id_treinador, texto, data
+FROM log
+WHERE texto LIKE 'Batalha%';
+
 -- View por Data: Logs registrados Hoje
 CREATE OR REPLACE VIEW view_logs_hoje AS
 SELECT id_log, id_treinador, texto, data

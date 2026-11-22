@@ -45,13 +45,25 @@ class TreinadorControlador {
             $email = $_POST['email'] ?? '';
             $senha = $_POST['senha'] ?? '';
 
-            $novoTreinador = new Treinador($this->pdo);
-            $sucesso = $novoTreinador->logar($email, $senha);
+            try {
+                $novoTreinador = new Treinador($this->pdo);
+                $sucesso = $novoTreinador->logar($email, $senha);
 
-            if ($sucesso) {
-                header("Location: ?modulo=treinador&acao=home");
-                exit;
-            } else {
+                if ($sucesso) {
+                    header("Location: ?modulo=treinador&acao=home");
+                    exit;
+                } else {
+                    $tituloErro = "ERRO NO LOGIN";
+                    $mensagemErro = "E-mail ou senha incorretos!";
+                    require_once __DIR__ . "/../Views/treinador/erroLogin.php";
+                }
+            } catch (TreinadorException $e) {
+                $tituloErro = "ERRO NO LOGIN";
+                $mensagemErro = $e->getMessage();
+                require_once __DIR__ . "/../Views/treinador/erroLogin.php";
+            } catch (Throwable $e) {
+                $tituloErro = "ERRO INESPERADO";
+                $mensagemErro = "Ocorreu um erro no servidor. Tente novamente.";
                 require_once __DIR__ . "/../Views/treinador/erroLogin.php";
             }
         }
@@ -77,75 +89,101 @@ class TreinadorControlador {
             $isLogado = !empty($_SESSION['usuario_logado']['id_treinador']);
             $usuarioLogado = $_SESSION['usuario_logado'] ?? null;
 
-            $email = trim($_POST['email'] ?? '');
-            $treinador = new Treinador($this->pdo);
+            try {
+                $nome = trim($_POST['nome'] ?? '');
+                $email = trim($_POST['email'] ?? '');
+                $sexo = trim($_POST['sexo'] ?? '');
+                $treinador = new Treinador($this->pdo);
 
-            // Verifica se o e-mail já está sendo utilizado por outro treinador
-            if (!empty($email)) {
+                if (empty($nome)) {
+                    throw new TreinadorException("O nome do treinador é obrigatório.");
+                }
+
+                if (empty($email)) {
+                    throw new TreinadorException("O e-mail é obrigatório.");
+                }
+
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new TreinadorException("O e-mail informado não possui um formato válido.");
+                }
+
+                // Verifica se o e-mail já está sendo utilizado por outro treinador
                 $emailMudou = $isLogado ? ($email !== $usuarioLogado['email']) : true;
                 if ($emailMudou && $treinador->emailExiste($email)) {
-                    require_once __DIR__ . "/../Views/treinador/erroCadastro.php";
-                    return;
+                    throw new TreinadorException("Este e-mail já está em uso por outro treinador.");
                 }
-            }
 
-            // Processa a foto de perfil:
-            // Na edição, se o usuário não escolheu imagem nova, preserva a foto já existente
-            $temArquivoNovo = !empty($_FILES['foto']['name']) && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE;
-            if ($isLogado && !$temArquivoNovo) {
-                $nomeFoto = $usuarioLogado['foto'] ?? 'fotoPerfilDefault.webp';
-            } else {
-                require_once __DIR__ . "/../Utils/upload.php";
-                $upload = uploadFotoPerfil($_FILES['foto'] ?? null, false);
-
-                if (!$upload['sucesso']) {
-                    require_once __DIR__ . "/../Views/treinador/erroCadastro.php";
-                    return;
-                }
-                $nomeFoto = $upload['nomeArquivo'];
-            }
-
-            // Senha: na edição, se ficar em branco, mantém a senha atual
-            if ($isLogado && empty($_POST['senha'])) {
-                $senha = $usuarioLogado['senha'];
-            } else {
-                $senha = $_POST['senha'] ?? '';
-            }
-
-            $treinador->setNome($_POST['nome'] ?? '');
-            $treinador->setEmail($email);
-            $treinador->setSenha($senha);
-            $treinador->setSexo($_POST['sexo'] ?? '');
-            $treinador->setFoto($nomeFoto);
-
-            if ($isLogado) {
-                // Na edição, basta setar o id_treinador: o salvar() atualiza apenas os campos alterados
-                $treinador->setIdTreinador($usuarioLogado['id_treinador']);
-
-                if ($treinador->salvar()) {
-                    $treinador->recarregarSessao($treinador->getIdTreinador());
-                    header("Location: ?modulo=treinador&acao=home");
-                    exit;
+                // Processa a foto de perfil:
+                // Na edição, se o usuário não escolheu imagem nova, preserva a foto já existente
+                $temArquivoNovo = !empty($_FILES['foto']['name']) && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE;
+                if ($isLogado && !$temArquivoNovo) {
+                    $nomeFoto = $usuarioLogado['foto'] ?? 'fotoPerfilDefault.webp';
                 } else {
-                    require_once __DIR__ . "/../Views/treinador/erroCadastro.php";
-                }
-            } else {
-                // valores iniciais do cadastro
-                $treinador->setDinheiro(0);
-                $treinador->setSlot1(null);
-                $treinador->setSlot2(null);
-                $treinador->setSlot3(null);
-                $treinador->setSlot4(null);
-                $treinador->setSlot5(null);
-                $treinador->setSlot6(null);
+                    require_once __DIR__ . "/../Utils/upload.php";
+                    $upload = uploadFotoPerfil($_FILES['foto'] ?? null, false);
 
-                if ($treinador->salvar()){
-                    $treinador->logar($email, $senha);
-                    header("Location: ?modulo=treinador&acao=home");
-                    exit;
-                } else {
-                    require_once __DIR__ . "/../Views/treinador/erroCadastro.php";
+                    if (!$upload['sucesso']) {
+                        throw new TreinadorException($upload['erro'] ?? "Erro no upload da foto de perfil.");
+                    }
+                    $nomeFoto = $upload['nomeArquivo'];
                 }
+
+                // Senha: na edição, se ficar em branco, mantém a senha atual
+                if ($isLogado && empty($_POST['senha'])) {
+                    $senha = $usuarioLogado['senha'];
+                } else {
+                    $senha = $_POST['senha'] ?? '';
+                    if (empty($senha)) {
+                        throw new TreinadorException("A senha é obrigatória.");
+                    }
+                    if (strlen($senha) < 4) {
+                        throw new TreinadorException("A senha deve ter pelo menos 4 caracteres.");
+                    }
+                }
+
+                $treinador->setNome($nome);
+                $treinador->setEmail($email);
+                $treinador->setSenha($senha);
+                $treinador->setSexo($sexo);
+                $treinador->setFoto($nomeFoto);
+
+                if ($isLogado) {
+                    // Na edição, basta setar o id_treinador: o salvar() atualiza apenas os campos alterados
+                    $treinador->setIdTreinador($usuarioLogado['id_treinador']);
+
+                    if ($treinador->salvar()) {
+                        $treinador->recarregarSessao($treinador->getIdTreinador());
+                        header("Location: ?modulo=treinador&acao=verPerfil");
+                        exit;
+                    } else {
+                        throw new TreinadorException("Não foi possível atualizar o perfil.");
+                    }
+                } else {
+                    // valores iniciais do cadastro
+                    $treinador->setDinheiro(0);
+                    $treinador->setSlot1(null);
+                    $treinador->setSlot2(null);
+                    $treinador->setSlot3(null);
+                    $treinador->setSlot4(null);
+                    $treinador->setSlot5(null);
+                    $treinador->setSlot6(null);
+
+                    if ($treinador->salvar()) {
+                        $treinador->logar($email, $senha);
+                        header("Location: ?modulo=treinador&acao=home");
+                        exit;
+                    } else {
+                        throw new TreinadorException("Não foi possível concluir o cadastro.");
+                    }
+                }
+            } catch (TreinadorException $e) {
+                $tituloErro = $isLogado ? "ERRO AO ATUALIZAR" : "ERRO NO CADASTRO";
+                $mensagemErro = $e->getMessage();
+                require_once __DIR__ . "/../Views/treinador/erroCadastro.php";
+            } catch (Throwable $e) {
+                $tituloErro = "ERRO INESPERADO";
+                $mensagemErro = "Ocorreu um erro no servidor. Tente novamente.";
+                require_once __DIR__ . "/../Views/treinador/erroCadastro.php";
             }
         }
     }
