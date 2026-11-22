@@ -137,9 +137,19 @@ class Treinador {
 
                 return $ok;
             } catch (PDOException $e) {
-                return false;
+                throw new TreinadorException("Erro ao atualizar dados do treinador no banco de dados.");
             }
         }else{
+            if (empty($this->nome)) {
+                throw new TreinadorException("O nome do treinador é obrigatório.");
+            }
+            if (empty($this->email)) {
+                throw new TreinadorException("O e-mail é obrigatório.");
+            }
+            if (empty($this->senha)) {
+                throw new TreinadorException("A senha é obrigatória.");
+            }
+
             try {
                 $sql = "INSERT INTO treinador (nome, email, senha, sexo, foto, dinheiro, slot1, slot2, slot3, slot4, slot5, slot6) VALUES (:nome, :email, :senha, :sexo, :foto, :dinheiro, :slot1, :slot2, :slot3, :slot4, :slot5, :slot6)";
                 $stmt = $this->pdo->prepare($sql);
@@ -163,7 +173,7 @@ class Treinador {
                 }
                 return $ok;
             } catch (PDOException $e) {
-                return false;
+                throw new TreinadorException("Erro ao salvar cadastro do treinador no banco de dados.");
             }
         }
     }
@@ -248,35 +258,45 @@ class Treinador {
     }
 
     public function logar($email, $senha){
-        $stmt = $this->pdo->prepare("SELECT * FROM treinador WHERE email = :email AND senha = :senha AND email NOT LIKE 'npc-%@npc.invalid'");
-        $stmt->execute([
-            'email' => $email,
-            'senha' => $senha
-        ]);
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($usuario){
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-            $_SESSION['logado'] = true;
-            $_SESSION['usuario_logado'] = [
-                'id_treinador' => $usuario['id_treinador'] ?? null,
-                'nome'         => $usuario['nome'] ?? '',
-                'email'        => $usuario['email'] ?? '',
-                'senha'        => $usuario['senha'] ?? '',
-                'sexo'         => $usuario['sexo'] ?? '',
-                'foto'         => $usuario['foto'] ?? 'fotoPerfilDefault.webp',
-                'dinheiro'     => $usuario['dinheiro'] ?? 0,
-                'slot1'        => $usuario['slot1'] ?? null,
-                'slot2'        => $usuario['slot2'] ?? null,
-                'slot3'        => $usuario['slot3'] ?? null,
-                'slot4'        => $usuario['slot4'] ?? null,
-                'slot5'        => $usuario['slot5'] ?? null,
-                'slot6'        => $usuario['slot6'] ?? null,
-            ];
-            return true;
+        if (empty($email)) {
+            throw new TreinadorException("Informe o seu e-mail para fazer login.");
         }
-        return false;
+        if (empty($senha)) {
+            throw new TreinadorException("Informe a sua senha para fazer login.");
+        }
+
+        $stmt = $this->pdo->prepare("SELECT * FROM treinador WHERE email = :email AND email NOT LIKE 'npc-%@npc.invalid'");
+        $stmt->execute(['email' => $email]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$usuario) {
+            throw new TreinadorException("E-mail não cadastrado no sistema.");
+        }
+
+        if ($usuario['senha'] !== $senha) {
+            throw new TreinadorException("Senha incorreta. Tente novamente.");
+        }
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['logado'] = true;
+        $_SESSION['usuario_logado'] = [
+            'id_treinador' => $usuario['id_treinador'] ?? null,
+            'nome'         => $usuario['nome'] ?? '',
+            'email'        => $usuario['email'] ?? '',
+            'senha'        => $usuario['senha'] ?? '',
+            'sexo'         => $usuario['sexo'] ?? '',
+            'foto'         => $usuario['foto'] ?? 'fotoPerfilDefault.webp',
+            'dinheiro'     => $usuario['dinheiro'] ?? 0,
+            'slot1'        => $usuario['slot1'] ?? null,
+            'slot2'        => $usuario['slot2'] ?? null,
+            'slot3'        => $usuario['slot3'] ?? null,
+            'slot4'        => $usuario['slot4'] ?? null,
+            'slot5'        => $usuario['slot5'] ?? null,
+            'slot6'        => $usuario['slot6'] ?? null,
+        ];
+        return true;
     }
 
     public function logout(){

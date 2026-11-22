@@ -557,6 +557,62 @@ class BatalhaControlador
         ]);
     }
 
+    public function registrarLogBatalha()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['ok' => false, 'erro' => 'Método não permitido.']);
+            return;
+        }
+
+        $idTreinador = (int) ($_SESSION['usuario_logado']['id_treinador'] ?? 0);
+        if ($idTreinador <= 0) {
+            http_response_code(401);
+            echo json_encode(['ok' => false, 'erro' => 'Não autenticado.']);
+            return;
+        }
+
+        $payload = $this->lerJsonBody();
+        $adversario = trim($payload['adversario'] ?? '');
+        $pokemonAtacante = trim($payload['pokemon_atacante'] ?? '');
+        $pokemonDefensor = trim($payload['pokemon_defensor'] ?? '');
+        $ataque = trim($payload['ataque'] ?? '');
+        $efeito = trim($payload['efeito'] ?? '');
+
+        if ($adversario === '' || $pokemonAtacante === '' || $ataque === '') {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => 'Dados insuficientes para log.']);
+            return;
+        }
+
+        $texto = "Batalha vs {$adversario}: {$pokemonAtacante} usou {$ataque}";
+        if ($pokemonDefensor !== '') {
+            $texto .= " contra {$pokemonDefensor}";
+        }
+        if ($efeito !== '') {
+            $texto .= " (Efeito: {$efeito})";
+        }
+
+        // Garante limite de 250 caracteres do campo log.texto
+        if (mb_strlen($texto, 'UTF-8') > 250) {
+            $texto = mb_substr($texto, 0, 247, 'UTF-8') . '...';
+        }
+
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO log (id_treinador, texto, data) VALUES (:id_treinador, :texto, NOW())");
+            $stmt->execute([
+                'id_treinador' => $idTreinador,
+                'texto' => $texto,
+            ]);
+            echo json_encode(['ok' => true]);
+        } catch (Throwable $e) {
+            http_response_code(500);
+            echo json_encode(['ok' => false, 'erro' => $e->getMessage()]);
+        }
+    }
+
     public function trocar()
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -1300,6 +1356,26 @@ class BatalhaControlador
                 ];
             }
         }
+
+        // Retorna ação de ataque nos eventos para processamento e log no front-end
+        $adversarioNome = $batalha['tipo'] === 'treinador'
+            ? ($batalha['adversario']['nome_exibicao'] ?? $batalha['adversario']['nome'] ?? 'Treinador')
+            : ($this->nomeOponente($batalha) . ' Selvagem');
+        $efeitoNome = !empty($movimento['efeito_nome']) ? (string) $movimento['efeito_nome'] : null;
+
+        $eventos[] = [
+            'tipo_evento' => 'log_ataque',
+            'log_dados' => [
+                'adversario' => (string) $adversarioNome,
+                'pokemon_atacante' => (string) $nomeAtacante,
+                'pokemon_defensor' => (string) $nomeDefensor,
+                'ataque' => (string) $movimento['nome'],
+                'efeito' => $efeitoNome,
+            ],
+            'hud' => null,
+            'animacao' => null,
+            'mensagem' => null,
+        ];
     }
 
     // Danos de status no fim do turno (veneno e queimadura), primeiro jogador e depois oponente

@@ -60,7 +60,8 @@ class Log {
             'pokemon'   => 'view_logs_pokemon',
             'saldo'     => 'view_logs_saldo',
             'item'      => 'view_logs_item',
-            'treinador' => 'view_logs_treinador'
+            'treinador' => 'view_logs_treinador',
+            'batalha'   => 'view_logs_batalha',
         ];
 
         // Se categoria for 'todos' mas foi escolhido um período, usa as views de data diretamente

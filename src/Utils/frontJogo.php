@@ -29,19 +29,21 @@ if (!isset($slotsEquipe) || !is_array($slotsEquipe)) {
     </div>
 
     <!-- Canto Superior Direito: Bags de Itens e de Pokémons -->
-    <a href="?modulo=bolsa&acao=listarItens" id="hudBolsaItens" class="pontoFront hudBotaoFront" title="Mochila de Itens" aria-label="Abrir Bolsa de Itens">
-        <span class="hudIconeFront" aria-hidden="true">
-            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png" alt="Itens" class="iconItem">
-        </span>
-        <span class="hudTextoFront">ITENS</span>
-    </a>
+    <div id="hudBotoesSuperiores" class="pontoFront">
+        <a href="?modulo=bolsa&acao=listarItens" id="hudBolsaItens" class="hudBotaoFront" title="Mochila de Itens" aria-label="Abrir Bolsa de Itens">
+            <span class="hudIconeFront" aria-hidden="true">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png" alt="Itens" class="iconItem">
+            </span>
+            <span class="hudTextoFront">ITENS</span>
+        </a>
 
-    <a href="?modulo=bolsa&acao=listarPokemons" id="hudBolsaPokemons" class="pontoFront hudBotaoFront" title="Equipe de Pokémons" aria-label="Ver Pokémons">
-        <span class="hudIconeFront" aria-hidden="true">
-            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Pokemons" class="iconPokebola">
-        </span>
-        <span class="hudTextoFront">POKÉMONS</span>
-    </a>
+        <a href="?modulo=bolsa&acao=listarPokemons" id="hudBolsaPokemons" class="hudBotaoFront" title="Equipe de Pokémons" aria-label="Ver Pokémons">
+            <span class="hudIconeFront" aria-hidden="true">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Pokemons" class="iconPokebola">
+            </span>
+            <span class="hudTextoFront">POKÉMONS</span>
+        </a>
+    </div>
 
     <!-- Canto Inferior Esquerdo: Perfil do Treinador -->
     <a href="?modulo=treinador&acao=verPerfil" id="hudPerfil" class="pontoFront" title="Ver Perfil" aria-label="Ver Perfil">

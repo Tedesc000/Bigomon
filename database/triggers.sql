@@ -85,3 +85,30 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- =========================================================================
+-- Trigger para quando um Pokémon for curado no SUS
+-- =========================================================================
+DROP TRIGGER IF EXISTS trg_pokemon_curado_sus_update;
+DELIMITER $$
+CREATE TRIGGER trg_pokemon_curado_sus_update
+AFTER UPDATE ON pokemon
+FOR EACH ROW
+BEGIN
+    -- Dispara quando o HP aumenta (cura) ou quando um status negativo é removido
+    IF (NEW.hp_atual > OLD.hp_atual) OR (OLD.status IS NOT NULL AND NEW.status IS NULL) THEN
+        INSERT INTO log (id_treinador, texto, data)
+        VALUES (
+            NEW.id_treinador,
+            CONCAT(
+                'SUS: Pokémon "', NEW.nome, '" curado (HP: ', OLD.hp_atual, ' -> ', NEW.hp_atual,
+                IF(OLD.status IS NOT NULL AND NEW.status IS NULL, CONCAT(' | Status "', OLD.status, '" removido'), ''),
+                ')'
+            ),
+            NOW()
+        );
+    END IF;
+END$$
+DELIMITER ;
+
+
+
