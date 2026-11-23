@@ -156,24 +156,6 @@ class Treinador extends Modelo {
         return $stmt->fetchColumn() > 0;
     }
 
-    public function deletar(){
-        if (!$this->id_treinador){
-            return false;
-        }
-        $stmt = $this->pdo->prepare("DELETE FROM treinador WHERE id_treinador = :id_treinador");
-        return $stmt->execute([
-            'id_treinador' => $this->id_treinador
-        ]);
-    }
-
-    public function atualizarSlot1($id_treinador, $slot1){
-        $stmt = $this->pdo->prepare("UPDATE treinador SET slot1 = :slot1 WHERE id_treinador = :id_treinador");
-        return $stmt->execute([
-            'slot1' => $slot1,
-            'id_treinador' => $id_treinador
-        ]);
-    }
-
     public function buscarPorId($id_treinador){
         $stmt = $this->pdo->prepare("SELECT * FROM treinador WHERE id_treinador = :id_treinador");
         $stmt->execute(['id_treinador' => $id_treinador]);

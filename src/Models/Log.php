@@ -96,15 +96,4 @@ class Log extends Modelo {
             return [];
         }
     }
-
-    public function verLogs(){
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
-        if (!$idTreinador) {
-            return [];
-        }
-        return $this->buscarLogsView($idTreinador);
-    }
 }

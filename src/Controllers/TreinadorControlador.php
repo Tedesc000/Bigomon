@@ -32,14 +32,6 @@ class TreinadorControlador {
         require_once __DIR__ . "/../Views/treinador/login.php";
     }
 
-    public function pokedexAPI(){
-        require_once __DIR__ . "/../Views/treinador/api.php";
-    }
-
-    public function executarAPI(){
-        require_once __DIR__ . "/../../database/seeds/pokedexAPI.php";
-    }
-
     public function logar(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
@@ -215,27 +207,6 @@ class TreinadorControlador {
         require_once __DIR__ . "/../Views/treinador/roleta.php";
     }
 
-    public function inicioLogado(){
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (empty($_SESSION['logado'])) {
-            header("Location: ?modulo=treinador&acao=login");
-            exit;
-        }
-
-        if (!empty($_SESSION['usuario_logado']['id_treinador'])) {
-            $treinador = new Treinador($this->pdo);
-            $treinador->recarregarSessao($_SESSION['usuario_logado']['id_treinador']);
-        }
-
-        require_once __DIR__ . "/../Views/treinador/inicioLogado.php";
-    }
-
-    public function editar(){
-        require_once __DIR__ . "/../Views/treinador/cadastro.php";
-    }
     public function verPerfil(){
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
