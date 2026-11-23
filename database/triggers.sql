@@ -51,19 +51,26 @@ BEGIN
 END$$
 DELIMITER ;
 
--- Trigger para quando um pokemon for curado no SUS
 DROP TRIGGER IF EXISTS trg_pokemon_curado_sus_update;
 DELIMITER $$
 CREATE TRIGGER trg_pokemon_curado_sus_update
-AFTER UPDATE ON pokemon.hp_atual
+AFTER UPDATE ON pokemon
 FOR EACH ROW
 BEGIN
-    INSERT INTO log (id_treinador, texto, data)
-    VALUES (
-        NEW.id_treinador,
-        CONCAT('SUS: Pokémon "', NEW.nome, '" curado (HP: ', OLD.hp_atual, ' -> ', NEW.hp_atual, ')'),
-        NOW()
-    );
+    IF OLD.hp_atual <> NEW.hp_atual THEN
+
+        INSERT INTO log (id_treinador, texto, data)
+        VALUES (
+            NEW.id_treinador,
+            CONCAT(
+                'SUS: Pokémon "', NEW.nome,
+                '" curado (HP: ', OLD.hp_atual,
+                ' -> ', NEW.hp_atual, ')'
+            ),
+            NOW()
+        );
+
+    END IF;
 END$$
 DELIMITER ;
 
