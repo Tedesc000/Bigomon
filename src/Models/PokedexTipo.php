@@ -1,13 +1,8 @@
 <?php
-class PokedexTipo {
+class PokedexTipo extends Modelo {
     private $id_pokemon_modelo;
     private $id_tipo;
     private $id_pokedex;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdPokemonModelo(){
         return $this->id_pokemon_modelo;

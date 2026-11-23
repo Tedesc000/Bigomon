@@ -1,13 +1,8 @@
 <?php
-class Categoria {
+class Categoria extends Modelo {
     private $id_categoria;
     private $nome;
     private $descricao;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdCategoria(){
         return $this->id_categoria;

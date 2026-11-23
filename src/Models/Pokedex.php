@@ -1,5 +1,5 @@
 <?php
-class Pokedex {
+class Pokedex extends Modelo {
     private $id_pokedex;
     private $nome;
     private $hp;
@@ -10,11 +10,6 @@ class Pokedex {
     private $spe;
     private $fase;
     private $id_evolucao;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdPokedex(){
         return $this->id_pokedex;

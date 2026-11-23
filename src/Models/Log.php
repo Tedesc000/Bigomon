@@ -1,14 +1,9 @@
 <?php
-class Log {
+class Log extends Modelo {
     private $id_log;
     private $id_treinador;
     private $texto;
     private $data;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdLog(){
         return $this->id_log;

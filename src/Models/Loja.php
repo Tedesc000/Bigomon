@@ -1,12 +1,7 @@
 <?php
-class Loja {
+class Loja extends Modelo {
     private $id_loja;
     private $nome;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdLoja(){
         return $this->id_loja;

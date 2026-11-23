@@ -1,5 +1,5 @@
 <?php
-class Pokemon {
+class Pokemon extends Modelo {
     private $id_pokemon;
     private $id_treinador;
     private $id_pokedex;
@@ -7,11 +7,6 @@ class Pokemon {
     private $hp_atual;
     private $sexo;
     private $status;
-    private $pdo;
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
-
     public function getIdPokemon(){
         return $this->id_pokemon;
     }

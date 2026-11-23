@@ -1,12 +1,7 @@
 <?php
-class PokemonMovimento {
+class PokemonMovimento extends Modelo {
     private $id_pokemon;
     private $id_movimento;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdPokemon(){
         return $this->id_pokemon;

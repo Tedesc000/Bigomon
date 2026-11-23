@@ -1,5 +1,5 @@
 <?php
-class Movimento {
+class Movimento extends Modelo {
     private $id_movimento;
     private $id_tipo;
     private $id_efeito;
@@ -10,11 +10,6 @@ class Movimento {
     private $tipo;
     private $efeito;
     private $chance;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdMovimento(){
         return $this->id_movimento;
