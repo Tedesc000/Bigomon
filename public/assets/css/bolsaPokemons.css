@@ -502,8 +502,6 @@ body {
 }
 
 .summary-sprite-frame img {
-    width: clamp(110px, 14vw, 210px);
-    height: clamp(110px, 14vw, 210px);
     object-fit: contain;
     image-rendering: pixelated;
 }
