@@ -12,7 +12,7 @@ FROM log
 WHERE texto LIKE '%adicionado à equipe%';
 
 --  View por Categoria: Captura e Ações de Pokémon
-CREATE OR REPLACE VIEW view_cura_pokemon AS
+CREATE OR REPLACE VIEW view_logs_cura AS
 SELECT id_log, id_treinador, texto, data
 FROM log
 WHERE texto LIKE '%SUS%';
