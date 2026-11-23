@@ -160,7 +160,7 @@ class TreinadorControlador {
                     }
                 } else {
                     // valores iniciais do cadastro
-                    $treinador->setDinheiro(0);
+                    $treinador->setDinheiro(5000);
                     $treinador->setSlot1(null);
                     $treinador->setSlot2(null);
                     $treinador->setSlot3(null);
