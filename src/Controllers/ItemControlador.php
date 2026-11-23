@@ -46,30 +46,27 @@ class ItemControlador
         $idItem = (int) ($payload['id_item'] ?? 0);
         $idPokemon = (int) ($payload['id_pokemon'] ?? 0);
 
-        $item = $this->buscarItemDoTreinador($idTreinador, $idItem);
-        if (!$item) {
-            $this->erro(400, 'Você não tem esse item.');
-            return;
-        }
-
-        if (!ItemEfeito::usavelForaDeBatalha($idItem)) {
-            $mensagem = ItemEfeito::ehPokebola($idItem)
-                ? 'Pokébolas só podem ser usadas em batalhas no matinho.'
-                : 'Esse item não pode ser usado agora.';
-            $this->erro(400, $mensagem);
-            return;
-        }
-
-        $poke = $this->buscarPokemonDoTreinador($idTreinador, $idPokemon);
-        if (!$poke) {
-            $this->erro(400, 'Escolha um dos seus Pokémon.');
-            return;
-        }
-
-        $tipo = ItemEfeito::efeito($idItem)['tipo'];
-
-        $this->pdo->beginTransaction();
         try {
+            $item = $this->buscarItemDoTreinador($idTreinador, $idItem);
+            if (!$item) {
+                throw new ItemException('Você não tem esse item.');
+            }
+
+            if (!ItemEfeito::usavelForaDeBatalha($idItem)) {
+                $mensagem = ItemEfeito::ehPokebola($idItem)
+                    ? 'Pokébolas só podem ser usadas em batalhas no matinho.'
+                    : 'Esse item não pode ser usado agora.';
+                throw new ItemException($mensagem);
+            }
+
+            $poke = $this->buscarPokemonDoTreinador($idTreinador, $idPokemon);
+            if (!$poke) {
+                throw new ItemException('Escolha um dos seus Pokémon.');
+            }
+
+            $tipo = ItemEfeito::efeito($idItem)['tipo'];
+
+            $this->pdo->beginTransaction();
             $resultado = match ($tipo) {
                 'tm' => $this->ensinarTM($poke, $idItem, (int) ($payload['id_movimento_esquecer'] ?? 0)),
                 'evolucao' => $this->evoluir($poke),
@@ -78,8 +75,7 @@ class ItemControlador
 
             if (!$resultado['ok']) {
                 $this->pdo->rollBack();
-                $this->erro(400, $resultado['erro']);
-                return;
+                throw new ItemException($resultado['erro'] ?? 'Não foi possível usar o item.');
             }
 
             // TM é reutilizável: só os outros itens são gastos
@@ -88,17 +84,23 @@ class ItemControlador
             }
 
             $this->pdo->commit();
-        } catch (Throwable $e) {
-            $this->pdo->rollBack();
-            $this->erro(500, 'Não foi possível usar o item.');
-            return;
-        }
 
-        echo json_encode([
-            'ok' => true,
-            'mensagens' => $resultado['mensagens'],
-            'id_pokedex' => $resultado['id_pokedex'] ?? (int) $poke['id_pokedex'],
-        ]);
+            echo json_encode([
+                'ok' => true,
+                'mensagens' => $resultado['mensagens'],
+                'id_pokedex' => $resultado['id_pokedex'] ?? (int) $poke['id_pokedex'],
+            ]);
+        } catch (ItemException $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            $this->erro(400, $e->getMessage());
+        } catch (Throwable $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            $this->erro(500, 'Não foi possível usar o item.');
+        }
     }
 
     private function usarConsumivel(array $poke, int $idItem): array

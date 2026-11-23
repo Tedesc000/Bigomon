@@ -16,6 +16,7 @@ $versaoAsset = static function (string $caminho): int {
     <link rel="stylesheet" href="assets/css/loja.css?v=<?= $versaoAsset('assets/css/loja.css') ?>">
     <link rel="stylesheet" href="assets/css/inicioLogin.css?v=<?= $versaoAsset('assets/css/inicioLogin.css') ?>">
     <script src="../public/assets/js/pop.js?v=<?= $versaoAsset('assets/js/pop.js') ?>"></script>
+    <script defer src="assets/js/loja.js?v=<?= $versaoAsset('assets/js/loja.js') ?>"></script>
 </head>
 
 <?php
@@ -59,7 +60,7 @@ $idsPossuidos = $idsPossuidos ?? [];
                             // TM é reutilizável: quem já tem não compra de novo
                             $tmAdquirido = ItemEfeito::ehTM((int) $idItem) && in_array((int) $idItem, $idsPossuidos, true);
                             ?>
-                            <li class="cardItemLoja">
+                            <li class="cardItemLoja" data-preco="<?= (float) $preco ?>">
                                 <div class="infoItemLoja">
                                     <div class="detalhesItemLoja">
                                         <?php if (!empty($urlImagem)): ?>

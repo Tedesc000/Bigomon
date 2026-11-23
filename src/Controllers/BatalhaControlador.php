@@ -492,69 +492,68 @@ class BatalhaControlador
             return;
         }
 
-        $batalha = $this->obterBatalhaAtiva();
-        if (!$batalha) {
-            http_response_code(400);
-            echo json_encode(['ok' => false, 'erro' => 'Nenhuma batalha ativa encontrada.']);
-            return;
-        }
-
-        if (!empty($batalha['troca_obrigatoria'])) {
-            http_response_code(400);
-            echo json_encode(['ok' => false, 'erro' => 'Você precisa escolher outro Pokémon antes de atacar.']);
-            return;
-        }
-
-        $payload = $this->lerJsonBody();
-        $idMovimento = isset($payload['id_movimento']) ? (int) $payload['id_movimento'] : 0;
-
-        $ativoIdx = (int) $batalha['ativo_idx'];
-        $jogador = $batalha['equipe'][$ativoIdx];
-        $oponente = $this->oponenteAtivo($batalha);
-
-        $movJogador = null;
-        foreach ($jogador['movimentos'] as $mov) {
-            if ((int) $mov['id_movimento'] === $idMovimento) {
-                $movJogador = $mov;
-                break;
+        try {
+            $batalha = $this->obterBatalhaAtiva();
+            if (!$batalha) {
+                throw new BatalhaException('Nenhuma batalha ativa encontrada.');
             }
-        }
 
-        if (!$movJogador) {
-            http_response_code(400);
-            echo json_encode(['ok' => false, 'erro' => 'Movimento inválido para este Pokémon.']);
-            return;
-        }
-
-        $movOponente = $this->escolherMovimentoOponente($oponente);
-
-        $eventos = [];
-        $jogadorPrimeiro = $this->jogadorAgePrimeiro($jogador, $movJogador, $oponente, $movOponente);
-
-        if ($jogadorPrimeiro) {
-            $this->executarAtaque($batalha, 'jogador', $movJogador, $eventos);
-            if ($this->ambosVivos($batalha)) {
-                $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
+            if (!empty($batalha['troca_obrigatoria'])) {
+                throw new BatalhaException('Você precisa escolher outro Pokémon antes de atacar.');
             }
-        } else {
-            $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
-            if ($this->ambosVivos($batalha)) {
+
+            $payload = $this->lerJsonBody();
+            $idMovimento = isset($payload['id_movimento']) ? (int) $payload['id_movimento'] : 0;
+
+            $ativoIdx = (int) $batalha['ativo_idx'];
+            $jogador = $batalha['equipe'][$ativoIdx];
+            $oponente = $this->oponenteAtivo($batalha);
+
+            $movJogador = null;
+            foreach ($jogador['movimentos'] as $mov) {
+                if ((int) $mov['id_movimento'] === $idMovimento) {
+                    $movJogador = $mov;
+                    break;
+                }
+            }
+
+            if (!$movJogador) {
+                throw new BatalhaException('Movimento inválido para este Pokémon.');
+            }
+
+            $movOponente = $this->escolherMovimentoOponente($oponente);
+
+            $eventos = [];
+            $jogadorPrimeiro = $this->jogadorAgePrimeiro($jogador, $movJogador, $oponente, $movOponente);
+
+            if ($jogadorPrimeiro) {
                 $this->executarAtaque($batalha, 'jogador', $movJogador, $eventos);
+                if ($this->ambosVivos($batalha)) {
+                    $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
+                }
+            } else {
+                $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
+                if ($this->ambosVivos($batalha)) {
+                    $this->executarAtaque($batalha, 'jogador', $movJogador, $eventos);
+                }
             }
+
+            $this->aplicarFimDeTurno($batalha, $eventos);
+
+            $redirect = $this->finalizarVerificacoesTurno($batalha, $eventos);
+            $this->sincronizarEquipeNoBanco($batalha['equipe']);
+            $this->salvarBatalha($batalha);
+
+            echo json_encode([
+                'ok' => true,
+                'eventos' => $eventos,
+                'estado' => $this->montarEstadoPublico($batalha),
+                'redirect' => $redirect,
+            ]);
+        } catch (BatalhaException $e) {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => $e->getMessage()]);
         }
-
-        $this->aplicarFimDeTurno($batalha, $eventos);
-
-        $redirect = $this->finalizarVerificacoesTurno($batalha, $eventos);
-        $this->sincronizarEquipeNoBanco($batalha['equipe']);
-        $this->salvarBatalha($batalha);
-
-        echo json_encode([
-            'ok' => true,
-            'eventos' => $eventos,
-            'estado' => $this->montarEstadoPublico($batalha),
-            'redirect' => $redirect,
-        ]);
     }
 
     public function registrarLogBatalha()
@@ -623,84 +622,81 @@ class BatalhaControlador
             return;
         }
 
-        $batalha = $this->obterBatalhaAtiva();
-        if (!$batalha) {
-            http_response_code(400);
-            echo json_encode(['ok' => false, 'erro' => 'Nenhuma batalha ativa encontrada.']);
-            return;
-        }
-
-        $payload = $this->lerJsonBody();
-        $idPokemonAlvo = isset($payload['id_pokemon']) ? (int) $payload['id_pokemon'] : 0;
-
-        $novoIdx = null;
-        foreach ($batalha['equipe'] as $idx => $poke) {
-            if ((int) $poke['id_pokemon'] === $idPokemonAlvo) {
-                $novoIdx = $idx;
-                break;
+        try {
+            $batalha = $this->obterBatalhaAtiva();
+            if (!$batalha) {
+                throw new BatalhaException('Nenhuma batalha ativa encontrada.');
             }
-        }
 
-        if ($novoIdx === null) {
-            http_response_code(400);
-            echo json_encode(['ok' => false, 'erro' => 'Pokémon não encontrado na equipe.']);
-            return;
-        }
+            $payload = $this->lerJsonBody();
+            $idPokemonAlvo = isset($payload['id_pokemon']) ? (int) $payload['id_pokemon'] : 0;
 
-        if ($novoIdx === (int) $batalha['ativo_idx']) {
-            http_response_code(400);
-            echo json_encode(['ok' => false, 'erro' => 'Este Pokémon já está em batalha.']);
-            return;
-        }
+            $novoIdx = null;
+            foreach ($batalha['equipe'] as $idx => $poke) {
+                if ((int) $poke['id_pokemon'] === $idPokemonAlvo) {
+                    $novoIdx = $idx;
+                    break;
+                }
+            }
 
-        if ((int) $batalha['equipe'][$novoIdx]['hp_atual'] <= 0) {
-            http_response_code(400);
-            echo json_encode(['ok' => false, 'erro' => 'Este Pokémon está desmaiado e não pode lutar.']);
-            return;
-        }
+            if ($novoIdx === null) {
+                throw new BatalhaException('Pokémon não encontrado na equipe.');
+            }
 
-        $eventos = [];
-        $eraTrocaObrigatoria = !empty($batalha['troca_obrigatoria']);
-        $antigoNome = strtoupper($batalha['equipe'][$batalha['ativo_idx']]['nome']);
-        $novoNome = strtoupper($batalha['equipe'][$novoIdx]['nome']);
+            if ($novoIdx === (int) $batalha['ativo_idx']) {
+                throw new BatalhaException('Este Pokémon já está em batalha.');
+            }
 
-        if (!$eraTrocaObrigatoria) {
+            if ((int) $batalha['equipe'][$novoIdx]['hp_atual'] <= 0) {
+                throw new BatalhaException('Este Pokémon está desmaiado e não pode lutar.');
+            }
+
+            $eventos = [];
+            $eraTrocaObrigatoria = !empty($batalha['troca_obrigatoria']);
+            $antigoNome = strtoupper($batalha['equipe'][$batalha['ativo_idx']]['nome']);
+            $novoNome = strtoupper($batalha['equipe'][$novoIdx]['nome']);
+
+            if (!$eraTrocaObrigatoria) {
+                $eventos[] = [
+                    'mensagem' => "{$antigoNome}, volte!",
+                    'animacao' => 'player-switch-out',
+                    'hud' => $this->montarSnapshotHud($batalha),
+                ];
+            }
+
+            $batalha['ativo_idx'] = $novoIdx;
+            $batalha['troca_obrigatoria'] = false;
+
             $eventos[] = [
-                'mensagem' => "{$antigoNome}, volte!",
-                'animacao' => 'player-switch-out',
+                'mensagem' => "Vai, {$novoNome}!",
+                'animacao' => 'player-switch-in',
                 'hud' => $this->montarSnapshotHud($batalha),
             ];
+
+            $redirect = null;
+
+            // Troca voluntária consome o turno: o oponente ataca
+            if (!$eraTrocaObrigatoria && $this->oponenteAtivo($batalha)['hp_atual'] > 0) {
+                $movOponente = $this->escolherMovimentoOponente($this->oponenteAtivo($batalha));
+                $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
+                $this->aplicarFimDeTurno($batalha, $eventos);
+
+                $redirect = $this->finalizarVerificacoesTurno($batalha, $eventos);
+                $this->sincronizarEquipeNoBanco($batalha['equipe']);
+            }
+
+            $this->salvarBatalha($batalha);
+
+            echo json_encode([
+                'ok' => true,
+                'eventos' => $eventos,
+                'estado' => $this->montarEstadoPublico($batalha),
+                'redirect' => $redirect,
+            ]);
+        } catch (BatalhaException $e) {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'erro' => $e->getMessage()]);
         }
-
-        $batalha['ativo_idx'] = $novoIdx;
-        $batalha['troca_obrigatoria'] = false;
-
-        $eventos[] = [
-            'mensagem' => "Vai, {$novoNome}!",
-            'animacao' => 'player-switch-in',
-            'hud' => $this->montarSnapshotHud($batalha),
-        ];
-
-        $redirect = null;
-
-        // Troca voluntária consome o turno: o oponente ataca
-        if (!$eraTrocaObrigatoria && $this->oponenteAtivo($batalha)['hp_atual'] > 0) {
-            $movOponente = $this->escolherMovimentoOponente($this->oponenteAtivo($batalha));
-            $this->executarAtaque($batalha, 'oponente', $movOponente, $eventos);
-            $this->aplicarFimDeTurno($batalha, $eventos);
-
-            $redirect = $this->finalizarVerificacoesTurno($batalha, $eventos);
-            $this->sincronizarEquipeNoBanco($batalha['equipe']);
-        }
-
-        $this->salvarBatalha($batalha);
-
-        echo json_encode([
-            'ok' => true,
-            'eventos' => $eventos,
-            'estado' => $this->montarEstadoPublico($batalha),
-            'redirect' => $redirect,
-        ]);
     }
 
     public function fugir()

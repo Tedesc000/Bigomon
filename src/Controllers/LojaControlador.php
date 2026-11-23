@@ -35,10 +35,25 @@ class LojaControlador {
             session_start();
         }
 
-        $idItem = $_POST['id_item'] ?? null;
+        $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+            || (strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/json') !== false);
+
+        $payload = [];
+        $raw = file_get_contents('php://input');
+        if (!empty($raw)) {
+            $payload = json_decode($raw, true) ?: [];
+        }
+
+        $idItem = $payload['id_item'] ?? $_POST['id_item'] ?? null;
         $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
 
         if (!$idItem || !$idTreinador) {
+            if ($isAjax) {
+                header('Content-Type: application/json; charset=utf-8');
+                http_response_code(400);
+                echo json_encode(['ok' => false, 'erro' => 'Dados inválidos.']);
+                exit;
+            }
             header("Location: ?modulo=loja&acao=verLoja");
             exit;
         }
@@ -47,13 +62,26 @@ class LojaControlador {
         $dadosItem = $itemModel->buscarPorId($idItem);
 
         if (!$dadosItem) {
+            if ($isAjax) {
+                header('Content-Type: application/json; charset=utf-8');
+                http_response_code(404);
+                echo json_encode(['ok' => false, 'erro' => 'Item não encontrado.']);
+                exit;
+            }
             header("Location: ?modulo=loja&acao=verLoja");
             exit;
         }
 
         // TM é reutilizável: não deixa comprar o mesmo duas vezes
         $treinadorItem = new TreinadorItem($this->pdo);
-        if (ItemEfeito::ehTM((int) $idItem) && $treinadorItem->itemExiste($idTreinador, $idItem)) {
+        $ehTM = ItemEfeito::ehTM((int) $idItem);
+        if ($ehTM && $treinadorItem->itemExiste($idTreinador, $idItem)) {
+            if ($isAjax) {
+                header('Content-Type: application/json; charset=utf-8');
+                http_response_code(400);
+                echo json_encode(['ok' => false, 'erro' => 'Você já possui esse TM.']);
+                exit;
+            }
             header("Location: ?modulo=loja&acao=verLoja");
             exit;
         }
@@ -61,17 +89,37 @@ class LojaControlador {
         $preco = (int)($dadosItem['preco'] ?? 0);
         $saldoAtual = (int)($_SESSION['usuario_logado']['dinheiro'] ?? 0);
 
-        // Verifica se o treinador tem saldo suficiente
-        if ($saldoAtual >= $preco) {
-            // atualiza o saldo usando o Treinador
-            $treinador = new Treinador($this->pdo);
-            $treinador->setIdTreinador($idTreinador);
-            $treinador->setDinheiro($saldoAtual - $preco);
-            $treinador->salvar();
-            $treinador->recarregarSessao($idTreinador);
+        if ($saldoAtual < $preco) {
+            if ($isAjax) {
+                header('Content-Type: application/json; charset=utf-8');
+                http_response_code(400);
+                echo json_encode(['ok' => false, 'erro' => 'Saldo insuficiente.']);
+                exit;
+            }
+            header("Location: ?modulo=loja&acao=verLoja");
+            exit;
+        }
 
-            // adiciona o item ao inventário
-            $treinadorItem->adicionarItem($idTreinador, $idItem, 1);
+        // Realiza a compra
+        $novoSaldo = $saldoAtual - $preco;
+        $treinador = new Treinador($this->pdo);
+        $treinador->setIdTreinador($idTreinador);
+        $treinador->setDinheiro($novoSaldo);
+        $treinador->salvar();
+        $treinador->recarregarSessao($idTreinador);
+
+        $treinadorItem->adicionarItem($idTreinador, $idItem, 1);
+
+        if ($isAjax) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode([
+                'ok' => true,
+                'id_item' => (int) $idItem,
+                'eh_tm' => $ehTM,
+                'novoSaldo' => $novoSaldo,
+                'novoSaldoFormatado' => number_format($novoSaldo, 2, ',', '.')
+            ]);
+            exit;
         }
 
         header("Location: ?modulo=loja&acao=verLoja");

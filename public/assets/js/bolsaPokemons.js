@@ -603,4 +603,13 @@
 
     renderizarEquipe();
     renderizarBox();
+
+    // Se veio de um clique no slot da HUD do jogo:
+    const urlParams = new URLSearchParams(window.location.search);
+    const slotParaAbrir = parseInt(urlParams.get('summary'), 10);
+    if (!isNaN(slotParaAbrir) && slotParaAbrir >= 1 && slotParaAbrir <= 6 && slots[slotParaAbrir - 1]) {
+        slotSelecionado = slotParaAbrir - 1;
+        boxSelecionado = null;
+        abrirSummary();
+    }
 })();
