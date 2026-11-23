@@ -27,6 +27,7 @@
                 <select name="categoria" id="selectCategoria" class="selectLogs" onchange="this.form.submit()">
                     <option value="todos" <?= ($categoria === 'todos') ? 'selected' : '' ?>>Todas as Ações</option>
                     <option value="pokemon" <?= ($categoria === 'pokemon') ? 'selected' : '' ?>>Captura de Pokémon</option>
+                    <option value="cura" <?= ($categoria === 'cura') ? 'selected' : '' ?>>Cura de Pokémon</option>
                     <option value="saldo" <?= ($categoria === 'saldo') ? 'selected' : '' ?>>Alteração de Saldo</option>
                     <option value="item" <?= ($categoria === 'item') ? 'selected' : '' ?>>Itens e Inventário</option>
                     <option value="treinador" <?= ($categoria === 'treinador') ? 'selected' : '' ?>>Cadastro / Treinador</option>
