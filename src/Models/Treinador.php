@@ -383,7 +383,7 @@ class Treinador {
     // ------------------------------------------------------------------
 
     // Configuração de cada ginásio (ids dos NPCs vêm da seed 12-treinador_seed.sql)
-    // internos: os 2 treinadores dentro do ginásio, que liberam o líder
+    // internos: adversários que precisam ser vencidos antes do líder (inclui a Elite dos 4)
     // externo: treinador no mapa da cidade, pode ser enfrentado infinitas vezes
     public const GINASIOS = [
         1 => ['mapa' => 'mapa1', 'ginasio' => 'ginasio1', 'cidade' => 'Rustboro',   'insignia' => 'Pedra',     'lider' => 2,  'internos' => [16, 17], 'externo' => 18],
@@ -394,22 +394,25 @@ class Treinador {
         6 => ['mapa' => 'mapa6', 'ginasio' => 'ginasio6', 'cidade' => 'Fortree',    'insignia' => 'Pena',      'lider' => 7,  'internos' => [31, 32], 'externo' => 33],
         7 => ['mapa' => 'mapa7', 'ginasio' => 'ginasio7', 'cidade' => 'Mossdeep',   'insignia' => 'Mente',     'lider' => 8,  'internos' => [34, 35], 'externo' => 36],
         8 => ['mapa' => 'mapa8', 'ginasio' => 'ginasio8', 'cidade' => 'Sootopolis', 'insignia' => 'Chuva',     'lider' => 10, 'internos' => [37, 38], 'externo' => 39],
+        9 => ['mapa' => 'mapaCampeao', 'ginasio' => 'ginasioCampeao', 'cidade' => 'Liga Pokémon', 'insignia' => 'Título de Campeão', 'lider' => 15, 'internos' => [11, 12, 13, 14], 'externo' => null],
     ];
 
     // Prefixo fixo dos logs de vitória: a progressão é lida da tabela log a partir dele
     private const PREFIXO_LOG_VITORIA = 'Vitória contra treinador #';
 
-    // Retorna o id do NPC para um papel do ginásio: interno1, interno2, lider ou externo
+    // Retorna o id do NPC para um papel interno, o líder ou o treinador externo
     public static function idAdversario(int $numeroGinasio, string $papel): ?int {
         $g = self::GINASIOS[$numeroGinasio] ?? null;
         if (!$g) {
             return null;
         }
         return match ($papel) {
-            'interno1' => $g['internos'][0],
-            'interno2' => $g['internos'][1],
+            'interno1' => $g['internos'][0] ?? null,
+            'interno2' => $g['internos'][1] ?? null,
+            'interno3' => $g['internos'][2] ?? null,
+            'interno4' => $g['internos'][3] ?? null,
             'lider'    => $g['lider'],
-            'externo'  => $g['externo'],
+            'externo'  => $g['externo'] ?? null,
             default    => null,
         };
     }
@@ -492,6 +495,17 @@ class Treinador {
             return 'derrotado';
         }
 
+        if ($numeroGinasio === 9 && in_array($papel, ['interno1', 'interno2', 'interno3', 'interno4'], true)) {
+            $ordemElite = ['interno1', 'interno2', 'interno3', 'interno4'];
+            $indiceElite = array_search($papel, $ordemElite, true);
+            foreach (array_slice($ordemElite, 0, $indiceElite) as $papelAnterior) {
+                $idAnterior = self::idAdversario($numeroGinasio, $papelAnterior);
+                if ($idAnterior !== null && !in_array($idAnterior, $vitorias, true)) {
+                    return 'bloqueado';
+                }
+            }
+        }
+
         if ($papel === 'lider') {
             foreach ($g['internos'] as $idInterno) {
                 if (!in_array($idInterno, $vitorias, true)) {
@@ -503,11 +517,11 @@ class Treinador {
         return 'disponivel';
     }
 
-    // Status dos 4 adversários de um ginásio de uma vez (para as views)
-    public function statusAdversariosGinasio($id_treinador, int $numeroGinasio): array {
-        $vitorias = $this->buscarVitorias($id_treinador);
+    // Status dos adversários de um ginásio de uma vez (para as views)
+    public function statusAdversariosGinasio($id_treinador, int $numeroGinasio, ?array $vitorias = null): array {
+        $vitorias ??= $this->buscarVitorias($id_treinador);
         $status = [];
-        foreach (['interno1', 'interno2', 'lider', 'externo'] as $papel) {
+        foreach (['interno1', 'interno2', 'interno3', 'interno4', 'lider', 'externo'] as $papel) {
             $status[$papel] = $this->statusAdversario($id_treinador, $numeroGinasio, $papel, $vitorias);
         }
         return $status;

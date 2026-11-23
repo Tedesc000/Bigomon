@@ -426,6 +426,92 @@ main#paginaLoja {
     --treinador-externo-y: 15%;
 }
 
+#corpoMapa9 {
+    --centro-x: 73%;
+    --centro-y: 62%;
+    --loja-x: 25%;
+    --loja-y: 48%;
+    --batalha-x: 50%;
+    --batalha-y: 78%;
+}
+
+#corpoMapaCampeao {
+    --elite-sidney-x: 33%;
+    --elite-sidney-y: 40%;
+    --elite-phoebe-x: 38%;
+    --elite-phoebe-y: 62%;
+    --elite-glacia-x: 62%;
+    --elite-glacia-y: 62%;
+    --elite-drake-x: 65%;
+    --elite-drake-y: 40%;
+}
+
+#botaoEliteSidney {
+    left: var(--elite-sidney-x);
+    top: var(--elite-sidney-y);
+}
+
+#botaoElitePhoebe {
+    left: var(--elite-phoebe-x);
+    top: var(--elite-phoebe-y);
+}
+
+#botaoEliteGlacia {
+    left: var(--elite-glacia-x);
+    top: var(--elite-glacia-y);
+}
+
+#botaoEliteDrake {
+    left: var(--elite-drake-x);
+    top: var(--elite-drake-y);
+}
+
+.nomeElite {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    padding: 2px 6px;
+    color: #111;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #111;
+    font-size: clamp(10px, 1vw, 14px);
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
+
+#corpoGinasioCampeao {
+    --lider-x: 50%;
+    --lider-y: 35%;
+    --lider-escala: 1;
+}
+
+#tituloMapaCampeao,
+#mensagemCampeao {
+    position: absolute;
+    left: 50%;
+    z-index: 5;
+    width: max-content;
+    padding: 8px 12px;
+    color: #111;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #111;
+    transform: translateX(-50%);
+}
+
+#tituloMapaCampeao {
+    top: 3%;
+    font-size: clamp(14px, 2vw, 22px);
+}
+
+#mensagemCampeao {
+    top: 25%;
+    font-size: clamp(12px, 1.5vw, 18px);
+}
+
+#corpoGinasioCampeao #mensagemCampeao {
+    top: 8%;
+}
+
 #botaoSeta {
     display: flex;
     justify-content: center;

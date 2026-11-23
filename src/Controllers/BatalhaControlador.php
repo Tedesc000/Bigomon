@@ -16,6 +16,7 @@ class BatalhaControlador
         'mapa6' => 7,
         'mapa7' => 8,
         'mapa8' => 9,
+        'mapa9' => 10,
     ];
 
     // Parâmetro ?treinador= dos links dos mapas -> papel do adversário no ginásio
@@ -24,6 +25,13 @@ class BatalhaControlador
         2 => 'interno2',
         3 => 'lider',
         4 => 'externo',
+    ];
+
+    private const PAPEL_ELITE_POR_NUMERO = [
+        1 => 'interno1',
+        2 => 'interno2',
+        3 => 'interno3',
+        4 => 'interno4',
     ];
 
     public function __construct($pdo)
@@ -57,14 +65,27 @@ class BatalhaControlador
         }
 
         $numeroGinasio = (int) ($_GET['ginasio'] ?? 0);
-        $papel = self::PAPEL_POR_NUMERO[(int) ($_GET['treinador'] ?? 0)] ?? null;
+        if ($numeroGinasio === 9 && isset($_GET['elite'])) {
+            $papel = self::PAPEL_ELITE_POR_NUMERO[(int) $_GET['elite']] ?? null;
+        } else {
+            $papel = self::PAPEL_POR_NUMERO[(int) ($_GET['treinador'] ?? 0)] ?? null;
+        }
         $ginasio = Treinador::GINASIOS[$numeroGinasio] ?? null;
         if (!$ginasio || !$papel) {
             header("Location: ?modulo=mapa&acao=mapaInicio");
             exit;
         }
 
-        $mapaRetorno = $papel === 'externo' ? $ginasio['mapa'] : $ginasio['ginasio'];
+        $desafioElite = $numeroGinasio === 9 && in_array(
+            $papel,
+            ['interno1', 'interno2', 'interno3', 'interno4'],
+            true
+        );
+        if ($papel === 'externo' || $desafioElite) {
+            $mapaRetorno = $ginasio['mapa'];
+        } else {
+            $mapaRetorno = $ginasio['ginasio'];
+        }
 
         // Progressão: só pode desafiar quem está liberado e ainda não foi vencido (exceto o externo)
         $treinadorModel = new Treinador($this->pdo);
@@ -74,6 +95,11 @@ class BatalhaControlador
         }
 
         $idAdversario = Treinador::idAdversario($numeroGinasio, $papel);
+        if ($idAdversario === null) {
+            header("Location: ?modulo=mapa&acao=" . urlencode($mapaRetorno));
+            exit;
+        }
+
         $dadosAdversario = $treinadorModel->buscarPorId($idAdversario);
         if (!$dadosAdversario) {
             header("Location: ?modulo=mapa&acao=" . urlencode($mapaRetorno));
@@ -88,7 +114,7 @@ class BatalhaControlador
         }
 
         // O time do NPC sempre começa curado e sem status; nunca é gravado no banco
-        $equipeOponente = $this->carregarEquipeTreinador((int) $idAdversario);
+        $equipeOponente = $this->carregarEquipeTreinador($idAdversario);
         if (empty($equipeOponente)) {
             header("Location: ?modulo=mapa&acao=" . urlencode($mapaRetorno));
             exit;
@@ -101,7 +127,9 @@ class BatalhaControlador
         unset($pokeOponente);
 
         $nomeExibicao = strtoupper($dadosAdversario['nome']);
-        if ($papel === 'lider') {
+        if ($papel === 'lider' && $numeroGinasio === 9) {
+            $nomeExibicao = 'CAMPEÃO ' . $nomeExibicao;
+        } elseif ($papel === 'lider') {
             $nomeExibicao = 'LÍDER ' . $nomeExibicao;
         }
 
@@ -1515,9 +1543,14 @@ class BatalhaControlador
         }
 
         if ($adversario['papel'] === 'lider') {
-            $insignia = Treinador::GINASIOS[$adversario['ginasio']]['insignia'] ?? '';
+            if ((int) $adversario['ginasio'] === 9) {
+                $mensagem = 'Você venceu o Campeão Wallace e conquistou a Liga Pokémon!';
+            } else {
+                $insignia = Treinador::GINASIOS[$adversario['ginasio']]['insignia'] ?? '';
+                $mensagem = "Você recebeu a Insígnia {$insignia}! O caminho para a próxima cidade está livre!";
+            }
             $eventos[] = [
-                'mensagem' => "Você recebeu a Insígnia {$insignia}! O caminho para a próxima cidade está livre!",
+                'mensagem' => $mensagem,
                 'animacao' => null,
                 'hud' => $this->montarSnapshotHud($batalha),
             ];

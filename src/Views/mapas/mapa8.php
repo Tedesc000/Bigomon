@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+/** @var bool $ginasioConcluido */
+?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -68,6 +70,16 @@
                 >
             </a>
         </div>
+
+        <?php if ($ginasioConcluido): ?>
+            <a href="?modulo=mapa&acao=mapa9" id="botaoSeta" aria-label="Ir para a Battle Tower">
+                <img
+                    id="seta"
+                    src="../public/assets/img/icons/seta.png"
+                    alt="Ir para a Battle Tower"
+                >
+            </a>
+        <?php endif; ?>
 
         <!-- FRONT DO JOGO: posicionado fora da imagem do mapa -->
         <?php require_once __DIR__ . '/../../Utils/frontJogo.php'; ?>
