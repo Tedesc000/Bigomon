@@ -58,6 +58,7 @@ class Log {
         $viewsPorCategoria = [
             'todos'     => 'view_logs_todos',
             'pokemon'   => 'view_logs_pokemon',
+            'cura'      => 'view_logs_cura',
             'saldo'     => 'view_logs_saldo',
             'item'      => 'view_logs_item',
             'treinador' => 'view_logs_treinador',

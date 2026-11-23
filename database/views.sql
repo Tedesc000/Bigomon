@@ -9,7 +9,13 @@ FROM log;
 CREATE OR REPLACE VIEW view_logs_pokemon AS
 SELECT id_log, id_treinador, texto, data
 FROM log
-WHERE texto LIKE '%Pokémon%' OR texto LIKE '%Pokemon%';
+WHERE texto LIKE '%adicionado à equipe%';
+
+--  View por Categoria: Captura e Ações de Pokémon
+CREATE OR REPLACE VIEW view_cura_pokemon AS
+SELECT id_log, id_treinador, texto, data
+FROM log
+WHERE texto LIKE '%SUS%';
 
 -- View por Categoria: Alteração de Saldo / Dinheiro
 CREATE OR REPLACE VIEW view_logs_saldo AS
