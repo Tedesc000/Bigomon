@@ -70,7 +70,7 @@ if (!isset($slotsEquipe) || !is_array($slotsEquipe)) {
                         $pctHp = round(($hpAtu / $hpMax) * 100);
                         $classeHp = ($pctHp > 50) ? 'hpAlto' : (($pctHp > 20) ? 'hpMedio' : 'hpBaixo');
                     ?>
-                    <div class="hudSlotCard slotOcupado" title="<?= htmlspecialchars($pkm['nome']) ?>: <?= $hpAtu ?>/<?= $hpMax ?> HP">
+                    <div class="hudSlotCard slotOcupado" title="<?= htmlspecialchars($pkm['nome']) ?>: <?= $hpAtu ?>/<?= $hpMax ?> HP" onclick="window.location.href='?modulo=bolsa&acao=listarPokemons&summary=<?= $idx + 1 ?>'" style="cursor: pointer;">
                         <img 
                             src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= (int)$pkm['id_pokedex'] ?>.png" 
                             alt="<?= htmlspecialchars($pkm['nome']) ?>" 
