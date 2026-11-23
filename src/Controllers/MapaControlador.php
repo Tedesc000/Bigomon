@@ -42,12 +42,9 @@ class MapaControlador {
             $_SESSION['id_loja'] = $numero + 1;
         }
 
-        // Variáveis usadas pelas views
+        // As views dos mapas e ginásios dependem destes valores.
         $ginasioConcluido = $treinador->ginasioConcluido($idTreinador, $numero, $vitorias);
-        $statusAdversarios = [];
-        foreach (['interno1', 'interno2', 'lider', 'externo'] as $papel) {
-            $statusAdversarios[$papel] = $treinador->statusAdversario($idTreinador, $numero, $papel, $vitorias);
-        }
+        $statusAdversarios = $treinador->statusAdversariosGinasio($idTreinador, $numero, $vitorias);
         $slotsEquipe = $this->carregarSlotsEquipe();
 
         $view = $ehGinasio ? "ginasio{$numero}" : "mapa{$numero}";
@@ -84,4 +81,33 @@ class MapaControlador {
 
     public function mapa8()    { $this->exibirCidade(8, false); }
     public function ginasio8() { $this->exibirCidade(8, true); }
+    public function mapa9()    { $this->exibirCidade(9, false); }
+
+    private function exibirCampeonato(bool $ehGinasio): void {
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        $treinador = new Treinador($this->pdo);
+        $vitorias = $treinador->buscarVitorias($idTreinador);
+
+        if (!$treinador->podeAcessarMapa($idTreinador, 9, $vitorias)) {
+            header("Location: ?modulo=mapa&acao=mapa8");
+            exit;
+        }
+
+        $statusAdversarios = $treinador->statusAdversariosGinasio($idTreinador, 9, $vitorias);
+        if ($ehGinasio && $statusAdversarios['lider'] === 'bloqueado') {
+            header("Location: ?modulo=mapa&acao=mapaCampeao");
+            exit;
+        }
+
+        $_SESSION['mapa'] = $ehGinasio ? 'ginasioCampeao' : 'mapaCampeao';
+        $ginasioConcluido = $treinador->ginasioConcluido($idTreinador, 9, $vitorias);
+        $slotsEquipe = $this->carregarSlotsEquipe();
+
+        $view = $ehGinasio ? 'ginasioCampeao' : 'mapaCampeao';
+        require_once __DIR__ . "/../Views/mapas/{$view}.php";
+    }
+
+    public function mapaCampeao() { $this->exibirCampeonato(false); }
+    public function ginasioCampeao() { $this->exibirCampeonato(true); }
+    public function campeao() { $this->mapaCampeao(); }
 }

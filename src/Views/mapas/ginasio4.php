@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+/** @var array{interno1: string, interno2: string, interno3: string, interno4: string, lider: string, externo: string} $statusAdversarios */
+?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
