@@ -1,14 +1,8 @@
 <?php
-class TreinadorItem {
+class TreinadorItem extends Modelo {
     private $id_treinador;
     private $id_item;
     private $quantidade;
-    private $pdo;
-    private $camposAlterados = [];
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdTreinador(){
         return $this->id_treinador;
@@ -72,31 +66,12 @@ class TreinadorItem {
 
         // Se o registro já existe no banco, executa UPDATE apenas nos campos alterados
         if ($this->itemExiste($this->id_treinador, $this->id_item)){
-            if (empty($this->camposAlterados)){
-                return true;
-            }
-
-            $setClauses = [];
-            $params = [
-                'id_treinador' => $this->id_treinador,
-                'id_item' => $this->id_item
-            ];
-
-            foreach ($this->camposAlterados as $campo => $valor) {
-                $setClauses[] = "$campo = :$campo";
-                $params[$campo] = $valor;
-            }
-
             try {
-                $sql = "UPDATE treinador_item SET " . implode(', ', $setClauses) . " WHERE id_treinador = :id_treinador AND id_item = :id_item";
-                $stmt = $this->pdo->prepare($sql);
-                $ok = $stmt->execute($params);
-
-                if ($ok) {
-                    $this->camposAlterados = [];
-                }
-
-                return $ok;
+                // método herdado de Modelo: UPDATE só dos campos alterados
+                return $this->atualizarCampos('treinador_item', [
+                    'id_treinador' => $this->id_treinador,
+                    'id_item' => $this->id_item
+                ]);
             } catch (PDOException $e) {
                 return false;
             }

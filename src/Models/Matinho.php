@@ -1,13 +1,8 @@
 <?php
-class Matinho {
+class Matinho extends Modelo {
     private $id_matinho;
     private $nome;
     private $pokemons;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdMatinho(){
         return $this->id_matinho;

@@ -179,53 +179,6 @@
     display: none;
 }
 
-.botaoEscolherFoto{
-    background-color: yellow;
-    padding: 0 10px;
-    border-radius: 20px;
-    color: rgb(0, 81, 255);
-    text-align: center;
-    text-decoration: none;
-    min-width: 5vw;
-    font-family: 'Pokemon Solid', sans-serif;
-    font-size: 1em;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.botaoEscolherFoto:hover{
-    color: rgb(38, 0, 255);
-    text-shadow: 0 0 10px rgb(255, 238, 0);
-    background-color: rgb(216, 177, 6);
-}
-
-/*login*/
-#tituloLogin{
-    font-family: 'Pokemon Solid', sans-serif;
-    font-size: 7em;
-    color: yellow;
-    text-shadow: 0 0 25px rgb(0, 106, 255);
-}
-
-.botaoLogin{
-    background-color: yellow;
-    padding: 0 10px;
-    border-radius: 20px;
-    color: rgb(0, 81, 255);
-    text-align: center;
-    text-decoration: none;
-    min-width: 10vw;
-    font-family: 'Pokemon Solid', sans-serif;
-    font-size: 2em;
-    transition: 0.3s;
-}
-
-.botaoLogin:hover{
-    color: rgb(38, 0, 255);
-    text-shadow: 0 0 10px rgb(255, 238, 0);
-    background-color: rgb(216, 177, 6);
-}
-
 #formLogin{
     display: flex;
     flex-direction: column;

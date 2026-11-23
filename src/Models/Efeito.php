@@ -1,13 +1,8 @@
 <?php
-class Efeito {
+class Efeito extends Modelo {
     private $id_efeito;
     private $nome;
     private $chance;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdEfeito(){
         return $this->id_efeito;

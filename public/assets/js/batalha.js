@@ -251,8 +251,6 @@
 
         if (movimentos[0]) {
             atualizarDetalhesGolpe(movimentos[0]);
-            const primeiroBtn = els.moveGrid.querySelector('.move-btn');
-            if (primeiroBtn) primeiroBtn.focus();
         }
     }
 

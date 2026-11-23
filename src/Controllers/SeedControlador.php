@@ -34,10 +34,6 @@ class SeedControlador {
         }
     }
 
-    public function executar() {
-        $this->rodar();
-    }
-
     public function verificarTriggers() {
         try {
             $stmt = $this->pdo->query("SHOW TRIGGERS LIKE 'trg_treinador_dinheiro_update'");
@@ -69,10 +65,6 @@ class SeedControlador {
                 }
             }
         }
-    }
-
-    public function triggers() {
-        $this->rodarTriggers();
     }
 
     public function verificarViews() {

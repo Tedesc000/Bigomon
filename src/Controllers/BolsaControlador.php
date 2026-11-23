@@ -34,20 +34,6 @@ class BolsaControlador
         require_once __DIR__ . "/../Views/bolsa/itens.php";
     }
 
-    public function listarPokemons()
-    {
-        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
-        if (!$idTreinador) {
-            header("Location: ?modulo=treinador&acao=cadastroLogin");
-            exit;
-        }
-
-        $mapaRetorno = $_SESSION['mapa'] ?? 'mapaInicio';
-        $slots = $this->carregarSlotsDetalhados((int) $idTreinador);
-
-        require_once __DIR__ . '/../Views/bolsa/listarPokemons.php';
-    }
-
     public function listarTodosPokemons(){
         $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
         if (!$idTreinador) {

@@ -4,10 +4,6 @@
 // Trabalha sobre o array do Pokémon usado na batalha e na bolsa: hp_atual, hp_maximo, status, turnos_sono.
 class ItemEfeito
 {
-    public const CATEGORIA_CONSUMIVEL = 1;
-    public const CATEGORIA_POKEBOLA = 2;
-    public const CATEGORIA_TM = 3;
-
     public const ID_EVOLUTION_STONE = 814;
     public const OFFSET_TM = 1000; // id_item do TM = 1000 + id_movimento
 

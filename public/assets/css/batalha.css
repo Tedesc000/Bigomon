@@ -361,7 +361,6 @@ body {
 .battle-action:focus-visible .cursor,
 .move-btn:hover .cursor,
 .move-btn:focus-visible .cursor,
-.move-btn.selected .cursor,
 .move-back-btn:hover .cursor,
 .move-back-btn:focus-visible .cursor,
 .party-action-item:hover .cursor,

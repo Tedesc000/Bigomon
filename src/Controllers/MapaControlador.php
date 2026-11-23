@@ -109,5 +109,4 @@ class MapaControlador {
 
     public function mapaCampeao() { $this->exibirCampeonato(false); }
     public function ginasioCampeao() { $this->exibirCampeonato(true); }
-    public function campeao() { $this->mapaCampeao(); }
 }

@@ -1,15 +1,10 @@
 <?php
-class Item {
+class Item extends Modelo {
     private $id_item;
     private $nome;
     private $descricao;
     private $id_categoria;
     private $preco;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdItem(){
         return $this->id_item;

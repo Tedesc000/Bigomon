@@ -1,5 +1,5 @@
 <?php
-class Tipo {
+class Tipo extends Modelo {
     private $id_tipo;
     private $nome;
     private $res_d;
@@ -8,11 +8,6 @@ class Tipo {
     private $frq_q;
     private $imunidade;
     private $id_pokemon;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdTipo(){
         return $this->id_tipo;

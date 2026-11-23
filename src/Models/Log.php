@@ -1,14 +1,9 @@
 <?php
-class Log {
+class Log extends Modelo {
     private $id_log;
     private $id_treinador;
     private $texto;
     private $data;
-    private $pdo;
-
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
 
     public function getIdLog(){
         return $this->id_log;
@@ -100,16 +95,5 @@ class Log {
         } catch (PDOException $e) {
             return [];
         }
-    }
-
-    public function verLogs(){
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
-        if (!$idTreinador) {
-            return [];
-        }
-        return $this->buscarLogsView($idTreinador);
     }
 }

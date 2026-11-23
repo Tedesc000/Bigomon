@@ -1,5 +1,5 @@
 <?php
-class Treinador {
+class Treinador extends Modelo {
     private $id_treinador;
     private $nome;
     private $email;
@@ -12,15 +12,7 @@ class Treinador {
     private $slot3;
     private $slot4;
     private $slot5;
-    private $slot6;
-    private $pdo;
-    private $camposAlterados = [];
-
-    //o private pdo e essa função vai em todos
-    public function __construct(PDO $pdo){
-        $this->pdo = $pdo;
-    }
-    public function getIdTreinador(){
+    private $slot6;    public function getIdTreinador(){
         return $this->id_treinador;
     }
     public function getNome(){
@@ -113,29 +105,9 @@ class Treinador {
 
     public function salvar(){
         if ($this->id_treinador){
-            // Se nenhum campo foi alterado via setter, não há nada para atualizar
-            if (empty($this->camposAlterados)){
-                return true;
-            }
-
-            $setClauses = [];
-            $params = ['id_treinador' => $this->id_treinador];
-
-            foreach ($this->camposAlterados as $campo => $valor) {
-                $setClauses[] = "$campo = :$campo";
-                $params[$campo] = $valor;
-            }
-
             try {
-                $sql = "UPDATE treinador SET " . implode(', ', $setClauses) . " WHERE id_treinador = :id_treinador";
-                $stmt = $this->pdo->prepare($sql);
-                $ok = $stmt->execute($params);
-
-                if ($ok) {
-                    $this->camposAlterados = []; // limpa campos alterados após salvar com sucesso
-                }
-
-                return $ok;
+                // método herdado de Modelo: UPDATE só dos campos alterados
+                return $this->atualizarCampos('treinador', ['id_treinador' => $this->id_treinador]);
             } catch (PDOException $e) {
                 throw new TreinadorException("Erro ao atualizar dados do treinador no banco de dados.");
             }
@@ -182,24 +154,6 @@ class Treinador {
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM treinador WHERE email = :email");
         $stmt->execute(['email' => $email]);
         return $stmt->fetchColumn() > 0;
-    }
-
-    public function deletar(){
-        if (!$this->id_treinador){
-            return false;
-        }
-        $stmt = $this->pdo->prepare("DELETE FROM treinador WHERE id_treinador = :id_treinador");
-        return $stmt->execute([
-            'id_treinador' => $this->id_treinador
-        ]);
-    }
-
-    public function atualizarSlot1($id_treinador, $slot1){
-        $stmt = $this->pdo->prepare("UPDATE treinador SET slot1 = :slot1 WHERE id_treinador = :id_treinador");
-        return $stmt->execute([
-            'slot1' => $slot1,
-            'id_treinador' => $id_treinador
-        ]);
     }
 
     public function buscarPorId($id_treinador){
