@@ -11,7 +11,7 @@ INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evo
     VALUES (261, 'poochyena', 1, 35, 55, 35, 30, 30, 35, 262);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
     VALUES (262, 'mightyena', 2, 70, 90, 70, 60, 60, 70, NULL);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
     VALUES (263, 'zigzagoon', 1, 38, 30, 41, 30, 41, 60, 264);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
-    VALUES (264, 'linoone', 2, 78, 70, 61, 50, 61, 100, 862);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
+    VALUES (264, 'linoone', 2, 78, 70, 61, 50, 61, 100, NULL);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
     VALUES (265, 'wurmple', 1, 45, 45, 35, 20, 30, 20, 266);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
     VALUES (266, 'silcoon', 2, 50, 35, 55, 25, 25, 15, 267);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
     VALUES (267, 'beautifly', 3, 60, 70, 50, 100, 50, 65, NULL);INSERT INTO pokedex (id_pokedex, nome, fase, hp, atk, def, spa, spd, spe, id_evolucao) 
