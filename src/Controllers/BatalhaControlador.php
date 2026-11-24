@@ -1610,6 +1610,7 @@ class BatalhaControlador
                 'id_pokemon' => $ativo['id_pokemon'],
                 'id_pokedex' => $ativo['id_pokedex'],
                 'nome' => strtoupper($ativo['nome']),
+                'tipos' => array_column($ativo['tipos'] ?? [], 'nome'),
                 'hp_atual' => $ativo['hp_atual'],
                 'hp_maximo' => $ativo['hp_maximo'],
                 'status' => $ativo['status'],
@@ -1617,6 +1618,7 @@ class BatalhaControlador
             'oponente' => [
                 'id_pokedex' => $oponente['id_pokedex'],
                 'nome' => strtoupper($oponente['nome']),
+                'tipos' => array_column($oponente['tipos'] ?? [], 'nome'),
                 'hp_atual' => $oponente['hp_atual'],
                 'hp_maximo' => $oponente['hp_maximo'],
                 'status' => $oponente['status'],
@@ -1665,6 +1667,7 @@ class BatalhaControlador
                 'id_pokemon' => $ativo['id_pokemon'],
                 'id_pokedex' => $ativo['id_pokedex'],
                 'nome' => strtoupper($ativo['nome']),
+                'tipos' => array_column($ativo['tipos'] ?? [], 'nome'),
                 'hp_atual' => $ativo['hp_atual'],
                 'hp_maximo' => $ativo['hp_maximo'],
                 'status' => $ativo['status'],
@@ -1673,6 +1676,7 @@ class BatalhaControlador
             'oponente' => [
                 'id_pokedex' => $oponente['id_pokedex'],
                 'nome' => strtoupper($oponente['nome']),
+                'tipos' => array_column($oponente['tipos'] ?? [], 'nome'),
                 'hp_atual' => $oponente['hp_atual'],
                 'hp_maximo' => $oponente['hp_maximo'],
                 'status' => $oponente['status'],

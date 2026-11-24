@@ -99,10 +99,37 @@ body {
 
 .pokemon-name {
     flex: 1;
+    min-width: 0;
     font-size: clamp(18px, 2.1vw, 34px);
     letter-spacing: 1px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.pokemon-types {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 3px;
+}
+
+.pokemon-type {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 6px;
+    border: 2px solid #253711;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: clamp(10px, 0.9vw, 14px);
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45);
+}
+
+.pokemon-type.type-eletrico {
+    color: #252525;
+    text-shadow: none;
 }
 
 .status-badge {
