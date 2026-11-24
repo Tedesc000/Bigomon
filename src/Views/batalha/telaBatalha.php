@@ -39,6 +39,7 @@ $classeHp = static function (float $pct): string {
         <section class="pokemon-status pokemon-status-front" aria-label="Status do Pokémon adversário">
             <div class="status-name-row">
                 <span class="pokemon-name" id="wildName"><?= htmlspecialchars($oponente['nome'], ENT_QUOTES, 'UTF-8') ?></span>
+                <span class="pokemon-types" id="wildTypes" aria-label="Tipos do Pokémon adversário"></span>
                 <span class="status-badge hidden" id="wildStatusBadge"></span>
             </div>
             <div class="hp-row">
@@ -72,6 +73,7 @@ $classeHp = static function (float $pct): string {
         <section class="pokemon-status pokemon-status-back" aria-label="Status do seu Pokémon">
             <div class="status-name-row">
                 <span class="pokemon-name" id="playerName"><?= htmlspecialchars($jogador['nome'], ENT_QUOTES, 'UTF-8') ?></span>
+                <span class="pokemon-types" id="playerTypes" aria-label="Tipos do seu Pokémon"></span>
                 <span class="status-badge hidden" id="playerStatusBadge"></span>
             </div>
             <div class="hp-row">

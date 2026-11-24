@@ -25,12 +25,14 @@
 
         foeParty: document.getElementById('foeParty'),
         wildName: document.getElementById('wildName'),
+        wildTypes: document.getElementById('wildTypes'),
         wildStatusBadge: document.getElementById('wildStatusBadge'),
         wildHpBar: document.getElementById('wildHpBar'),
         wildSpriteWrap: document.getElementById('wildSpriteWrap'),
         wildSprite: document.getElementById('wildSprite'),
 
         playerName: document.getElementById('playerName'),
+        playerTypes: document.getElementById('playerTypes'),
         playerStatusBadge: document.getElementById('playerStatusBadge'),
         playerHpBar: document.getElementById('playerHpBar'),
         playerHpNumbers: document.getElementById('playerHpNumbers'),
@@ -137,6 +139,29 @@
         el.classList.add(`status-${status}`);
     }
 
+    function atualizarTipos(el, tipos) {
+        el.textContent = '';
+        const nomes = [];
+
+        if (Array.isArray(tipos)) {
+            tipos.forEach((tipo) => {
+                const nome = typeof tipo === 'string' ? tipo : (tipo && tipo.nome);
+                if (!nome) return;
+
+                const label = TYPE_LABELS_EN[nome] || nome.toUpperCase();
+                const indicador = document.createElement('span');
+                indicador.className = `pokemon-type type-${nome}`;
+                indicador.textContent = label;
+                indicador.title = `Type: ${label}`;
+                el.appendChild(indicador);
+                nomes.push(label);
+            });
+        }
+
+        el.classList.toggle('hidden', nomes.length === 0);
+        el.setAttribute('aria-label', nomes.length ? `Types: ${nomes.join(', ')}` : 'No type information');
+    }
+
     // Pokébolas do treinador adversário (só existe em batalha contra treinador)
     function atualizarPokebolasAdversario(restantes) {
         if (!els.foeParty || typeof restantes !== 'number') return;
@@ -151,6 +176,7 @@
         atualizarPokebolasAdversario(hud.oponente_restantes);
 
         els.wildName.textContent = s.nome;
+        atualizarTipos(els.wildTypes, s.tipos);
         const pctWild = s.hp_maximo > 0 ? Math.max(0, Math.min(100, (s.hp_atual / s.hp_maximo) * 100)) : 0;
         els.wildHpBar.style.width = `${pctWild}%`;
         els.wildHpBar.className = `hp-bar ${classeHp(pctWild)}`;
@@ -167,6 +193,7 @@
         }
 
         els.playerName.textContent = j.nome;
+        atualizarTipos(els.playerTypes, j.tipos);
         const pctPlayer = j.hp_maximo > 0 ? Math.max(0, Math.min(100, (j.hp_atual / j.hp_maximo) * 100)) : 0;
         els.playerHpBar.style.width = `${pctPlayer}%`;
         els.playerHpBar.className = `hp-bar ${classeHp(pctPlayer)}`;
