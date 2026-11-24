@@ -7,7 +7,7 @@
     <script src="../public/assets/js/pop.js"></script>
     <title>Bigomon - Início</title>
 </head>
-<body id="home">
+<body id="home" class="paginaInicio">
     <div id="container">
         <div id="tituloContainer">
             <div id="titulos">
@@ -31,6 +31,10 @@
                 <span class="hoverText">▸</span>
                 <span class="defaultText">SOBRE</span>
             </button>
+            <a href="?modulo=treinador&acao=comoJogar" class="botaoInicio">
+                <span class="hoverText">▸</span>
+                <span class="defaultText">COMO JOGAR</span>
+            </a>
         </div>
     </div>
 </body>
