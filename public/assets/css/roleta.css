@@ -1,17 +1,14 @@
-
-/*fonte pokemon*/
-@import url('https://fonts.cdnfonts.com/css/pokemon-solid');
-
-
 #corpoRoleta {
-    margin: 0;
+    box-sizing: border-box;
     width: 100%;
-    min-height: 100vh;
-    min-height: 100vh;
-    padding: 24px;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    margin: 0;
+    padding: clamp(8px, 2vh, 20px) clamp(12px, 3vw, 30px);
 
-    color: #ffffff;
-    font-family: 'Pokemon Solid', monospace;
+    color: #262230;
+    font-family: 'PokemonEmerald', monospace;
 
     display: flex;
     justify-content: center;
@@ -25,73 +22,73 @@
     overflow: hidden;
 }
 
-/*painel principal*/
 #paginaRoleta {
-    width: min(100%, 620px);
+    box-sizing: border-box;
+    width: min(100%, 780px);
+    max-height: 100%;
+    padding: clamp(10px, 1.5vh, 18px) clamp(16px, 4vw, 36px);
     text-align: center;
-    padding: 30px 20px;
 
-    background: rgba(59, 59, 67, 0.75);
-    border: 5px solid #111111;
-    outline: 3px solid #85858d;
-    box-shadow: 8px 8px 0 #111111;
+    background: rgba(255, 255, 255, 0.95);
+    border: 4px solid #766f8a;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
 #tituloRoleta {
-    color: #f32e3e;
-    font-size: clamp(22px, 5vw, 38px);
-    line-height: 1.6;
-    margin: 0 0 20px;
-
-    text-shadow:
-        3px 3px 0 #111111,
-        -2px -2px 0 #ffffff;
+    margin: 0 0 12px;
+    color: #433d52;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    line-height: 1.3;
+    text-shadow: 1px 2px 0 #d4cfe2;
 }
 
 #descricaoRoleta {
-    font-size: 10px;
-    line-height: 2;
     margin: 0;
+    color: #595556;
+    font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+    line-height: 1.6;
 }
 
-/*área roleta*/
 #roleta {
-    width: min(380px, 85vw, 55vh);
-    height: min(380px, 85vw, 55vh);
-    margin: 25px auto;
+    box-sizing: border-box;
+    width: min(520px, 82vw, max(0px, calc(100dvh - 380px)));
+    height: min(520px, 82vw, max(0px, calc(100dvh - 380px)));
+    margin: clamp(8px, 1vh, 16px) auto;
     padding: 0;
 
     background: transparent;
-    border: 3px solid #111111;
-    box-shadow: 5px 5px 0 #111111;
+    border: 3px solid #766f8a;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 
     position: relative;
     overflow: visible;
 }
 
 #girar {
-    font-family: 'Pokemon Solid', monospace;
-    font-size: 12px;
-    line-height: 1.8;
+    padding: 8px 20px;
     color: #ffffff;
+    font-family: 'PokemonEmerald', monospace;
+    font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+    font-weight: bold;
+    line-height: 1.5;
 
-    background: #e52b3c;
-    border: 4px solid #111111;
-    border-radius: 0;
-    padding: 16px 20px;
-
-    box-shadow: 5px 5px 0 #111111;
+    background: #766f8a;
+    border: 3px solid #554f63;
+    border-radius: 6px;
+    box-shadow: 0 4px 0 #554f63;
     cursor: pointer;
-    transition: transform 0.08s, box-shadow 0.08s;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 #girar:hover {
-    background: #ff4654;
+    background: #a89ec4;
 }
 
 #girar:active {
-    transform: translate(4px, 4px);
-    box-shadow: 1px 1px 0 #111111;
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #554f63;
 }
 
 #girar:disabled {
@@ -100,16 +97,17 @@
 }
 
 #resultado {
-    margin: 30px auto 0;
-    padding: 18px 12px;
     max-width: 100%;
+    margin: clamp(8px, 1.5vh, 16px) auto 0;
+    padding: 10px 12px;
 
-    color: #ff4654;
-    background: rgba(20, 20, 27, 0.85);
-    border: 3px solid #111111;
+    color: #433d52;
+    background: #f7f6fb;
+    border: 3px solid #d1cbde;
+    border-radius: 6px;
 
-    font-size: 11px;
-    line-height: 2.2;
+    font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+    line-height: 1.6;
     overflow-wrap: anywhere;
 }
 
@@ -125,8 +123,8 @@
     height: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-top: 28px solid #f32e3e;
+    border-top: 28px solid #766f8a;
 
-    filter: drop-shadow(2px 2px 0 #111111);
+    filter: drop-shadow(1px 2px 0 #554f63);
     pointer-events: none;
 }
