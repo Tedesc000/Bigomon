@@ -406,4 +406,18 @@ class TreinadorControlador {
 
         return $treinador->buscarPokemonsPorIds($slotIds, $idTreinador);
     }
+
+    public function comoJogar() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+
+        if (!$idTreinador) {
+            require_once __DIR__ . "/../Views/treinador/cadastroLogin.php";
+        }else{
+            require_once __DIR__ . "/../Views/treinador/comoJogar.php";
+        }
+    }
 }
