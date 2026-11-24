@@ -32,7 +32,7 @@ if (!isset($slotsEquipe) || !is_array($slotsEquipe)) {
     <div id="hudBotoesSuperiores" class="pontoFront">
         <a href="?modulo=bolsa&acao=listarInsignias" id="hudInsignias" class="hudBotaoFront" title="Livro de Insígnias" aria-label="Abrir Livro de Insígnias">
             <span class="hudIconeFront" aria-hidden="true">
-                <img src="assets/img/icons/insignia_pedra.png" alt="Insígnias" class="iconInsignias">
+                <img src="assets/img/icons/book.png" alt="Insígnias" class="iconInsignias">
             </span>
             <span class="hudTextoFront">LIVRO DE INSÍGNIAS</span>
         </a>
