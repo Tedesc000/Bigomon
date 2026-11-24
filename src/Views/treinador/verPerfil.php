@@ -18,7 +18,7 @@
 
     $nome = $usuario['nome'] ?? '';
     $email = $usuario['email'] ?? '';
-    $sexo = $usuario['sexo'] ?? 'masculino';
+    $sexo = strtolower(trim((string)($usuario['sexo'] ?? '')));
     $foto = (!empty($usuario['foto'])) ? $usuario['foto'] : 'fotoPerfilDefault.webp';
     $dinheiro = $usuario['dinheiro'] ?? 0;
     $slot1 = $usuario['slot1'] ?? null;
@@ -48,11 +48,11 @@
                     <div id="inputSexo">
                         <div class="labelSexo">
                             <label for="masculino">MASCULINO: </label>
-                            <input type="radio" name="sexo" id="masculino" value="masculino" <?= ($sexo === 'masculino') ? 'checked' : '' ?>readonly>
+                            <input type="radio" name="sexo" id="masculino" value="masculino" <?= ($sexo === 'masculino') ? 'checked' : '' ?> onclick="return false;">
                         </div>
                         <div class="labelSexo">
                             <label for="feminino">FEMININO: </label>
-                            <input type="radio" name="sexo" id="feminino" value="feminino" <?= ($sexo === 'feminino') ? 'checked' : '' ?>readonly>
+                            <input type="radio" name="sexo" id="feminino" value="feminino" <?= ($sexo === 'feminino') ? 'checked' : '' ?> onclick="return false;">
                         </div>
                     </div>
                     <input type="email" name="email" id="email" value="<?= htmlspecialchars($email) ?>" readonly>

@@ -15,7 +15,7 @@ WHERE texto LIKE '%adicionado à equipe%';
 CREATE OR REPLACE VIEW view_logs_cura AS
 SELECT id_log, id_treinador, texto, data
 FROM log
-WHERE texto LIKE '%SUS%';
+WHERE texto LIKE '%SUS%' OR texto LIKE '%Status%';
 
 -- View por Categoria: Alteração de Saldo / Dinheiro
 CREATE OR REPLACE VIEW view_logs_saldo AS
