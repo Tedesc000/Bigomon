@@ -45,9 +45,9 @@ const opcoes = {
         "#ea580c", "#16a34a", "#ca8a04"
     ],
     itemLabelColors: ["#ffffff"],
-    itemLabelFontSizeMax: 16,
+    itemLabelFontSizeMax: 20,
     borderColor: "#ffffff",
-    borderWidth: 3
+    borderWidth: 4
 };
 
 /*verifica se os elementos e a biblioteca foram carregados*/
