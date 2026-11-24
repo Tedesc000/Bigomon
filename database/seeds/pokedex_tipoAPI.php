@@ -7,9 +7,10 @@ require_once __DIR__ . '/../../src/Utils/conexao.php';
 
 $sql = "";
 
-$ids = array_merge(range(252, 386), [74]);
+$inicio = 252;
+$fim = 386;
 
-foreach ($ids as $i) {
+for($i=$inicio; $i<=$fim; $i++){
 
     $url = "https://pokeapi.co/api/v2/pokemon/{$i}";
 
