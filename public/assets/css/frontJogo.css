@@ -113,7 +113,8 @@ main[id^="paginaGinasio"] {
 }
 
 .iconPokebola,
-.iconItem {
+.iconItem,
+.iconInsignias {
     width: clamp(26px, 2.4vw, 38px);
     height: clamp(26px, 2.4vw, 38px);
     object-fit: contain;

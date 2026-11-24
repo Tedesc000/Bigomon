@@ -34,6 +34,51 @@ class BolsaControlador
         require_once __DIR__ . "/../Views/bolsa/itens.php";
     }
 
+    public function listarInsignias()
+    {
+        $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
+        if (!$idTreinador) {
+            header("Location: ?modulo=treinador&acao=cadastroLogin");
+            exit;
+        }
+
+        require_once __DIR__ . '/../Models/Treinador.php';
+        $treinador = new Treinador($this->pdo);
+        $vitorias = $treinador->buscarVitorias((int) $idTreinador);
+        $iconesInsignias = [
+            1 => 'pedra',
+            2 => 'lutador',
+            3 => 'eletrico',
+            4 => 'fogo',
+            5 => 'normal',
+            6 => 'voador',
+            7 => 'psiquico',
+            8 => 'agua',
+        ];
+        $insignias = [];
+
+        foreach ($iconesInsignias as $numeroGinasio => $icone) {
+            $ginasio = Treinador::GINASIOS[$numeroGinasio];
+            $insignias[] = [
+                'nome' => $ginasio['insignia'],
+                'cidade' => $ginasio['cidade'],
+                'icone' => $icone,
+                'conquistada' => $treinador->ginasioConcluido((int) $idTreinador, $numeroGinasio, $vitorias),
+            ];
+        }
+
+        $mapaRetorno = $_SESSION['mapa'] ?? 'mapaInicio';
+        $mapaValido = is_string($mapaRetorno)
+            && (preg_match('/^(mapa|ginasio)([1-8])$/', $mapaRetorno)
+                || in_array($mapaRetorno, ['mapaInicio', 'mapaCampeao', 'ginasioCampeao'], true));
+        if (!$mapaValido) {
+            $mapaRetorno = 'mapaInicio';
+        }
+        $linkVoltar = '?modulo=mapa&acao=' . rawurlencode($mapaRetorno);
+
+        require_once __DIR__ . '/../Views/bolsa/insignias.php';
+    }
+
     public function listarTodosPokemons(){
         $idTreinador = $_SESSION['usuario_logado']['id_treinador'] ?? null;
         if (!$idTreinador) {
